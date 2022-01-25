@@ -13,7 +13,6 @@ RobotContainer::RobotContainer() : m_autonomousCommand(&m_subsystem) {
 
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
-  //TODO Add fireshooter button
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
