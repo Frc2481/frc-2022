@@ -8,7 +8,7 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/trajectory/TrapezoidProfile.h>
-// #include <units/units.h>
+#include <units/units.h>
 #include <wpi/math>
 
 #pragma once
@@ -23,17 +23,17 @@
  */
 
 namespace TalonIDs{
-    // static constexpr int kFrontRightTurningMotorID = 3;//1
-    // static constexpr int kFrontLeftTurningMotorID = 1;//4
-    // static constexpr int kRearRightTurningMotorID = 4;//3
-    // static constexpr int kRearLeftTurningMotorID = 2;//2
+    static constexpr int kFrontRightTurningMotorID = 3;//1
+    static constexpr int kFrontLeftTurningMotorID = 1;//4
+    static constexpr int kRearRightTurningMotorID = 4;//3
+    static constexpr int kRearLeftTurningMotorID = 2;//2
 }
 
 namespace FalconIDs{
     static constexpr int kFrontRightDriveMotorID = 3;//5
     static constexpr int kFrontLeftDriveMotorID = 4;//6
-    // static constexpr int kRearRightDriveMotorID = 8;//7
-    // static constexpr int kRearLeftDriveMotorID = 6;//8
+    static constexpr int kRearRightDriveMotorID = 8;//7
+    static constexpr int kRearLeftDriveMotorID = 6;//8
 }
 
 namespace SparkMaxIDs{
@@ -80,25 +80,25 @@ constexpr double kPModuleTurningController = 1;
 constexpr double kPModuleDriveController = 1;
 }  // namespace ModuleConstants
 
-// namespace AutoConstants {
-// using radians_per_second_squared_t =
-//     units::compound_unit<units::radians,
-//                          units::inverse<units::squared<units::second>>>;
+namespace AutoConstants {
+using radians_per_second_squared_t =
+    units::compound_unit<units::radians,
+                         units::inverse<units::squared<units::second>>>;
 
-// constexpr auto kMaxSpeed = units::meters_per_second_t(3);
-// constexpr auto kMaxAcceleration = units::meters_per_second_squared_t(3);
-// constexpr auto kMaxAngularSpeed = units::radians_per_second_t(3.142);
-// constexpr auto kMaxAngularAcceleration =
-//     units::unit_t<radians_per_second_squared_t>(3.142);
+constexpr auto kMaxSpeed = units::meters_per_second_t(3);
+constexpr auto kMaxAcceleration = units::meters_per_second_squared_t(3);
+constexpr auto kMaxAngularSpeed = units::radians_per_second_t(3.142);
+constexpr auto kMaxAngularAcceleration =
+    units::unit_t<radians_per_second_squared_t>(3.142);
 
-// constexpr double kPXController = 0.5;
-// constexpr double kPYController = 0.5;
-// constexpr double kPThetaController = 0.5;
+constexpr double kPXController = 0.5;
+constexpr double kPYController = 0.5;
+constexpr double kPThetaController = 0.5;
 
-// extern const frc::TrapezoidProfile<units::radians>::Constraints
-//     kThetaControllerConstraints;
+extern const frc::TrapezoidProfile<units::radians>::Constraints
+    kThetaControllerConstraints;
 
-// }  // namespace AutoConstants
+}  // namespace AutoConstants
 
 namespace OIConstants {
 constexpr int kDriverControllerPort = 0;

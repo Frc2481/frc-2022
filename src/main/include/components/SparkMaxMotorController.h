@@ -12,7 +12,7 @@ class SparkMaxMotorController : public CommonMotorController{
  private:
   rev::CANSparkMax* m_pMotor;
   double m_setpoint = 0.0;
-  rev::ControlType m_pCurrentMode;
+  rev::CANSparkMax::ControlType m_pCurrentMode;
  public:
   SparkMaxMotorController(int motorID, const std::string &name, rev::CANSparkMax::MotorType type);
   void  Config_kF(int slotIdx, double value, int timeoutMs = 0);
@@ -32,7 +32,7 @@ class SparkMaxMotorController : public CommonMotorController{
   void SetEncoderPosition(double pos);
   void SetVelocityConversionFactor(double factor);
   double GetClosedLoopError();
-  bool CommonModesToControlType(CommonModes mode, rev::ControlType &retMode);
+  bool CommonModesToControlType(CommonModes mode, rev::CANSparkMax::ControlType &retMode);
   void SetNeutralMode(rev::CANSparkMax::IdleMode mode);
   double GetPos();
   

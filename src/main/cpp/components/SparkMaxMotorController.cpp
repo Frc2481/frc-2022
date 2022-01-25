@@ -10,7 +10,7 @@
 
 SparkMaxMotorController::SparkMaxMotorController(int motorID, const std::string &name, rev::CANSparkMax::MotorType type): CommonMotorController(motorID, name){
     m_pMotor = new rev::CANSparkMax(motorID, type);
-    m_pCurrentMode = (rev::ControlType)(-1);
+    m_pCurrentMode = (rev::CANSparkMax::ControlType)(-1);
     
 }
 void  SparkMaxMotorController::Config_kF(int slotIdx, double value, int timeoutMs){//Ignores slotIdx and timeoutMs
@@ -75,9 +75,9 @@ void SparkMaxMotorController::SetVelocityConversionFactor(double factor){
 }
 double SparkMaxMotorController::GetClosedLoopError(){
     double temp  = 0.0;
-    if(m_pCurrentMode == rev::ControlType::kVelocity){//velocity  controller
+    if(m_pCurrentMode == rev::CANSparkMax::ControlType::kVelocity){//velocity  controller
         temp = m_pMotor->GetEncoder().GetVelocity();
-    }else if(m_pCurrentMode == rev::ControlType::kPosition){//position controller
+    }else if(m_pCurrentMode == rev::CANSparkMax::ControlType::kPosition){//position controller
         temp = m_pMotor->GetEncoder().GetPosition();
     }else{//percent controller
         temp = m_pMotor->Get();
@@ -94,18 +94,18 @@ double SparkMaxMotorController::GetPos(){
 // void SparkMaxMotorController::ConfigFactoryDefault(){//TODO finish
 //     m_pMotor->RestoreFactoryDefaults();
 // }
-bool SparkMaxMotorController::CommonModesToControlType(CommonModes mode, rev::ControlType& retMode){
+bool SparkMaxMotorController::CommonModesToControlType(CommonModes mode, rev::CANSparkMax::ControlType& retMode){
     switch(mode)
     {
-    case CommonModes::DutyCycle:      retMode = rev::ControlType::kDutyCycle; break;
-    case CommonModes::Velocity:       retMode = rev::ControlType::kVelocity;break;
-    case CommonModes::Voltage:        retMode = rev::ControlType::kVoltage;break;
-    case CommonModes::Position:       retMode = rev::ControlType::kPosition;break;
-    case CommonModes::SmartMotion:    retMode = rev::ControlType::kSmartMotion;break;
-    case CommonModes::Current:        retMode = rev::ControlType::kVoltage;break;
-    case CommonModes::SmartVelocity:  retMode = rev::ControlType::kSmartVelocity;break;
-    case CommonModes::MotionMagic:    retMode = rev::ControlType::kSmartMotion;break;
-    default: retMode = (rev::ControlType)(-1); return true;
+    case CommonModes::DutyCycle:      retMode = rev::CANSparkMax::ControlType::kDutyCycle; break;
+    case CommonModes::Velocity:       retMode = rev::CANSparkMax::ControlType::kVelocity;break;
+    case CommonModes::Voltage:        retMode = rev::CANSparkMax::ControlType::kVoltage;break;
+    case CommonModes::Position:       retMode = rev::CANSparkMax::ControlType::kPosition;break;
+    case CommonModes::SmartMotion:    retMode = rev::CANSparkMax::ControlType::kSmartMotion;break;
+    case CommonModes::Current:        retMode = rev::CANSparkMax::ControlType::kVoltage;break;
+    case CommonModes::SmartVelocity:  retMode = rev::CANSparkMax::ControlType::kSmartVelocity;break;
+    case CommonModes::MotionMagic:    retMode = rev::CANSparkMax::ControlType::kSmartMotion;break;
+    default: retMode = (rev::CANSparkMax::ControlType)(-1); return true;
     }
 
     return false;
