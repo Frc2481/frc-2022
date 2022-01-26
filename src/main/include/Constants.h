@@ -27,6 +27,7 @@ namespace TalonIDs{
     static constexpr int kFrontLeftTurningMotorID = 1;//4
     static constexpr int kRearRightTurningMotorID = 4;//3
     static constexpr int kRearLeftTurningMotorID = 2;//2
+    static constexpr int kRearMiddleTurningMotorID = 2;//TODO figure me out
 }
 
 namespace FalconIDs{
@@ -34,6 +35,7 @@ namespace FalconIDs{
     static constexpr int kFrontLeftDriveMotorID = 4;//6
     static constexpr int kRearRightDriveMotorID = 8;//7
     static constexpr int kRearLeftDriveMotorID = 6;//8
+    static constexpr int kRearMiddleDriveMotorID = 99;//TODO figure me out
 }
 
 namespace SparkMaxIDs{
@@ -55,11 +57,13 @@ constexpr bool kFrontLeftTurningEncoderReversed = false;
 constexpr bool kRearLeftTurningEncoderReversed = false;
 constexpr bool kFrontRightTurningEncoderReversed = false;
 constexpr bool kRearRightTurningEncoderReversed = false;
+constexpr bool kRearMiddleTurningEncoderReversed = false;
 
 constexpr bool kFrontLeftDriveEncoderReversed = true;
 constexpr bool kRearLeftDriveEncoderReversed = true;
 constexpr bool kFrontRightDriveEncoderReversed = true;
 constexpr bool kRearRightDriveEncoderReversed = true;
+constexpr bool kRearMiddleDriveEncoderReversed = true;
 
 constexpr bool kGyroReversed = true;
 

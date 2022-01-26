@@ -45,6 +45,13 @@ DriveSubsystem::DriveSubsystem()
                   kRearRightDriveEncoderReversed, 
                   kRearRightTurningEncoderReversed,
                   "BR_STEER_MOTOR_ENCODER"},
+
+      m_rearMiddle{
+                  FalconIDs::kRearMiddleDriveMotorID,       
+                  TalonIDs::kRearMiddleTurningMotorID,
+                  kRearMiddleDriveEncoderReversed, 
+                  kRearMiddleTurningEncoderReversed,
+                  "BC_STEER_MOTOR_ENCODER"},
         //1097Setting 
 
       m_odometry{kDriveKinematics,
@@ -61,7 +68,7 @@ void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
                     m_frontLeft.GetState(), m_rearLeft.GetState(),
-                    m_frontRight.GetState(), m_rearRight.GetState());
+                    m_frontRight.GetState(), m_rearRight.GetState(),m_rearMiddle.GetState());
   // m_File << GetRobotVelocity().vx.to<double>() <<",";
   // m_File << GetRobotVelocity().vy.to<double>() <<"\n";
   frc::SmartDashboard::PutNumber("robot speed", sqrt((GetRobotVelocity().vx *GetRobotVelocity().vx +GetRobotVelocity().vy*GetRobotVelocity().vy).to<double>()));
@@ -73,6 +80,8 @@ void DriveSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("br state speed", m_rearRight.GetState().speed.to<double>());
   frc::SmartDashboard::PutNumber("bl state angle", m_rearLeft.GetState().angle.Degrees().to<double>());
   frc::SmartDashboard::PutNumber("bl state speed", m_rearLeft.GetState().speed.to<double>());
+  frc::SmartDashboard::PutNumber("bc state angle", m_rearMiddle.GetState().angle.Degrees().to<double>());
+  frc::SmartDashboard::PutNumber("bc state speed", m_rearMiddle.GetState().speed.to<double>());
   frc::SmartDashboard::PutNumber("Odometry X", GetPose().Translation().X().to<double>()*39.3701);//
   frc::SmartDashboard::PutNumber("Odometry Y", GetPose().Translation().Y().to<double>()*39.3701);//*39.3701
   frc::SmartDashboard::PutNumber("Odometry Yaw", GetPose().Rotation().Degrees().to<double>());    
@@ -92,15 +101,17 @@ frc::SmartDashboard::PutNumber("driveMotorVelpreNormSpeed",states[0].speed.to<do
 frc::SmartDashboard::PutNumber("driveMotorVelpreNormAngle",states[0].angle.Degrees().to<double>());
   kDriveKinematics.DesaturateWheelSpeeds(&states, units::meters_per_second_t(RobotParameters::k_maxSpeed));
   frc::SmartDashboard::PutNumber("driveMotorVelNorm",states[0].speed.to<double>());
-  auto [fl, fr, bl, br] = states;
+  auto [fl, fr, bl, br, bc] = states;
   m_frontLeft.SetDesiredState(fl, percentMode);
   m_frontRight.SetDesiredState(fr, percentMode);
   m_rearLeft.SetDesiredState(bl, percentMode);
   m_rearRight.SetDesiredState(br, percentMode);
+   m_rearMiddle.SetDesiredState(bc, percentMode);
   frc::SmartDashboard::PutNumber("fr", fr.speed.to<double>());
   frc::SmartDashboard::PutNumber("fl", fl.speed.to<double>());
   frc::SmartDashboard::PutNumber("br", br.speed.to<double>());
   frc::SmartDashboard::PutNumber("bl", bl.speed.to<double>());
+  frc::SmartDashboard::PutNumber("bc", bc.speed.to<double>());
   // frc::SmartDashboard::PutNumber("RobotVelocityX",GetRobotVelocity().vy.to<double>());
   // frc::SmartDashboard::PutNumber("RobotVelocityY",GetRobotVelocity().vx.to<double>());
   // printf("fr angle: %3f, fl angle: %3f, br angle: %3f, bl angle: %3f\n", 
@@ -113,13 +124,14 @@ frc::SmartDashboard::PutNumber("driveMotorVelpreNormAngle",states[0].angle.Degre
 }
 
 void DriveSubsystem::SetModuleStates(
-    wpi::array<frc::SwerveModuleState, 4> desiredStates, bool percentMode) {
+    wpi::array<frc::SwerveModuleState, 5> desiredStates, bool percentMode) {
   kDriveKinematics.DesaturateWheelSpeeds(&desiredStates,
                                         AutoConstants::kMaxSpeed);
   m_frontLeft.SetDesiredState(desiredStates[0], percentMode);
   m_rearLeft.SetDesiredState(desiredStates[1],percentMode);
   m_frontRight.SetDesiredState(desiredStates[2], percentMode);
   m_rearRight.SetDesiredState(desiredStates[3], percentMode);
+  m_rearMiddle.SetDesiredState(desiredStates[4], percentMode);
   
 }
 
@@ -128,6 +140,7 @@ void DriveSubsystem::ResetEncoders() {
   m_rearLeft.ResetEncoders();
   m_frontRight.ResetEncoders();
   m_rearRight.ResetEncoders();
+  m_rearMiddle.ResetEncoders();
 }
 
 double DriveSubsystem::GetHeading() {
@@ -154,12 +167,14 @@ void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
 
 }
 
-void DriveSubsystem::DriveArc(double arcLength){
-  auto [fl, fr, bl, br] = kDriveKinematics.ToSwerveModuleStates(frc::ChassisSpeeds{0_mps, 0_mps, 10000_rpm});
+void DriveSubsystem::DriveArc(double arcLength){ 
+  //TODO this won't work with 5 modules because there are three unique distances that the wheel have to drive
+  auto [fl, fr, bl, br, bc] = kDriveKinematics.ToSwerveModuleStates(frc::ChassisSpeeds{0_mps, 0_mps, 10000_rpm});
   m_frontRight.DriveArc(arcLength, fr.angle.Degrees().to<double>());
   m_frontLeft.DriveArc(arcLength, fl.angle.Degrees().to<double>());
   m_rearRight.DriveArc(arcLength, br.angle.Degrees().to<double>());
   m_rearLeft.DriveArc(arcLength, bl.angle.Degrees().to<double>());
+  m_rearMiddle.DriveArc(arcLength, bc.angle.Degrees().to<double>());
 }
 void DriveSubsystem::toggleFieldCentricForJoystick(){
   if(m_fieldCentricForJoystick){
@@ -177,6 +192,7 @@ void DriveSubsystem::tuneDrivePID(double p, double i, double d, double f){
   m_frontRight.updateDrivePID(p, i, d, f);
   m_rearLeft.updateDrivePID(p, i, d, f);
   m_rearRight.updateDrivePID(p, i, d, f);
+  m_rearMiddle.updateDrivePID(p, i, d, f);
 }
 
 void DriveSubsystem::tuneSteerPID(double p, double i, double d){
@@ -184,6 +200,7 @@ void DriveSubsystem::tuneSteerPID(double p, double i, double d){
   m_frontRight.updateSteerPID(p, i, d);
   m_rearLeft.updateSteerPID(p, i, d);
   m_rearRight.updateSteerPID(p, i, d);
+  m_rearMiddle.updateSteerPID(p, i, d);
 }
 
 void DriveSubsystem::stop(){
@@ -203,20 +220,25 @@ frc::SwerveModuleState DriveSubsystem::getBackRightMotor(){
 frc::SwerveModuleState DriveSubsystem::getBackLeftMotor(){
   return m_rearLeft.GetState();
 }
+frc::SwerveModuleState DriveSubsystem::getBackMiddleMotor(){
+  return m_rearMiddle.GetState();
+}
 
 frc::ChassisSpeeds DriveSubsystem::GetRobotVelocity(){
   return kDriveKinematics.ToChassisSpeeds(m_frontLeft.GetState(), m_rearLeft.GetState(),
-                    m_frontRight.GetState(), m_rearRight.GetState());
+                    m_frontRight.GetState(), m_rearRight.GetState(), m_rearMiddle.GetState());
 }
 void DriveSubsystem::setCoast(){
   m_frontRight.setCoast();
   m_frontLeft.setCoast();
   m_rearRight.setCoast();
   m_rearLeft.setCoast();
+  m_rearMiddle.setCoast();
 }
 void DriveSubsystem::setBrake(){
   m_frontRight.setBrake();
   m_frontLeft.setBrake();
   m_rearRight.setBrake();
   m_rearLeft.setBrake();
+   m_rearMiddle.setBrake();
 }

@@ -62,7 +62,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   /**
    * Sets the drive SpeedControllers to a power from -1 to 1.
    */
-  void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates, bool percentMode);
+  void SetModuleStates(wpi::array<frc::SwerveModuleState, 5> desiredStates, bool percentMode);
 
   /**
    * Returns the heading of the robot.
@@ -105,21 +105,28 @@ frc::SwerveModuleState getFrontRightMotor();
 frc::SwerveModuleState getFrontLeftMotor();
 frc::SwerveModuleState getBackRightMotor();
 frc::SwerveModuleState getBackLeftMotor();
+frc::SwerveModuleState getBackMiddleMotor();
 void tuneDrivePID(double p, double i, double d, double f);
 void tuneSteerPID(double p, double i, double d);
 void stop();
 frc::ChassisSpeeds GetRobotVelocity();
-
+//TODO: Configure these for Big Bertha
   units::meter_t kTrackWidth =
       units::meter_t(23.125_in);  // Distance between centers of right and left wheels on robot 
   units::meter_t kWheelBase =
       units::meter_t(27.125_in);  // Distance between centers of front and back wheels on robot 
 
-  frc::SwerveDriveKinematics<4> kDriveKinematics{
+  units::meter_t kTrackWidth2 =
+      units::meter_t(23.125_in);  // Distance between centers of right and left wheels on robot 
+  units::meter_t kWheelBase2 =
+      units::meter_t(27.125_in);  // Distance between centers of front and back wheels on robot 
+
+  frc::SwerveDriveKinematics<5> kDriveKinematics{
       frc::Translation2d(kWheelBase / 2, kTrackWidth / 2),
-      frc::Translation2d(kWheelBase / 2, -kTrackWidth / 2),
       frc::Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-      frc::Translation2d(-kWheelBase / 2, -kTrackWidth / 2)};
+      frc::Translation2d(-kWheelBase2 / 2, -kTrackWidth2 / 2),
+      frc::Translation2d( kWheelBase2 * 0, -kTrackWidth / 2),
+      frc::Translation2d(kWheelBase2 / 2, -kTrackWidth2 / 2)};
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -128,13 +135,14 @@ frc::ChassisSpeeds GetRobotVelocity();
   SwerveModule m_rearLeft;
   SwerveModule m_frontRight;
   SwerveModule m_rearRight;
+  SwerveModule m_rearMiddle;
     
   // The gyro sensor
   // frc::ADXRS450_Gyro m_gyro;
   
   // Odometry class for tracking robot pose
   // 4 defines the number of modules
-  frc::SwerveDriveOdometry<4> m_odometry;
+  frc::SwerveDriveOdometry<5> m_odometry;
   AHRS m_pChassisIMU;
   bool m_fieldCentricForJoystick = false;
 
