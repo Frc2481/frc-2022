@@ -8,7 +8,10 @@
 #include "subsystems/DriveSubsystem.h"
 
 #include <frc/geometry/Rotation2d.h>
-#include <units/units.h>
+
+#include <units/angular_velocity.h>
+#include <units/angle.h>
+#include <units/velocity.h>
 
 #include "Constants.h"
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -21,6 +24,7 @@ using namespace DriveConstants;
 DriveSubsystem::DriveSubsystem()
     : m_frontLeft{FalconIDs::kFrontLeftDriveMotorID,
                   TalonIDs::kFrontLeftTurningMotorID,
+                  CANCoderIDs::kFrontLeftSteerCANCoderID,
                   kFrontLeftDriveEncoderReversed,
                   kFrontLeftTurningEncoderReversed,
                   "FL_STEER_MOTOR_ENCODER"},
@@ -28,6 +32,7 @@ DriveSubsystem::DriveSubsystem()
       m_rearLeft{
                   FalconIDs::kRearLeftDriveMotorID,       
                   TalonIDs::kRearLeftTurningMotorID,
+                  CANCoderIDs::kRearLeftSteerCANCoderID,
                   kRearLeftDriveEncoderReversed, 
                   kRearLeftTurningEncoderReversed,
                   "BL_STEER_MOTOR_ENCODER"},
@@ -35,6 +40,7 @@ DriveSubsystem::DriveSubsystem()
       m_frontRight{
                   FalconIDs::kFrontRightDriveMotorID,       
                   TalonIDs::kFrontRightTurningMotorID,
+                  CANCoderIDs::kFrontRightSteerCANCoderID,
                   kFrontRightDriveEncoderReversed, 
                   kFrontRightTurningEncoderReversed,
                   "FR_STEER_MOTOR_ENCODER"},
@@ -42,6 +48,7 @@ DriveSubsystem::DriveSubsystem()
       m_rearRight{
                   FalconIDs::kRearRightDriveMotorID,       
                   TalonIDs::kRearRightTurningMotorID,
+                  CANCoderIDs::kRearRightSteerCANCoderID,
                   kRearRightDriveEncoderReversed, 
                   kRearRightTurningEncoderReversed,
                   "BR_STEER_MOTOR_ENCODER"},
@@ -49,6 +56,7 @@ DriveSubsystem::DriveSubsystem()
       m_rearMiddle{
                   FalconIDs::kRearMiddleDriveMotorID,       
                   TalonIDs::kRearMiddleTurningMotorID,
+                  CANCoderIDs::kRearMiddleSteerCANCoderID,
                   kRearMiddleDriveEncoderReversed, 
                   kRearMiddleTurningEncoderReversed,
                   "BC_STEER_MOTOR_ENCODER"},

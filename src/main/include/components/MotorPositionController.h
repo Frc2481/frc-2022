@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ctre/Phoenix.h"
-#include "components/CTREMagEncoder.h"
+#include "components/CTRECANEncoder.h"
 #include "components/CommonMotorController.h"
 
 class MotorPositionController {
@@ -9,7 +9,7 @@ public:
     MotorPositionController();
     MotorPositionController(
 		CommonMotorController* pController,
-        CTREMagEncoder* pEncoder,
+        CTRECANEncoder* pEncoder,
         bool phase,
         bool inverted,
         double kp,
@@ -47,7 +47,7 @@ public:
 
 private:
     CommonMotorController* m_pDriveMotor;
-    CTREMagEncoder* m_pEncoder;
+    CTRECANEncoder* m_pEncoder;
     double m_kv;
     double m_kap;
     double m_kan;

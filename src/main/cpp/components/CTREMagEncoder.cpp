@@ -12,7 +12,7 @@ CTREMagEncoder::CTREMagEncoder(CommonMotorController* pTalon, const std::string 
     std::stringstream ss;
 	ss << "ENCODER_OFFSET_" << name;
 	m_calibrationKey = ss.str();
-    m_encoderTicksZero = frc::Preferences::GetInstance()->GetDouble(m_calibrationKey);
+    m_encoderTicksZero = frc::Preferences::GetDouble(m_calibrationKey);
     printf("\n\n\nEncoder ticks zero %d\n\n\n\n", m_encoderTicksZero);
 
     m_pTalon->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
@@ -36,7 +36,7 @@ void CTREMagEncoder::zero() {
     if(m_encoderTicksZero >= 4096){
         m_encoderTicksZero %= 4096;
     }
-    frc::Preferences::GetInstance()->PutDouble(m_calibrationKey, m_encoderTicksZero);
+    frc::Preferences::SetDouble(m_calibrationKey, m_encoderTicksZero);
     printf(" Encoder %s finalized: %d\n",m_calibrationKey.c_str(), m_encoderTicksZero);
     
 }

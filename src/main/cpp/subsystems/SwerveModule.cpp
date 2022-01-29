@@ -8,7 +8,7 @@
 #include "subsystems/SwerveModule.h"
 #include "components/CTREMagEncoder.h"
 #include <frc/geometry/Rotation2d.h>
-#include <wpi/math>
+#include <wpi/numbers>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "Constants.h"
 #include "components/MotorPositionController.h"
@@ -23,15 +23,15 @@ void SetTalonConfig(TalonConfig config) {
 */
 
 
-SwerveModule::SwerveModule(int driveMotorID, int turningMotorID,
+SwerveModule::SwerveModule(int driveMotorID, int turningMotorID, int turnEncoderID,
                            bool driveEncoderReversed,
                            bool turningEncoderReversed, const std::string &name) :m_reverseDriveEncoder(driveEncoderReversed),
       m_reverseTurningEncoder(turningEncoderReversed),  
       m_name(name){
       m_driveMotor = new TalonFXMotorController(driveMotorID, name);
-      m_turningMotor = new TalonSRXMotorController(turningMotorID, m_name);
+      m_turningMotor = new VictorMotorController(turningMotorID, m_name);
       m_turningMotor->ConfigFactoryDefault();
-      m_turningEncoder = new CTREMagEncoder(m_turningMotor, name);
+      m_turningEncoder = new CTRECANEncoder(turnEncoderID, name);
       m_driveMotor->SetVelocityConversionFactor(RobotParameters::k_driveMotorEncoderTicksToMPS); // (1 rev / 5 v) * .16 m/rev
       m_driveMotor->ConfigFactoryDefault();
       m_driveMotor->SetInverted(driveEncoderReversed);
@@ -48,7 +48,7 @@ SwerveModule::SwerveModule(int driveMotorID, int turningMotorID,
   //     ModuleConstants::kDriveEncoderDistancePerPulse);
 
   // Set the distance (in this case, angle) per pulse for the turning encoder.
-  // This is the the angle through an entire rotation (2 * wpi::math::pi)
+  // This is the the angle through an entire rotation (2 * wpi::numbers::pi)
   // divided by the encoder resolution.
 
   // m_turningEncoder.SetDistancePerPulse(
@@ -56,8 +56,8 @@ SwerveModule::SwerveModule(int driveMotorID, int turningMotorID,
 
   // Limit the PID Controller's input range between -pi and pi and set the input
   // to be continuous.
-  m_turningPIDController.EnableContinuousInput(units::radian_t(-wpi::math::pi),
-                                               units::radian_t(wpi::math::pi));
+  m_turningPIDController.EnableContinuousInput(units::radian_t(-wpi::numbers::pi),
+                                               units::radian_t(wpi::numbers::pi));
   
 	
 

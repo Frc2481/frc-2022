@@ -8,8 +8,10 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/trajectory/TrapezoidProfile.h>
-#include <units/units.h>
-#include <wpi/math>
+//#include <units/units.h>
+#include <units/acceleration.h>
+#include <units/angular_acceleration.h>
+#include <wpi/numbers>
 
 #pragma once
 
@@ -36,6 +38,16 @@ namespace FalconIDs{
     static constexpr int kRearRightDriveMotorID = 8;//7
     static constexpr int kRearLeftDriveMotorID = 6;//8
     static constexpr int kRearMiddleDriveMotorID = 99;//TODO figure me out
+    
+} 
+
+namespace CANCoderIDs
+{
+    static constexpr int kFrontRightSteerCANCoderID = 1;
+    static constexpr int kFrontLeftSteerCANCoderID = 2;
+    static constexpr int kRearRightSteerCANCoderID = 3;
+    static constexpr int kRearLeftSteerCANCoderID = 4;
+    static constexpr int kRearMiddleSteerCANCoderID = 5;
 }
 
 namespace SparkMaxIDs{
@@ -74,11 +86,11 @@ constexpr int kEncoderCPR = 4096;
 constexpr double kWheelDiameterMeters = .15;
 constexpr double kDriveEncoderDistancePerPulse =
     // Assumes the encoders are directly mounted on the wheel shafts
-    (kWheelDiameterMeters * wpi::math::pi) / static_cast<double>(kEncoderCPR);
+    (kWheelDiameterMeters * wpi::numbers::pi) / static_cast<double>(kEncoderCPR);
 
 constexpr double kTurningEncoderDistancePerPulse =
     // Assumes the encoders are directly mounted on the wheel shafts
-    (wpi::math::pi * 2) / static_cast<double>(kEncoderCPR);
+    (wpi::numbers::pi * 2) / static_cast<double>(kEncoderCPR);
 
 constexpr double kPModuleTurningController = 1;
 constexpr double kPModuleDriveController = 1;

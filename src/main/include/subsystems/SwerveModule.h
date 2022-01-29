@@ -16,14 +16,14 @@
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/SwerveModuleState.h>
 #include <frc/trajectory/TrapezoidProfile.h>
-#include <wpi/math>
+#include <wpi/numbers>
 
 #include "Constants.h"
-#include "components/CTREMagEncoder.h"
+#include "components/CTRECANEncoder.h"
 #include "components/MotorPositionController.h"
 #include "RobotParameters.h"
 #include "components/CommonMotorController.h"
-#include "components/TalonSRXMotorController.h"
+#include "components/VictorMotorController.h"
 #include "components/TalonFXMotorController.h"
 #include "components/SparkMaxMotorController.h"
 
@@ -33,7 +33,7 @@ class SwerveModule {
                            units::inverse<units::squared<units::second>>>;
 
  public:
-  SwerveModule(int driveMotorID, int turningMotorID,
+  SwerveModule(int driveMotorID, int turningMotorID, int turnEncoderID,
                bool driveEncoderReversed, bool turningEncoderReversed, const std::string &name);
 
   frc::SwerveModuleState GetState();
@@ -52,15 +52,15 @@ class SwerveModule {
   // meters per second squared.
 
   static constexpr units::radians_per_second_t kModuleMaxAngularVelocity =
-      units::radians_per_second_t(3.0 * 2.0*wpi::math::pi);  // radians per second
+      units::radians_per_second_t(3.0 * 2.0*wpi::numbers::pi);  // radians per second
   static constexpr units::unit_t<radians_per_second_squared_t>
       kModuleMaxAngularAcceleration =
           units::unit_t<radians_per_second_squared_t>(
-              wpi::math::pi * 2.0 * 12.0);  // radians per second squared
+              wpi::numbers::pi * 2.0 * 12.0);  // radians per second squared
 
   TalonFXMotorController* m_driveMotor;
-  TalonSRXMotorController* m_turningMotor;
-  CTREMagEncoder* m_turningEncoder;
+  VictorMotorController* m_turningMotor;
+  CTRECANEncoder* m_turningEncoder;
   MotorPositionController* m_turningMotorController;
 
   bool m_reverseDriveEncoder;

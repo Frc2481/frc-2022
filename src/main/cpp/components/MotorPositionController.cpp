@@ -13,7 +13,7 @@ MotorPositionController::MotorPositionController()
 
 MotorPositionController::MotorPositionController(
 	CommonMotorController* pController,
-    CTREMagEncoder* pEncoder,
+    CTRECANEncoder* pEncoder,
     bool phase,
     bool inverted,
     double kp,
