@@ -23,7 +23,7 @@ using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem()
     : m_frontLeft{FalconIDs::kFrontLeftDriveMotorID,
-                  TalonIDs::kFrontLeftTurningMotorID,
+                  VictorIDs::kFrontLeftTurningMotorID,
                   CANCoderIDs::kFrontLeftSteerCANCoderID,
                   kFrontLeftDriveEncoderReversed,
                   kFrontLeftTurningEncoderReversed,
@@ -31,7 +31,7 @@ DriveSubsystem::DriveSubsystem()
 
       m_rearLeft{
                   FalconIDs::kRearLeftDriveMotorID,       
-                  TalonIDs::kRearLeftTurningMotorID,
+                  VictorIDs::kRearLeftTurningMotorID,
                   CANCoderIDs::kRearLeftSteerCANCoderID,
                   kRearLeftDriveEncoderReversed, 
                   kRearLeftTurningEncoderReversed,
@@ -39,7 +39,7 @@ DriveSubsystem::DriveSubsystem()
 
       m_frontRight{
                   FalconIDs::kFrontRightDriveMotorID,       
-                  TalonIDs::kFrontRightTurningMotorID,
+                  VictorIDs::kFrontRightTurningMotorID,
                   CANCoderIDs::kFrontRightSteerCANCoderID,
                   kFrontRightDriveEncoderReversed, 
                   kFrontRightTurningEncoderReversed,
@@ -47,7 +47,7 @@ DriveSubsystem::DriveSubsystem()
 
       m_rearRight{
                   FalconIDs::kRearRightDriveMotorID,       
-                  TalonIDs::kRearRightTurningMotorID,
+                  VictorIDs::kRearRightTurningMotorID,
                   CANCoderIDs::kRearRightSteerCANCoderID,
                   kRearRightDriveEncoderReversed, 
                   kRearRightTurningEncoderReversed,
@@ -55,7 +55,7 @@ DriveSubsystem::DriveSubsystem()
 
       m_rearMiddle{
                   FalconIDs::kRearMiddleDriveMotorID,       
-                  TalonIDs::kRearMiddleTurningMotorID,
+                  VictorIDs::kRearMiddleTurningMotorID,
                   CANCoderIDs::kRearMiddleSteerCANCoderID,
                   kRearMiddleDriveEncoderReversed, 
                   kRearMiddleTurningEncoderReversed,

@@ -24,7 +24,9 @@
  * they are needed.
  */
 
-namespace TalonIDs{
+namespace VictorIDs{
+    static constexpr int kIntakeRollerMotorID = 11;
+    static constexpr int kIndexerRollerMotorID = 12;
     static constexpr int kFrontRightTurningMotorID = 3;//1
     static constexpr int kFrontLeftTurningMotorID = 1;//4
     static constexpr int kRearRightTurningMotorID = 4;//3
@@ -54,6 +56,7 @@ namespace SparkMaxIDs{
     static constexpr int kDumbMotorID = 1;
     static constexpr int kSteerMotorID = 2;
 }
+
 namespace SolenoidPorts{
     static constexpr int kManipulatorSolenoidPort = 7;
     static constexpr int kManipulatorSolenoidReversePort = 6;
