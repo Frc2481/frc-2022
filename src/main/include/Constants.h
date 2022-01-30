@@ -25,11 +25,8 @@
  */
 
 namespace VictorIDs{
-<<<<<<< Updated upstream
     static constexpr int kIntakeRollerMotorID = 11;
     static constexpr int kIndexerRollerMotorID = 12;
-=======
->>>>>>> Stashed changes
     static constexpr int kFrontRightTurningMotorID = 3;//1
     static constexpr int kFrontLeftTurningMotorID = 1;//4
     static constexpr int kRearRightTurningMotorID = 4;//3
@@ -154,4 +151,10 @@ namespace LimeLightConstants{ // TODO check values
 namespace PathConstants{ // TODO check
     static constexpr double kMinLookAhead = 6*.0254;
     static constexpr double kMaxLookAhead = 24*.0254;
+
+
+}
+namespace FeederConstants{ //TODO figure out
+    static constexpr double kPrimeShooterSpeed = 0.0;
+    static constexpr double kShooterSpeed = 0.0;
 }

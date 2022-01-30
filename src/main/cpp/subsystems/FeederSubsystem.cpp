@@ -9,7 +9,6 @@
 FeederSubsystem::FeederSubsystem() :
 
    m_isBallReadyIndexer(false),
-   m_feederSpeed(0.0),
    m_isShooterReady(false),
    m_isTurretReady(false)
    {
@@ -17,14 +16,29 @@ FeederSubsystem::FeederSubsystem() :
        m_feederMotor->ConfigFactoryDefault();
    }
 
+   bool FeederSubsystem::isFeederRunning(){
+       return m_isFeederRunning;
+   }
    bool FeederSubsystem::isBallReadyIndexer(){
        return m_isBallReadyIndexer;
    } 
+   void FeederSubsystem::primeShooter(){
+       m_isFeederRunning = true;
+       m_feederMotor->Set(CommonModes::PercentOutput,FeederConstants::kPrimeShooterSpeed);
+   }
    bool FeederSubsystem::isShooterReady(){
        return m_isShooterReady;
    }
    bool FeederSubsystem::isTurretReady(){
        return m_isTurretReady;
+   }
+   void FeederSubsystem::shootBall(){
+       m_isFeederRunning = true;
+       m_feederMotor->Set(CommonModes::PercentOutput, FeederConstants::kShooterSpeed);
+   }
+   void FeederSubsystem::stopShooter(){
+       m_isFeederRunning = false;
+       m_feederMotor->Set(CommonModes::PercentOutput, 0.0);
    }
    
 
