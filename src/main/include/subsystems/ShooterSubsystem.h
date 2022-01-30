@@ -17,17 +17,20 @@ class ShooterSubsystem : public frc2::SubsystemBase {
    * Will be called periodically whenever the CommandScheduler runs.
    */
 
-  void setTopShooterSpeed (double setSpeed);
-  void setBottomShooterSpeed (double setSpeed);
+
   bool isShooterOn();
   bool isShooterOnTarget();
   double getTopShooterSpeed();
   double getBottomShooterSpeed();
-  void startShooter();
   void stopShooter();
-  double getDistancetoTarget();
+  void startShooter();
+  void toggleManualShooter();
+  bool isInManual();
+  void incrementManualSpeed();
+  void decrementManualSpeed();
 
-  void Periodic() override;
+
+ void Periodic() override;
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -42,7 +45,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double m_setSpeedBottomWheel;
   bool m_isShooterOn;
   bool m_isOnTarget;
-  double m_distanceToTarget;
+  double m_manualOffsetSpeed;
+  bool m_isInManual;
+   double m_distanceToTarget;
   TalonFXMotorController* m_topShooterMotor;
   TalonFXMotorController* m_bottomShooterMotor;
   

@@ -158,3 +158,13 @@ namespace FeederConstants{ //TODO figure out
     static constexpr double kPrimeShooterSpeed = 0.0;
     static constexpr double kShooterSpeed = 0.0;
 }
+
+namespace DigitalInputs{
+    static constexpr int kFeederBeamBreakPort = 0;
+}
+
+namespace ShooterConstants{ //TODO wheel speeds
+    static constexpr double kDonutTopWheelSpeed = 0; 
+    static constexpr double kDonutBottomWheelSpeed = 0; 
+}
+

@@ -11,6 +11,7 @@ ShooterSubsystem::ShooterSubsystem() :
    m_setSpeedBottomWheel(0.0),
    m_isShooterOn(false),
    m_isOnTarget(false),
+   m_isInManual(false),
    m_distanceToTarget(0.0)
    {
        m_topShooterMotor = new TalonFXMotorController(FalconIDs::kTopShooterMotorID, "topShooterMotor");
@@ -59,6 +60,35 @@ ShooterSubsystem::ShooterSubsystem() :
 
    void ShooterSubsystem::startShooter(){
        m_isShooterOn = true;
+   }
+   void ShooterSubsystem::toggleManualShooter(){
+       m_isInManual = !m_isInManual;
+      if  (m_isInManual)
+      {
+       m_topShooterMotor->Set(CommonModes::Velocity, m_manualOffsetSpeed + ShooterConstants::kDonutTopWheelSpeed);
+       m_bottomShooterMotor->Set(CommonModes::Velocity, m_manualOffsetSpeed + ShooterConstants::kDonutBottomWheelSpeed);
+      }
+      else 
+      {
+          this->stopShooter();
+      }
+
+   }
+   bool ShooterSubsystem::isInManual(){
+       return m_isInManual;
+   }
+   void ShooterSubsystem::incrementManualSpeed(){
+       m_manualOffsetSpeed += 100;
+       m_topShooterMotor->Set(CommonModes::Velocity, m_manualOffsetSpeed + ShooterConstants::kDonutTopWheelSpeed);
+       m_bottomShooterMotor->Set(CommonModes::Velocity, m_manualOffsetSpeed + ShooterConstants::kDonutBottomWheelSpeed);
+
+       
+   }
+   void ShooterSubsystem::decrementManualSpeed(){
+       m_manualOffsetSpeed -= 100;
+       m_bottomShooterMotor->Set(CommonModes::Velocity, m_manualOffsetSpeed + ShooterConstants::kDonutBottomWheelSpeed);
+       m_topShooterMotor->Set(CommonModes::Velocity, m_manualOffsetSpeed + ShooterConstants::kDonutTopWheelSpeed);
+
    }
 
    

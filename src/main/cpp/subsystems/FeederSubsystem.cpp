@@ -8,9 +8,10 @@
 
 FeederSubsystem::FeederSubsystem() :
 
-   m_isBallReadyIndexer(false),
+   
    m_isShooterReady(false),
-   m_isTurretReady(false)
+   m_isTurretReady(false),
+   m_feederBeamBreak(DigitalInputs::kFeederBeamBreakPort)
    {
        m_feederMotor = new VictorMotorController(VictorIDs::kFeederMotorID, "feederMotor");
        m_feederMotor->ConfigFactoryDefault();
@@ -19,9 +20,10 @@ FeederSubsystem::FeederSubsystem() :
    bool FeederSubsystem::isFeederRunning(){
        return m_isFeederRunning;
    }
-   bool FeederSubsystem::isBallReadyIndexer(){
-       return m_isBallReadyIndexer;
-   } 
+   
+   bool FeederSubsystem::isShooterPrimed(){
+       return !m_feederBeamBreak.Get();
+   }
    void FeederSubsystem::primeShooter(){
        m_isFeederRunning = true;
        m_feederMotor->Set(CommonModes::PercentOutput,FeederConstants::kPrimeShooterSpeed);
@@ -40,6 +42,7 @@ FeederSubsystem::FeederSubsystem() :
        m_isFeederRunning = false;
        m_feederMotor->Set(CommonModes::PercentOutput, 0.0);
    }
+   
    
 
 
