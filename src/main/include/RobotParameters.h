@@ -3,7 +3,9 @@
 #ifndef ROBOT_PARAMETERS_H
 #define ROBOT_PARAMETERS_H
 
-namespace RobotParameters {
+//TODO: figure this all out
+
+namespace RobotParameters { 
     // robot main
 	static constexpr unsigned k_updateRate = 50; // Hz
 
@@ -49,6 +51,13 @@ namespace RobotParameters {
     static constexpr unsigned k_ctreMagEncoderTicksPerRev = 4096;
     static constexpr unsigned k_grayhillEncoderTicksPerRev = 512;
     static constexpr unsigned k_falconFXEncoderTicksPerRev = 2048;
+
+
+    //shooter Constants TODO set correct values
+    static constexpr double k_shooterP = 0.0;
+    static constexpr double k_shooterI = 0.0;
+    static constexpr double k_shooterD = 0.0;
+    static constexpr double k_shooterF = 0.0;
 
     //limelight TODO find corret values
     static constexpr double k_limeLightP = 4.9;
