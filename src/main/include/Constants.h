@@ -25,13 +25,17 @@
  */
 
 namespace VictorIDs{
+<<<<<<< Updated upstream
     static constexpr int kIntakeRollerMotorID = 11;
     static constexpr int kIndexerRollerMotorID = 12;
+=======
+>>>>>>> Stashed changes
     static constexpr int kFrontRightTurningMotorID = 3;//1
     static constexpr int kFrontLeftTurningMotorID = 1;//4
     static constexpr int kRearRightTurningMotorID = 4;//3
     static constexpr int kRearLeftTurningMotorID = 2;//2
     static constexpr int kRearMiddleTurningMotorID = 2;//TODO figure me out
+    static constexpr int kFeederMotorID = 10; //TODO figure me out
 }
 
 namespace FalconIDs{
@@ -40,6 +44,8 @@ namespace FalconIDs{
     static constexpr int kRearRightDriveMotorID = 8;//7
     static constexpr int kRearLeftDriveMotorID = 6;//8
     static constexpr int kRearMiddleDriveMotorID = 99;//TODO figure me out
+    static constexpr int kTopShooterMotorID = 25; //TODO figure me out
+    static constexpr int kBottomShooterMotorID = 50; //TODO figure me out
     
 } 
 
