@@ -10,7 +10,7 @@ m_isIntakeExtended(false),
 m_rollerSpeed(0),
 m_intakeSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort,SolenoidPorts::kIntakeSolenoidReversePort)
 {
-m_rollerMotor = new VictorMotorController(VictorIDs::kIntakeRollerMotorID, "RollerMotor");
+    m_rollerMotor = new VictorMotorController(VictorIDs::kIntakeRollerMotorID, "RollerMotor");
 }
 
 void IntakeSubsystem::extendIntake(){

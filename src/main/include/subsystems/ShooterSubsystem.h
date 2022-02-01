@@ -51,8 +51,8 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   TalonFXMotorController* m_topShooterMotor;
   TalonFXMotorController* m_bottomShooterMotor;
   
-  std::vector<waypoint_t> m_bottomShooterSpeedsVect;
-  std::vector<waypoint_t> m_topShooterSpeedsVect;
+  std::vector<double>* m_bottomShooterSpeedsVect;
+  std::vector<double>* m_topShooterSpeedsVect;
 
 
 

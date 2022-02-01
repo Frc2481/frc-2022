@@ -6,19 +6,20 @@
 
 IndexerSubsystem::IndexerSubsystem() :m_isIndexerOn(false)
 {
-m_indexerMotor = new VictorMotorController(VictorIDs::kIndexerRollerMotorID, "IndexerMotor");
+    m_indexerMotor = new VictorMotorController(VictorIDs::kIndexerRollerMotorID, "IndexerMotor");
+    m_indexerMotor->ConfigFactoryDefault();
 }
 
 void startIndexer(){
-
+    
 }
 
 void stopIndexer(){
-
+    
 }
 
 bool isIndexerOn(){
-    return true;  //FIX THIS MADDOX PERIOD!
+    return true; //FIX THIS MADDOX.
 }
 
 // This method will be called once per scheduler run

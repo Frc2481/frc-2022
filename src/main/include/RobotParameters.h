@@ -59,12 +59,25 @@ namespace RobotParameters {
     static constexpr double k_shooterD = 0.0;
     static constexpr double k_shooterF = 0.0;
 
+    //turret Constants TODO set correct values
+    static constexpr double k_turretP = 0.0;
+    static constexpr double k_turretI = 0.0;
+    static constexpr double k_turretD = 0.0;
+    static constexpr double k_turretF = 0.0;
+
+    //meters
+    static constexpr double k_maxTurretSpeed = 0.0;
+    static constexpr double k_turretEncoderTicksToMPS = 0.0;
+    static constexpr double k_turretRadius = 0.0; 
+
     //limelight TODO find corret values
     static constexpr double k_limeLightP = 4.9;
     static constexpr double k_limeLightI = 1;
     static constexpr double k_limeLightD = 0;
     static constexpr double k_limeLightIZone = 10;
 
+    
 }
+
 
 #endif // ROBOT_PARAMETERS_H

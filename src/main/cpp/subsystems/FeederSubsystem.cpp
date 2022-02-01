@@ -44,6 +44,7 @@ FeederSubsystem::FeederSubsystem() :
    }
    
    
+   
 
 
 
@@ -54,8 +55,4 @@ void FeederSubsystem::Periodic() {}
 
 
 
-    // void ShooterSubsystem::shoot(){
-    //    if (m_isShooterOn == true && m_isOnTarget == true)
-    //    {
-
-    //    }
+    

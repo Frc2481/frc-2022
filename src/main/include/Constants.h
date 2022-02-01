@@ -166,5 +166,14 @@ namespace DigitalInputs{
 namespace ShooterConstants{ //TODO wheel speeds
     static constexpr double kDonutTopWheelSpeed = 0; 
     static constexpr double kDonutBottomWheelSpeed = 0; 
+
+
+}
+
+namespace LimelightConstants{
+    static constexpr double kTargetHeight = 103; //inches
+    static constexpr double kLimelightHeight = 37; //TODO find actual height
+    static constexpr double kLimelightAngle = 45; //TODO find angle
+    
 }
 
