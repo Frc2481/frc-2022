@@ -3,12 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "RobotContainer.h"
-
+#include <frc/smartdashboard/SmartDashboard.h>
 RobotContainer::RobotContainer() {
+  
   // Initialize all of your commands and subsystems here
-
+    m_turret.SetDefaultCommand(StayOnTargetCommand(&m_turret));
   // Configure the button bindings
+
   ConfigureButtonBindings();
+  frc::SmartDashboard::PutNumber("test",342);
 }
 
 void RobotContainer::ConfigureButtonBindings() {

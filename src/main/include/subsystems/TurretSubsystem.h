@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include "components/VictorMotorController.h"
+#include "components/TalonFXMotorController.h"
 #include <frc/DigitalInput.h>
 #include "networktables/NetworkTableInstance.h"
 
@@ -15,7 +15,8 @@ class TurretSubsystem : public frc2::SubsystemBase {
 
   bool isTurretRunning();
   bool isOnTarget();
-  double getAngle();
+  double getAngleToTarget();
+  double getTurretAngle();
   double getDistance();
   void rotateTurret(double angle); //degrees
   bool isTargetVisible();
@@ -34,5 +35,5 @@ class TurretSubsystem : public frc2::SubsystemBase {
   double m_distance;
   
 
-  VictorMotorController* m_turretMotor;
+  TalonFXMotorController* m_turretMotor;
 };

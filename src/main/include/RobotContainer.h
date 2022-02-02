@@ -5,8 +5,8 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-
-
+#include "subsystems/TurretSubsystem.h"
+#include "commands/Turret/StayOnTargetCommand.h"
 #include "subsystems/ExampleSubsystem.h"
 
 /**
@@ -25,6 +25,7 @@ class RobotContainer {
  private:
   // The robot's subsystems and commands are defined here...
   ExampleSubsystem m_subsystem;
+  TurretSubsystem m_turret;
   
 
   void ConfigureButtonBindings();
