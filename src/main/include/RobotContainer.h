@@ -6,7 +6,7 @@
 
 #include <frc2/command/Command.h>
 
-#include "commands/ExampleCommand.h"
+
 #include "subsystems/ExampleSubsystem.h"
 
 /**
@@ -25,7 +25,7 @@ class RobotContainer {
  private:
   // The robot's subsystems and commands are defined here...
   ExampleSubsystem m_subsystem;
-  ExampleCommand m_autonomousCommand;
+  
 
   void ConfigureButtonBindings();
 };
