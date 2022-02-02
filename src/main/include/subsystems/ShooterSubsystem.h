@@ -36,10 +36,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
-  struct waypoint_t {
-        double pos;
-        double speed;
-    };
+  
 
   double m_setSpeedTopWheel;
   double m_setSpeedBottomWheel;
@@ -51,8 +48,8 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   TalonFXMotorController* m_topShooterMotor;
   TalonFXMotorController* m_bottomShooterMotor;
   
-  std::vector<waypoint_t> m_bottomShooterSpeedsVect;
-  std::vector<waypoint_t> m_topShooterSpeedsVect;
+  std::vector<double>* m_bottomShooterSpeedsVect;
+  std::vector<double>* m_topShooterSpeedsVect;
 
 
 

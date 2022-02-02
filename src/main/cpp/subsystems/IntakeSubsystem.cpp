@@ -5,7 +5,8 @@
 #include "subsystems/IntakeSubsystem.h"
 #include "Constants.h"
 
-IntakeSubsystem::IntakeSubsystem() :m_isRollerOn(false),
+IntakeSubsystem::IntakeSubsystem() :
+m_isRollerOn(false),
 m_isIntakeExtended(false),
 m_rollerSpeed(0),
 m_intakeSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort,SolenoidPorts::kIntakeSolenoidReversePort)
@@ -15,16 +16,22 @@ m_rollerMotor = new VictorMotorController(VictorIDs::kIntakeRollerMotorID, "Roll
 
 void IntakeSubsystem::extendIntake(){
     m_intakeSolenoid.Set(m_intakeSolenoid.kForward);
-    m_rollerMotor->Set(m_rollerSpeed);
-    m_isRollerOn = true;
     m_isIntakeExtended = true;
 }
 
+void IntakeSubsystem::startRoller(){
+    m_rollerMotor->Set(m_rollerSpeed);
+    m_isRollerOn = true;
+}
+
 void IntakeSubsystem::retractIntake(){
-    m_rollerMotor->Set(0);
     m_intakeSolenoid.Set(m_intakeSolenoid.kReverse);
-    m_isRollerOn = false;
     m_isIntakeExtended = false;
+}
+
+void IntakeSubsystem::stopRoller(){
+    m_rollerMotor->Set(0);
+    m_isRollerOn = false;
 }
 
 bool IntakeSubsystem::isRollerOn(){

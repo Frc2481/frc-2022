@@ -25,8 +25,7 @@
  */
 
 namespace VictorIDs{
-    static constexpr int kIntakeRollerMotorID = 11;
-    static constexpr int kIndexerRollerMotorID = 12;
+    static constexpr int kIntakeRollerMotorID = 11;//TODO figure me out
     static constexpr int kFrontRightTurningMotorID = 3;//1
     static constexpr int kFrontLeftTurningMotorID = 1;//4
     static constexpr int kRearRightTurningMotorID = 4;//3

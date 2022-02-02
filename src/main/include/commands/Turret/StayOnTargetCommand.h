@@ -6,8 +6,6 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/IntakeSubsystem.h"
-#include "Constants.h"
 
 /**
  * An example command.
@@ -16,21 +14,16 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ExtendIntakeCommand
-    : public frc2::CommandHelper<frc2::CommandBase, ExtendIntakeCommand> {
-
- private:
-  IntakeSubsystem* m_intake;
-
+class StayOnTargetCommand
+    : public frc2::CommandHelper<frc2::CommandBase, StayOnTargetCommand> {
  public:
-  ExtendIntakeCommand(IntakeSubsystem* intake){
-    m_intake = intake;
-    AddRequirements(m_intake);
-  }
+  StayOnTargetCommand();
 
-  void Initialize() override{
-    m_intake->extendIntake();
-    m_intake->startRoller();
-  }
+  void Initialize() override;
 
+  void Execute() override;
+
+  void End(bool interrupted) override;
+
+  bool IsFinished() override;
 };

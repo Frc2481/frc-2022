@@ -17,7 +17,9 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
   void extendIntake();
+  void startRoller();
   void retractIntake();
+  void stopRoller();
   bool isRollerOn();
   bool isIntakeExtended();
 
