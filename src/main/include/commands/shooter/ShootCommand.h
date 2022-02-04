@@ -6,10 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/IntakeSubsystem.h"
 #include "subsystems/FeederSubsystem.h"
-#include "Constants.h"
-#include <frc/Timer.h>
 
 /**
  * An example command.
@@ -18,31 +15,28 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class RetractIntakeCommand
-    : public frc2::CommandHelper<frc2::CommandBase, RetractIntakeCommand> {
+class ShootCommand
+    : public frc2::CommandHelper<frc2::CommandBase, ShootCommand> {
  private:
-  IntakeSubsystem* m_pIntake;
-  frc::Timer m_timer;
+ FeederSubsystem* m_feeder;
+
  public:
-  RetractIntakeCommand(IntakeSubsystem* intake){
-    m_pIntake = intake;
-    
-    AddRequirements(m_pIntake);
+  ShootCommand(FeederSubsystem* feeder){
+    m_feeder = feeder;
+    AddRequirements(m_feeder);
   }
 
   void Initialize() override{
-    m_timer.Start();
-    m_pIntake->retractIntake();
+    m_feeder->shootBall();
   }
 
   void Execute() override{}
 
   void End(bool interrupted) override{
-    m_pIntake->setRollerSpeed(0);
-    m_timer.Stop();
+    m_feeder->stopShooter();
   }
 
   bool IsFinished() override{
-    return (int)m_timer.Get() >= 3;
+    return false;
   }
 };

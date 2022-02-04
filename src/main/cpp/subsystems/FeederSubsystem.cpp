@@ -38,6 +38,11 @@ FeederSubsystem::FeederSubsystem() :
        m_isFeederRunning = true;
        m_feederMotor->Set(CommonModes::PercentOutput, FeederConstants::kShooterSpeed);
    }
+
+   void FeederSubsystem::setFeederSpeed(double speed){
+        m_feederSpeed = speed;
+        m_feederMotor->Set(speed);
+   }
    void FeederSubsystem::stopShooter(){
        m_isFeederRunning = false;
        m_feederMotor->Set(CommonModes::PercentOutput, 0.0);

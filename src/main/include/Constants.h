@@ -155,6 +155,9 @@ namespace PathConstants{ // TODO check
 
 
 }
+namespace IntakeConstants{
+    static constexpr double kDefaultIntakeRollerSpeed = 0; //TODO: Find out
+}
 namespace FeederConstants{ //TODO figure out
     static constexpr double kPrimeShooterSpeed = 0.0;
     static constexpr double kShooterSpeed = 0.0;

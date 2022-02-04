@@ -21,7 +21,7 @@ class FeederSubsystem : public frc2::SubsystemBase {
   bool isShooterReady();
   bool isTurretReady();
   void shootBall();
-  void setFeederSpeed();
+  void setFeederSpeed(double speed);
   void stopShooter();
   bool isShooterPrimed();
   

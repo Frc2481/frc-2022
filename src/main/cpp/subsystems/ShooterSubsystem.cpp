@@ -5,10 +5,9 @@
 #include "subsystems/ShooterSubsystem.h"
 #include "Constants.h"
 #include "RobotParameters.h"
+#include "utils/Interpolate.h"
 
 ShooterSubsystem::ShooterSubsystem() :
-   m_setSpeedTopWheel(0.0),
-   m_setSpeedBottomWheel(0.0),
    m_isShooterOn(false),
    m_isOnTarget(false),
    m_isInManual(false),
@@ -21,9 +20,9 @@ ShooterSubsystem::ShooterSubsystem() :
        m_topShooterMotor->Config_kD(0,RobotParameters::k_shooterD);
        m_topShooterMotor->Config_kF(0,RobotParameters::k_shooterF);
        m_topShooterMotor->Config_IntegralZone(0,25); //TODO correct values
-       m_topShooterSpeedsVect->push_back(0.0);
-       m_topShooterSpeedsVect->push_back(0.0);
-       m_topShooterSpeedsVect->push_back(0.0);
+       m_topShooterSpeedsVect.push_back(0.0);
+       m_topShooterSpeedsVect.push_back(0.0);
+       m_topShooterSpeedsVect.push_back(0.0);
 
        m_bottomShooterMotor = new TalonFXMotorController(FalconIDs::kBottomShooterMotorID, "bottomShooterMotor");
        m_bottomShooterMotor->ConfigFactoryDefault();
@@ -58,7 +57,9 @@ ShooterSubsystem::ShooterSubsystem() :
        m_bottomShooterMotor->Set(CommonModes::PercentOutput, 0.0);   
    }
 
-   void ShooterSubsystem::startShooter(){
+   void ShooterSubsystem::startShooter(double distance){ 
+       m_bottomShooterMotor->Set(CommonModes::Velocity, interpolate::rangedInterp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true, 0, 255));//TODO find min max
+       m_topShooterMotor->Set(CommonModes::Velocity, interpolate::rangedInterp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true, 0, 255));//TODO find min max
        m_isShooterOn = true;
    }
    void ShooterSubsystem::toggleManualShooter(){

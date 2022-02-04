@@ -23,7 +23,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double getTopShooterSpeed();
   double getBottomShooterSpeed();
   void stopShooter();
-  void startShooter();
+  void startShooter(double speed);
   void toggleManualShooter();
   bool isInManual();
   void incrementManualSpeed();
@@ -51,8 +51,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   TalonFXMotorController* m_topShooterMotor;
   TalonFXMotorController* m_bottomShooterMotor;
   
-  std::vector<double>* m_bottomShooterSpeedsVect;
-  std::vector<double>* m_topShooterSpeedsVect;
+  std::vector<double> m_bottomShooterSpeedsVect;
+  std::vector<double> m_topShooterSpeedsVect;
+  std::vector<double> m_distancesToTarget;
 
 
 

@@ -35,8 +35,13 @@ TurretSubsystem::TurretSubsystem() :
         return m_isOnTarget;
     }
     double TurretSubsystem::getDistance(){
-        return tan((nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0)-LimelightConstants::kLimelightAngle)*
-        (wpi::numbers::pi/180))*(LimelightConstants::kTargetHeight-LimelightConstants::kLimelightHeight);
+        if((bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0)){
+            m_distance = tan((nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0)-LimelightConstants::kLimelightAngle)*
+                (wpi::numbers::pi/180))*(LimelightConstants::kTargetHeight-LimelightConstants::kLimelightHeight);
+            return m_distance;
+    } else{
+        return m_distance;
+    }
 
     }
     double TurretSubsystem::getAngleToTarget(){

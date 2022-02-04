@@ -18,15 +18,15 @@ class IntakeSubsystem : public frc2::SubsystemBase {
 
   void extendIntake();
   void retractIntake();
-  bool isRollerOn();
+  void setRollerSpeed(double speed);
+  double getRollerSpeed();
   bool isIntakeExtended();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  bool m_isRollerOn;
   bool m_isIntakeExtended;
-  int m_rollerSpeed;
+  double m_rollerSpeed;
   frc::DoubleSolenoid m_intakeSolenoid;
   VictorMotorController* m_rollerMotor;
 };

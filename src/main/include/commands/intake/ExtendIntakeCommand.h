@@ -6,6 +6,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "subsystems/IntakeSubsystem.h"
+#include "subsystems/FeederSubsystem.h"
+#include "Constants.h"
 
 /**
  * An example command.
@@ -16,14 +19,30 @@
  */
 class ExtendIntakeCommand
     : public frc2::CommandHelper<frc2::CommandBase, ExtendIntakeCommand> {
+ private:
+ IntakeSubsystem* m_intake;
+ FeederSubsystem* m_feeder;
+
  public:
-  ExtendIntakeCommand();
+  ExtendIntakeCommand(IntakeSubsystem* intake, FeederSubsystem* feeder){
+    m_intake = intake;
+    m_feeder = feeder;
+    AddRequirements(m_intake);
+    AddRequirements(m_feeder);
+  }
 
-  void Initialize() override;
+  void Initialize() override{
+    m_intake->extendIntake();
+    m_intake->setRollerSpeed(IntakeConstants::kDefaultIntakeRollerSpeed);
+  }
 
-  void Execute() override;
+  void Execute() override{}
 
-  void End(bool interrupted) override;
+  void End(bool interrupted) override{
+    m_feeder->setFeederSpeed(0);
+  }
 
-  bool IsFinished() override;
+  bool IsFinished() override{
+    return m_feeder->isShooterPrimed();
+  }
 };
