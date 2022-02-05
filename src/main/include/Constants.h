@@ -44,8 +44,8 @@ namespace FalconIDs{
     static constexpr int kTopShooterMotorID = 25; //TODO figure me out
     static constexpr int kBottomShooterMotorID = 50; //TODO figure me out
     static constexpr int kturretMotorID = 3; 
-    static constexpr int kFrontClimberMotorID = 3; //TODO figure out
-    static constexpr int kBackClimberMotorID = 3; //TODO figure out
+    static constexpr int kLeftClimberMotorID = 3; //TODO figure out
+    static constexpr int kRightClimberMotorID = 3; //TODO figure out
     
 } 
 
@@ -70,6 +70,11 @@ namespace SolenoidPorts{
     static constexpr int kIntakeSolenoidReversePort = 1;
     static constexpr int kShooterSolenoidPort = 2;
     static constexpr int kShooterSolenoidReversePort = 3;
+    static constexpr int kLeftClimberSolenoidPort = 8;
+    static constexpr int kLeftClimberSolenoidReversePort = 9;
+    static constexpr int kRightClimberSolenoidPort = 10;
+    static constexpr int kRightClimberSolenoidReversePort = 11;
+    static constexpr int kJavelinSolenoidPort = 12;
 }
 
 namespace DriveConstants {

@@ -6,7 +6,8 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include "components/TalonFXMotorController.h"
-#include <frc/doubleSolenoid.h>
+#include <frc/DoubleSolenoid.h>
+#include <frc/Solenoid.h>
 
 class ClimberSubsystem : public frc2::SubsystemBase {
  public:
@@ -17,31 +18,31 @@ class ClimberSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  void extendFrontWheels();
-  void extendBackWheels();
-  void retractFrontWheels();
-  void retractBackWheels();
-  void setFrontWheelsSpeed(double speed);
-  void setBackWheelsSpeed(double speed);
-  double getBackWheelSpeed();
-  double getFrontWheelSpeed();
-  void extendClimber();
-  void retractClimber();
-  bool areFrontWheelsExtended();
-  bool areBackWheelsExtended();
-  bool isClimberExtended();
+  void extendLeftWheels();
+  void extendRightWheels();
+  void retractLeftWheels();
+  void retractRightWheels();
+  void setLeftWheelsSpeed(double speed);
+  void setRightWheelsSpeed(double speed);
+  double getRightWheelSpeed();
+  double getLeftWheelSpeed();
+  void fireJavelin();
+  void retractJavelin();
+  bool areLeftWheelsExtended();
+  bool areRightWheelsExtended();
+  bool isJavelinExtended();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  double m_frontWheelsSpeed;
-  double m_backWheelsSpeed;
-  bool m_areFrontWheelsExtended;
-  bool m_areBackWheelsExtended;
-  bool m_isClimberExtended;
-  TalonFXMotorController* m_frontWheelsMotor;
-  TalonFXMotorController* m_backWheelsMotor;
-  frc::DoubleSolenoid* m_frontSolenoid;
-  frc::DoubleSolenoid* m_backSolenoid;
-  frc::DoubleSolenoid* m_climberSolenoid;
+  double m_leftWheelsSpeed;
+  double m_rightWheelsSpeed;
+  bool m_areLeftWheelsExtended;
+  bool m_areRightWheelsExtended;
+  bool m_isJavelinExtended;
+  TalonFXMotorController* m_leftMotor;
+  TalonFXMotorController* m_rightMotor;
+  frc::DoubleSolenoid* m_leftSolenoid;
+  frc::DoubleSolenoid* m_rightSolenoid;
+  frc::Solenoid* m_JavelinSolenoid;
 };
