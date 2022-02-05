@@ -51,11 +51,11 @@ TurretSubsystem::TurretSubsystem() :
         return m_angle;
     }
     void TurretSubsystem::rotateTurret(double angle){
-        double diff = normalizeToRange::RangedDifference(angle-m_angle, -180,180)*.7;//frc::SmartDashboard::GetNumber("scale motion error", 1)
+        double diff = normalizeToRange::RangedDifference(angle/RobotParameters::k_turretEncoderTicksToDegrees-m_angle, 0,2048)*.7;//frc::SmartDashboard::GetNumber("scale motion error", 1)
     
 
      
-      m_turretMotor->Set(CommonModes::MotionMagic, m_turretMotor->GetPos() + (RobotParameters::k_turretRadius * diff * MATH_CONSTANTS_PI/180)/RobotParameters::k_turretEncoderTicksToDegrees);
+      m_turretMotor->Set(CommonModes::MotionMagic, m_turretMotor->GetPos() + (RobotParameters::k_turretRadius * diff)/RobotParameters::k_turretEncoderTicksToDegrees);
     }
     bool TurretSubsystem::isTargetVisible(){
         
@@ -65,5 +65,5 @@ TurretSubsystem::TurretSubsystem() :
 
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
-    m_angle = m_turretMotor->GetPos()*RobotParameters::k_turretEncoderTicksToDegrees;
+    m_angle = m_turretMotor->GetPos();
 }
