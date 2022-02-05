@@ -44,6 +44,8 @@ namespace FalconIDs{
     static constexpr int kTopShooterMotorID = 25; //TODO figure me out
     static constexpr int kBottomShooterMotorID = 50; //TODO figure me out
     static constexpr int kturretMotorID = 3; 
+    static constexpr int kFrontClimberMotorID = 3; //TODO figure out
+    static constexpr int kBackClimberMotorID = 3; //TODO figure out
     
 } 
 
@@ -143,12 +145,6 @@ enum class CommonModes{
     MotionProfileArc = 11,
     Disabled = 15
 };
-namespace LimeLightConstants{ // TODO check values
-    static constexpr double kLimeLightHeight = 43/12.0;//ft
-    static constexpr double kLimeLightAngle = 20;//deg
-    static constexpr double kLimeLightHardWarePanAngle = 12;//deg
-    static constexpr double kTargetHeight =  8.1875;//ft
-}
 namespace PathConstants{ // TODO check
     static constexpr double kMinLookAhead = 6*.0254;
     static constexpr double kMaxLookAhead = 24*.0254;

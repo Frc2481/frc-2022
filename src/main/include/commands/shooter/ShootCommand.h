@@ -6,6 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "subsystems/ShooterSubsystem.h"
 #include "subsystems/FeederSubsystem.h"
 
 /**
