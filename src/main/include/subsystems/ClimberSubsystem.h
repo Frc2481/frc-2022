@@ -42,7 +42,7 @@ class ClimberSubsystem : public frc2::SubsystemBase {
   bool m_isJavelinExtended;
   TalonFXMotorController* m_leftMotor;
   TalonFXMotorController* m_rightMotor;
-  frc::DoubleSolenoid* m_leftSolenoid;
-  frc::DoubleSolenoid* m_rightSolenoid;
-  frc::Solenoid* m_JavelinSolenoid;
+  frc::DoubleSolenoid m_leftSolenoid;
+  frc::DoubleSolenoid m_rightSolenoid;
+  frc::Solenoid m_javelinSolenoid;
 };
