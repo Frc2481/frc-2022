@@ -7,6 +7,7 @@
 #include "RobotParameters.h"
 #include "Utils/NormalizeToRange.h"
 #include <wpi/numbers>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 
 TurretSubsystem::TurretSubsystem() :
@@ -26,6 +27,9 @@ TurretSubsystem::TurretSubsystem() :
        m_turretMotor->Config_kD(0,RobotParameters::k_shooterD);
        m_turretMotor->Config_kF(0,RobotParameters::k_shooterF);
        m_turretMotor->Config_IntegralZone(0,25); //TODO correct values
+       m_turretMotor->SetSensorPhase(true);
+
+    //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
     }
 
     bool TurretSubsystem::isTurretRunning(){
@@ -51,12 +55,13 @@ TurretSubsystem::TurretSubsystem() :
         return m_angle;
     }
     void TurretSubsystem::rotateTurret(double angle){
-        double diff = normalizeToRange::RangedDifference(angle/RobotParameters::k_turretEncoderTicksToDegrees-m_angle, 0,2048)*.7;//frc::SmartDashboard::GetNumber("scale motion error", 1)
+        double diff = normalizeToRange::RangedDifference(angle/RobotParameters::k_turretEncoderTicksToDegrees-m_angle, -1024,1024);//frc::SmartDashboard::GetNumber("scale motion error", 1)
     
-
+        frc::SmartDashboard::PutNumber("Diff", diff);
      
-      m_turretMotor->Set(CommonModes::MotionMagic, m_turretMotor->GetPos() + (RobotParameters::k_turretRadius * diff)/RobotParameters::k_turretEncoderTicksToDegrees);
+      m_turretMotor->Set(CommonModes::MotionMagic, angle); //m_angle + ( diff)/RobotParameters::k_turretEncoderTicksToDegrees);
     }
+
     bool TurretSubsystem::isTargetVisible(){
         
         return (bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0);
@@ -65,5 +70,12 @@ TurretSubsystem::TurretSubsystem() :
 
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
-    m_angle = m_turretMotor->GetPos();
+    m_angle = m_turretMotor->GetSelectedSensorPosition(0);
+
+     
+
+    m_turretMotor->Config_kP(0,frc::SmartDashboard::GetNumber("TurretP", 0)); 
+    m_turretMotor->Config_kI(0,frc::SmartDashboard::GetNumber("TurretI", 0));
+    m_turretMotor->Config_kD(0,frc::SmartDashboard::GetNumber("TurretD", 0));
+    m_turretMotor->Config_kF(0,frc::SmartDashboard::GetNumber("TurretF", 0));
 }

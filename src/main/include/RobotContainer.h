@@ -5,9 +5,13 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-#include "subsystems/TurretSubsystem.h"
+// #include "subsystems/TurretSubsystem.h"
 #include "commands/Turret/StayOnTargetCommand.h"
 #include "subsystems/ExampleSubsystem.h"
+#include "components/Joystick2481.h"
+#include "commands/ControlMotorWithJoystickCommand.h"
+#include <frc2/command/button/Button.h>
+#include "components/XboxController2481.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -24,8 +28,10 @@ class RobotContainer {
 
  private:
   // The robot's subsystems and commands are defined here...
+  Joystick2481 m_driverController;
   ExampleSubsystem m_subsystem;
-  TurretSubsystem m_turret;
+  frc2::Button aButton{[&] { return m_driverController.GetRawButton(XBOX_A_BUTTON); }};
+  // TurretSubsystem m_turret;
   
 
   void ConfigureButtonBindings();
