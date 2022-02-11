@@ -30,6 +30,8 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here...
   Joystick2481 m_driverController;
   ExampleSubsystem m_subsystem;
+ public:
+  TurretSubsystem m_turretSubsystem;
   frc2::Button aButton{[&] { return m_driverController.GetRawButton(XBOX_A_BUTTON); }};
   // TurretSubsystem m_turret;
   

@@ -10,13 +10,15 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 
+
 TurretSubsystem::TurretSubsystem() :
     m_isTurretRunning(false),
     m_isOnTarget(false), //true??
-    m_angle(0.0),   //TODO find angle
+    m_angle_ticks(0.0),   //TODO find angle
     m_distance(0.0) //TODO find distance
 
     {
+        m_ABSPositionSensor = new frc::AnalogInput(0);
         m_turretMotor = new TalonFXMotorController(FalconIDs::kturretMotorID, "turretMotor");
         m_turretMotor->ConfigFactoryDefault();
         // m_turretMotor->SetCon
@@ -28,6 +30,7 @@ TurretSubsystem::TurretSubsystem() :
        m_turretMotor->Config_kF(0,RobotParameters::k_shooterF);
        m_turretMotor->Config_IntegralZone(0,25); //TODO correct values
        m_turretMotor->SetSensorPhase(true);
+       frc::SmartDashboard::PutNumber("Turret ADC", 0);
 
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
     }
@@ -52,26 +55,36 @@ TurretSubsystem::TurretSubsystem() :
         return nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0);
     }
     double TurretSubsystem::getTurretAngle(){
-        return m_angle;
+        return m_angle_ticks - m_angleOffsetTicks;
     }
     void TurretSubsystem::rotateTurret(double angle){
-        double diff = normalizeToRange::RangedDifference(angle/RobotParameters::k_turretEncoderTicksToDegrees-m_angle, -1024,1024);//frc::SmartDashboard::GetNumber("scale motion error", 1)
+        double diff = normalizeToRange::RangedDifference(angle/RobotParameters::k_turretEncoderTicksToDegrees-m_angle_ticks, -1024,1024);//frc::SmartDashboard::GetNumber("scale motion error", 1)
     
         frc::SmartDashboard::PutNumber("Diff", diff);
      
-      m_turretMotor->Set(CommonModes::MotionMagic, angle); //m_angle + ( diff)/RobotParameters::k_turretEncoderTicksToDegrees);
+      m_turretMotor->Set(CommonModes::MotionMagic, angle); //m_angle_ticks + ( diff)/RobotParameters::k_turretEncoderTicksToDegrees);
     }
 
     bool TurretSubsystem::isTargetVisible(){
         
         return (bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0);
     }
+    double TurretSubsystem::getTurretAbsoluteAngle(){
+        return (m_ABSPositionSensor->GetValue()/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_TurretABSDegreesPerRotation;
+    }
+    double TurretSubsystem::getTurretRelativeAngle(){
+        return (m_angle_ticks/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_TurretABSDegreesPerRotation;
+    }
+    void TurretSubsystem::zeroTurret(){
+        m_angleOffsetTicks = ((getTurretAbsoluteAngle() - getTurretRelativeAngle())/RobotParameters::k_TurretABSDegreesPerRotation)*RobotParameters::k_turretTicksPerRotation;
+    }
 
 
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
-    m_angle = m_turretMotor->GetSelectedSensorPosition(0);
+    m_angle_ticks = m_turretMotor->GetSelectedSensorPosition(0);
 
+    
      
 
     m_turretMotor->Config_kP(0,frc::SmartDashboard::GetNumber("TurretP", 0)); 

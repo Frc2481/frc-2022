@@ -65,11 +65,19 @@ namespace RobotParameters {
     static constexpr double k_turretD = 0.0;
     static constexpr double k_turretF = 0.0;
 
-    //meters
     static constexpr double k_maxTurretSpeed = 600.0*360.0;
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 
+    static constexpr double k_turretTeeth = 229.0;
+    static constexpr double k_turretDriveTeeth = 16.0;
+    static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
+    static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;
+    static constexpr double k_turretADCPerRotation = 4096/k_turretABSMaxRotations;
+    static constexpr double k_TurretABSDegreesPerRotation = 720.0/k_turretABSMaxRotations;
+    static constexpr double k_turretTicksPerRotation = 2048*k_turretGearRatio;
+    
+
 
     //limelight TODO find corret values
     static constexpr double k_limeLightP = 4.9;

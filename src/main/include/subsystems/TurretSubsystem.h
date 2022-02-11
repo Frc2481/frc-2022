@@ -8,6 +8,7 @@
 #include "components/TalonFXMotorController.h"
 #include <frc/DigitalInput.h>
 #include "networktables/NetworkTableInstance.h"
+#include <frc/AnalogInput.h>
 
 class TurretSubsystem : public frc2::SubsystemBase {
  public:
@@ -20,7 +21,9 @@ class TurretSubsystem : public frc2::SubsystemBase {
   double getDistance();
   void rotateTurret(double angle); //degrees
   bool isTargetVisible();
-
+  double getTurretAbsoluteAngle();
+  double getTurretRelativeAngle();
+  void zeroTurret();
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -31,8 +34,12 @@ class TurretSubsystem : public frc2::SubsystemBase {
   // declared private and exposed only through public methods.
   bool m_isTurretRunning;
   bool m_isOnTarget;
-  double m_angle;
+  double m_angle_ticks;
+  double m_angleOffsetTicks;
   double m_distance;
+  
+
+  frc::AnalogInput* m_ABSPositionSensor;
   
 
   TalonFXMotorController* m_turretMotor;

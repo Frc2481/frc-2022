@@ -54,6 +54,8 @@ class ControlMotorWithJoystickCommand
           yleftHand = 0.0;
         }
         m_motor->Set(yleftHand);
+
+        
   }
 
   void End(bool interrupted) override
