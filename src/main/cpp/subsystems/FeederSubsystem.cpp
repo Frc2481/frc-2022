@@ -5,51 +5,44 @@
 #include "subsystems/FeederSubsystem.h"
 #include "Constants.h"
 #include "RobotParameters.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 FeederSubsystem::FeederSubsystem() :
-
-   
-   m_isShooterReady(false),
-   m_isTurretReady(false),
-   m_feederBeamBreak(DigitalInputs::kFeederBeamBreakPort)
+    m_isFeederRunning (false),
+    m_isIndexerRunning (false),
+    m_feederBeamBreak(DigitalInputs::kFeederBeamBreakPort),
+   m_indexerBeamBreak(DigitalInputs::kIndexerBeamBreakPort)
    {
        m_feederMotor = new VictorMotorController(VictorIDs::kFeederMotorID, "feederMotor");
        m_feederMotor->ConfigFactoryDefault();
+       m_feederMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+       m_indexerMotor = new VictorMotorController(VictorIDs::kIndexerMotorID, "indexerMotor");
+       m_indexerMotor->ConfigFactoryDefault();
+       m_indexerMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
    }
 
    bool FeederSubsystem::isFeederRunning(){
        return m_isFeederRunning;
    }
-   
-   bool FeederSubsystem::isShooterPrimed(){
-       return !m_feederBeamBreak.Get();
+   bool FeederSubsystem::isIndexerRunning(){
+       return m_isIndexerRunning;
    }
-   void FeederSubsystem::primeShooter(){
-       m_isFeederRunning = true;
-       m_feederMotor->Set(CommonModes::PercentOutput,FeederConstants::kPrimeShooterSpeed);
-   }
-   bool FeederSubsystem::isShooterReady(){
-       return m_isShooterReady;
-   }
-   bool FeederSubsystem::isTurretReady(){
-       return m_isTurretReady;
-   }
-   void FeederSubsystem::shootBall(){
-       m_isFeederRunning = true;
-       m_feederMotor->Set(CommonModes::PercentOutput, FeederConstants::kShooterSpeed);
-   }
-
    void FeederSubsystem::setFeederSpeed(double speed){
-        m_feederSpeed = speed;
         m_feederMotor->Set(speed);
+        m_isFeederRunning = speed;
    }
-   void FeederSubsystem::stopShooter(){
-       m_isFeederRunning = false;
-       m_feederMotor->Set(CommonModes::PercentOutput, 0.0);
+   void FeederSubsystem::setIndexerSpeed(double speed){
+        m_indexerMotor->Set(speed);
+        m_isIndexerRunning = speed;
    }
-   
-   
-   
+   bool FeederSubsystem::getFeederBeamBreak(){
+       return frc::SmartDashboard::GetBoolean("Feeder Beam Break", false);
+    //   return m_feederBeamBreak.Get();
+   }
+   bool FeederSubsystem::getIndexerBeamBreak(){
+       return frc::SmartDashboard::GetBoolean("Indexer Beam Break", false);
+    //   return m_indexerBeamBreak.Get();
+   }
 
 
 

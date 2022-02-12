@@ -10,7 +10,7 @@
 #include "subsystems/FeederSubsystem.h"
 #include "Constants.h"
 #include <frc/Timer.h>
-
+#include <frc/smartdashboard/SmartDashboard.h>
 /**
  * An example command.
  *
@@ -27,10 +27,11 @@ class RetractIntakeCommand
   RetractIntakeCommand(IntakeSubsystem* intake){
     m_pIntake = intake;
     
-    AddRequirements(m_pIntake);
+    // AddRequirements(m_pIntake);
   }
 
   void Initialize() override{
+    m_timer.Reset();
     m_timer.Start();
     m_pIntake->retractIntake();
   }
@@ -40,6 +41,7 @@ class RetractIntakeCommand
   void End(bool interrupted) override{
     m_pIntake->setRollerSpeed(0);
     m_timer.Stop();
+    frc::SmartDashboard::PutBoolean("Intake Extended", false);
   }
 
   bool IsFinished() override{

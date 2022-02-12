@@ -17,13 +17,11 @@ class FeederSubsystem : public frc2::SubsystemBase {
    */
 
   bool isFeederRunning();
-  void primeShooter();
-  bool isShooterReady();
-  bool isTurretReady();
-  void shootBall();
+  bool isIndexerRunning ();
   void setFeederSpeed(double speed);
-  void stopShooter();
-  bool isShooterPrimed();
+  void setIndexerSpeed(double speed);
+  bool getIndexerBeamBreak ();
+  bool getFeederBeamBreak ();
   
   
   //TODO Function to shoot ball
@@ -35,12 +33,11 @@ class FeederSubsystem : public frc2::SubsystemBase {
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
   bool m_isFeederRunning;
-  bool m_isShooterReady;
-  bool m_isTurretReady;
-  double m_feederSpeed;
+  bool m_isIndexerRunning;
   VictorMotorController* m_feederMotor;
+  VictorMotorController* m_indexerMotor;
   frc::DigitalInput m_feederBeamBreak;
-  
+  frc::DigitalInput m_indexerBeamBreak;
 
 
   //TODO variable that tells you to shoot

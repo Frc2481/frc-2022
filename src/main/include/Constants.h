@@ -31,12 +31,13 @@ namespace VictorIDs{
     static constexpr int kFrontLeftTurningMotorID = 1;//4
     static constexpr int kRearRightTurningMotorID = 4;//3
     static constexpr int kRearLeftTurningMotorID = 2;//2
-    static constexpr int kRearMiddleTurningMotorID = 2;//TODO figure me out
+    static constexpr int kRearMiddleTurningMotorID = 22;//TODO figure me out
     static constexpr int kFeederMotorID = 10; //TODO figure me out
+    static constexpr int kIndexerMotorID = 21; //TODO
 }
 
 namespace FalconIDs{
-    static constexpr int kFrontRightDriveMotorID = 3;//5
+    static constexpr int kFrontRightDriveMotorID = 333;//5
     static constexpr int kFrontLeftDriveMotorID = 4;//6
     static constexpr int kRearRightDriveMotorID = 8;//7
     static constexpr int kRearLeftDriveMotorID = 6;//8
@@ -44,18 +45,18 @@ namespace FalconIDs{
     static constexpr int kTopShooterMotorID = 25; //TODO figure me out
     static constexpr int kBottomShooterMotorID = 50; //TODO figure me out
     static constexpr int kturretMotorID = 3; 
-    static constexpr int kLeftClimberMotorID = 3; //TODO figure out
-    static constexpr int kRightClimberMotorID = 3; //TODO figure out
+    static constexpr int kLeftClimberMotorID = 33; //TODO figure out
+    static constexpr int kRightClimberMotorID = 34; //TODO figure out
     
 } 
 
 namespace CANCoderIDs
 {
-    static constexpr int kFrontRightSteerCANCoderID = 1;
-    static constexpr int kFrontLeftSteerCANCoderID = 2;
-    static constexpr int kRearRightSteerCANCoderID = 3;
-    static constexpr int kRearLeftSteerCANCoderID = 4;
-    static constexpr int kRearMiddleSteerCANCoderID = 5;
+    static constexpr int kFrontRightSteerCANCoderID = 41;
+    static constexpr int kFrontLeftSteerCANCoderID = 42;
+    static constexpr int kRearRightSteerCANCoderID = 43;
+    static constexpr int kRearLeftSteerCANCoderID = 44;
+    static constexpr int kRearMiddleSteerCANCoderID = 45;
 }
 
 namespace SparkMaxIDs{
@@ -157,15 +158,17 @@ namespace PathConstants{ // TODO check
 
 }
 namespace IntakeConstants{
-    static constexpr double kDefaultIntakeRollerSpeed = 0; //TODO: Find out
+    static constexpr double kDefaultIntakeRollerSpeed = 10; //TODO: Find out
 }
 namespace FeederConstants{ //TODO figure out
-    static constexpr double kPrimeShooterSpeed = 0.0;
-    static constexpr double kShooterSpeed = 0.0;
+    static constexpr double kDefaultFeederSpeed = 10.0;
+    static constexpr double kShootingSpeed = 10.0;
+    static constexpr double kIndexerSpeed = 10.0;
 }
 
 namespace DigitalInputs{
     static constexpr int kFeederBeamBreakPort = 0;
+    static constexpr int kIndexerBeamBreakPort = 1;
 }
 
 namespace ShooterConstants{ //TODO wheel speeds
