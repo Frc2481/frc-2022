@@ -6,6 +6,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "RobotParameters.h"
 #include "commands/ControlMotorWithJoystickCommand.h"
+#include <frc2/command/InstantCommand.h>
 RobotContainer::RobotContainer(): m_driverController(0) {
   
   // Initialize all of your commands and subsystems here
@@ -27,8 +28,8 @@ RobotContainer::RobotContainer(): m_driverController(0) {
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   //TODO Add fireshooter button
-
-  aButton.WhenPressed(ControlMotorWithJoystickCommand(&m_driverController, 3),false);
+  frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
+  aButton.WhenPressed(m_zeroTurret);
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

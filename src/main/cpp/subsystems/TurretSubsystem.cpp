@@ -70,21 +70,29 @@ TurretSubsystem::TurretSubsystem() :
         return (bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0);
     }
     double TurretSubsystem::getTurretAbsoluteAngle(){
-        return (m_ABSPositionSensor->GetValue()/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_TurretABSDegreesPerRotation;
+        return (frc::SmartDashboard::GetNumber("Turret ADC", 0)/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation-360;
+        return (m_ABSPositionSensor->GetValue()/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation-360;
     }
     double TurretSubsystem::getTurretRelativeAngle(){
-        return (m_angle_ticks/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_TurretABSDegreesPerRotation;
+        return (m_angle_ticks/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
     }
     void TurretSubsystem::zeroTurret(){
-        m_angleOffsetTicks = ((getTurretAbsoluteAngle() - getTurretRelativeAngle())/RobotParameters::k_TurretABSDegreesPerRotation)*RobotParameters::k_turretTicksPerRotation;
+        m_angleOffsetTicks = ((getTurretRelativeAngle()) - (getTurretAbsoluteAngle())/(RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio))*RobotParameters::k_turretTicksPerRotation;
     }
 
 
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
     m_angle_ticks = m_turretMotor->GetSelectedSensorPosition(0);
+    frc::SmartDashboard::PutNumber("Turret Position Ticks", m_angle_ticks);
+    frc::SmartDashboard::PutNumber("Turret Angle Offset", m_angleOffsetTicks);
+    frc::SmartDashboard::PutNumber("Turret Absolute Angle",getTurretAbsoluteAngle());
+    frc::SmartDashboard::PutNumber("Turret Relative Angle",getTurretRelativeAngle());
+    frc::SmartDashboard::PutNumber("Turret Calibrated Angle",getTurretAngle());
+
 
     
+
      
 
     m_turretMotor->Config_kP(0,frc::SmartDashboard::GetNumber("TurretP", 0)); 

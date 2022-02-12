@@ -74,7 +74,7 @@ namespace RobotParameters {
     static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
     static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;
     static constexpr double k_turretADCPerRotation = 4096/k_turretABSMaxRotations;
-    static constexpr double k_TurretABSDegreesPerRotation = 720.0/k_turretABSMaxRotations;
+    static constexpr double k_turretABSDegreesPerShaftRotation = 720.0/k_turretABSMaxRotations;
     static constexpr double k_turretTicksPerRotation = 2048*k_turretGearRatio;
     
 
