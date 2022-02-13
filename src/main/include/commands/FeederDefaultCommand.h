@@ -22,8 +22,8 @@
 class FeederDefaultCommand
     : public frc2::CommandHelper<frc2::CommandBase, FeederDefaultCommand> {
       private:
-      FeederSubsystem* m_feeder;
-      IntakeSubsystem* m_intake;
+      FeederSubsystem* m_pFeeder;
+      IntakeSubsystem* m_pIntake;
       bool m_isIntakeOn;
       bool m_ballAtIndexer;
       bool m_ballAtFeeder;
@@ -31,10 +31,10 @@ class FeederDefaultCommand
       
  public:
   FeederDefaultCommand(FeederSubsystem* feeder, IntakeSubsystem* intake){
-    m_feeder = feeder;
-    m_intake = intake;
+    m_pFeeder = feeder;
+    m_pIntake = intake;
     m_isIntakeOn = false;
-    AddRequirements (m_feeder);
+    AddRequirements (m_pFeeder);
   }
 
   void Initialize() override{
@@ -44,12 +44,12 @@ class FeederDefaultCommand
 
   void Execute() override{
     if (m_isIntakeOn){
-      m_feeder->setIndexerSpeed(FeederConstants::kIndexerSpeed);
+      m_pFeeder->setIndexerSpeed(FeederConstants::kIndexerSpeed);
       frc::SmartDashboard::PutBoolean("Indexer Running", true);
       if (m_ballAtFeeder){
-        if (m_feeder->getFeederBeamBreak()){
-         m_feeder->setIndexerSpeed(0.0);
-         m_feeder->setFeederSpeed(0.0);
+        if (m_pFeeder->getFeederBeamBreak()){
+         m_pFeeder->setIndexerSpeed(0.0);
+         m_pFeeder->setFeederSpeed(0.0);
          m_isIntakeOn = false;
          m_timeout.Stop();
          m_ballAtFeeder = false;
@@ -57,24 +57,24 @@ class FeederDefaultCommand
          frc::SmartDashboard::PutBoolean("Indexer Running", false);
         }
         else {
-          m_feeder->setFeederSpeed(FeederConstants::kDefaultFeederSpeed);
+          m_pFeeder->setFeederSpeed(FeederConstants::kDefaultFeederSpeed);
           frc::SmartDashboard::PutBoolean("Feeder Running", true);
         }
       }
       else if ((int)m_timeout.Get() >= 3){//in seconds
-          m_feeder->setIndexerSpeed(0.0);
-          m_feeder->setFeederSpeed(0.0);
+          m_pFeeder->setIndexerSpeed(0.0);
+          m_pFeeder->setFeederSpeed(0.0);
           m_isIntakeOn = false;
           m_timeout.Stop();
           frc::SmartDashboard::PutBoolean("Feeder Running", false);
           frc::SmartDashboard::PutBoolean("Indexer Running", false);
       }
      else {
-       m_ballAtFeeder = m_feeder->getIndexerBeamBreak();
+       m_ballAtFeeder = m_pFeeder->getIndexerBeamBreak();
      } 
     }
     else {
-      m_isIntakeOn = m_intake->isIntakeExtended();
+      m_isIntakeOn = m_pIntake->isIntakeExtended();
       if (m_isIntakeOn){
         m_timeout.Reset();
         m_timeout.Start();
@@ -84,8 +84,8 @@ class FeederDefaultCommand
   }
 
   void End(bool interrupted) override{
-    m_feeder->setIndexerSpeed(0.0);
-    m_feeder->setFeederSpeed(0.0);
+    m_pFeeder->setIndexerSpeed(0.0);
+    m_pFeeder->setFeederSpeed(0.0);
     m_isIntakeOn = false;
     m_timeout.Stop();
           frc::SmartDashboard::PutBoolean("Feeder Running", false);

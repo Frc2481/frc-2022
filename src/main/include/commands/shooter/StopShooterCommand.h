@@ -12,16 +12,16 @@ class StopShooterCommand
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  StopShooterCommand> {
  private:
-  ShooterSubsystem* m_shooter;
+  ShooterSubsystem* m_pShooter;
 
  public:
   StopShooterCommand(ShooterSubsystem* shooter){
-    m_shooter = shooter;
-    AddRequirements(m_shooter);
+    m_pShooter = shooter;
+    AddRequirements(m_pShooter);
   }
 
   void Initialize() override{
     // printf("shooterStopped");
-    m_shooter->stopShooter();
+    m_pShooter->stopShooter();
   }
 };

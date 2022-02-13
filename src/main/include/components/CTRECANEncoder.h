@@ -27,7 +27,7 @@ public:
     int getZero() const;
 
 private:
-    CANCoder* m_CANCoder;
+    CANCoder* m_pCANCoder;
     int m_encoderTicks;
     int m_encoderTicksZero;
     std::string m_calibrationKey;

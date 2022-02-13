@@ -28,5 +28,5 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   bool m_isIntakeExtended;
   double m_rollerSpeed;
   // frc::DoubleSolenoid m_intakeSolenoid;
-  VictorMotorController* m_rollerMotor;
+  VictorMotorController* m_pRollerMotor;
 };

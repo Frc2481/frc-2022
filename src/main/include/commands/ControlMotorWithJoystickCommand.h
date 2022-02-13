@@ -20,18 +20,18 @@
 class ControlMotorWithJoystickCommand
     : public frc2::CommandHelper<frc2::CommandBase, ControlMotorWithJoystickCommand> {
       private: 
-      Joystick2481* m_controller;
+      Joystick2481* m_pController;
       int m_motorID;
-      TalonFXMotorController* m_motor;
+      TalonFXMotorController* m_pMotor;
  public:
   ControlMotorWithJoystickCommand(Joystick2481* controller, int motorID) //Add whatever subsystem we want to control
   
   {
     m_motorID = motorID;
-    m_controller = controller;
-    m_motor = new TalonFXMotorController(m_motorID, "Motor");
-        m_motor->ConfigFactoryDefault();
-        m_motor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
+    m_pController = controller;
+    m_pMotor = new TalonFXMotorController(m_motorID, "Motor");
+        m_pMotor->ConfigFactoryDefault();
+        m_pMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
         // m_turretMotor->SetCon
       //   m_motor->ConfigMotionCruiseVelocity((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS);  //Degrees per second
       //   m_motor->ConfigMotionAcceleration(((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS)*2);
@@ -49,18 +49,18 @@ class ControlMotorWithJoystickCommand
 
   void Execute() override
   {
-    double yleftHand = m_controller->GetRawAxis(1);
+    double yleftHand = m_pController->GetRawAxis(1);
         if(fabs(yleftHand) <=0.075){
           yleftHand = 0.0;
         }
-        m_motor->Set(yleftHand);
+        m_pMotor->Set(yleftHand);
 
         
   }
 
   void End(bool interrupted) override
   {
-    m_motor->Set(0.0);
+    m_pMotor->Set(0.0);
   }
 
   bool IsFinished() override

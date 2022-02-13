@@ -13,12 +13,12 @@ FeederSubsystem::FeederSubsystem() :
     m_feederBeamBreak(DigitalInputs::kFeederBeamBreakPort),
    m_indexerBeamBreak(DigitalInputs::kIndexerBeamBreakPort)
    {
-       m_feederMotor = new VictorMotorController(VictorIDs::kFeederMotorID, "feederMotor");
-       m_feederMotor->ConfigFactoryDefault();
-       m_feederMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
-       m_indexerMotor = new VictorMotorController(VictorIDs::kIndexerMotorID, "indexerMotor");
-       m_indexerMotor->ConfigFactoryDefault();
-       m_indexerMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+       m_pFeederMotor = new VictorMotorController(VictorIDs::kFeederMotorID, "feederMotor");
+       m_pFeederMotor->ConfigFactoryDefault();
+       m_pFeederMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+       m_pIndexerMotor = new VictorMotorController(VictorIDs::kIndexerMotorID, "indexerMotor");
+       m_pIndexerMotor->ConfigFactoryDefault();
+       m_pIndexerMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
    }
 
    bool FeederSubsystem::isFeederRunning(){
@@ -28,11 +28,11 @@ FeederSubsystem::FeederSubsystem() :
        return m_isIndexerRunning;
    }
    void FeederSubsystem::setFeederSpeed(double speed){
-        m_feederMotor->Set(speed);
+        m_pFeederMotor->Set(speed);
         m_isFeederRunning = speed;
    }
    void FeederSubsystem::setIndexerSpeed(double speed){
-        m_indexerMotor->Set(speed);
+        m_pIndexerMotor->Set(speed);
         m_isIndexerRunning = speed;
    }
    bool FeederSubsystem::getFeederBeamBreak(){

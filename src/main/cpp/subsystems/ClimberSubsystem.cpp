@@ -11,38 +11,38 @@ m_rightWheelsSpeed(0),
 m_areLeftWheelsExtended(false),
 m_areRightWheelsExtended(false),
 m_isJavelinExtended(false),
-m_leftSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kLeftClimberSolenoidPort,SolenoidPorts::kLeftClimberSolenoidReversePort),
-m_rightSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kRightClimberSolenoidPort,SolenoidPorts::kRightClimberSolenoidReversePort),
-m_javelinSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kJavelinSolenoidPort)
+m_pLeftSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kLeftClimberSolenoidPort,SolenoidPorts::kLeftClimberSolenoidReversePort),
+m_pRightSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kRightClimberSolenoidPort,SolenoidPorts::kRightClimberSolenoidReversePort),
+m_pJavelinSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kJavelinSolenoidPort)
 {
-    m_leftMotor = new TalonFXMotorController(FalconIDs::kLeftClimberMotorID, "leftClimberMotor");
-    m_rightMotor = new TalonFXMotorController(FalconIDs::kRightClimberMotorID, "rightClimberMotorMotor");
+    m_pLeftMotor = new TalonFXMotorController(FalconIDs::kLeftClimberMotorID, "leftClimberMotor");
+    m_pRightMotor = new TalonFXMotorController(FalconIDs::kRightClimberMotorID, "rightClimberMotorMotor");
 }
 
 void ClimberSubsystem::extendLeftWheels(){
-    m_leftSolenoid.Set(m_leftSolenoid.kForward);
+    m_pLeftSolenoid.Set(m_pLeftSolenoid.kForward);
     m_areLeftWheelsExtended = true;
 }
 void ClimberSubsystem::extendRightWheels(){
-    m_rightSolenoid.Set(m_rightSolenoid.kForward);
+    m_pRightSolenoid.Set(m_pRightSolenoid.kForward);
     m_areRightWheelsExtended = true;
 
 }
 void ClimberSubsystem::retractLeftWheels(){
-    m_leftSolenoid.Set(m_leftSolenoid.kReverse);
+    m_pLeftSolenoid.Set(m_pLeftSolenoid.kReverse);
     m_areLeftWheelsExtended = false;
 }
 void ClimberSubsystem::retractRightWheels(){
-    m_rightSolenoid.Set(m_rightSolenoid.kReverse);
+    m_pRightSolenoid.Set(m_pRightSolenoid.kReverse);
     m_areRightWheelsExtended = true;
 }
 void ClimberSubsystem::setLeftWheelsSpeed(double speed){
   m_leftWheelsSpeed = speed;
-  m_leftMotor->Set(speed);
+  m_pLeftMotor->Set(speed);
 }
 void ClimberSubsystem::setRightWheelsSpeed(double speed){
   m_rightWheelsSpeed = speed;
-  m_rightMotor->Set(speed);
+  m_pRightMotor->Set(speed);
 }
 double ClimberSubsystem::getRightWheelSpeed(){
   return m_rightWheelsSpeed;
@@ -51,11 +51,11 @@ double ClimberSubsystem::getLeftWheelSpeed(){
   return m_leftWheelsSpeed;
 }
 void ClimberSubsystem::fireJavelin(){
-  m_javelinSolenoid.Set(true);
+  m_pJavelinSolenoid.Set(true);
   m_isJavelinExtended = true;
 }
 void ClimberSubsystem::retractJavelin(){
-  m_javelinSolenoid.Set(false);
+  m_pJavelinSolenoid.Set(false);
   m_isJavelinExtended = false;
 }
 bool ClimberSubsystem::areLeftWheelsExtended(){

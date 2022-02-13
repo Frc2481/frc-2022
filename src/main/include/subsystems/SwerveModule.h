@@ -58,10 +58,10 @@ class SwerveModule {
           units::unit_t<radians_per_second_squared_t>(
               wpi::numbers::pi * 2.0 * 12.0);  // radians per second squared
 
-  TalonFXMotorController* m_driveMotor;
-  VictorMotorController* m_turningMotor;
-  CTRECANEncoder* m_turningEncoder;
-  MotorPositionController* m_turningMotorController;
+  TalonFXMotorController* m_pDriveMotor;
+  VictorMotorController* m_pTurningMotor;
+  CTRECANEncoder* m_pTurningEncoder;
+  MotorPositionController* m_pTurningMotorController;
 
   bool m_reverseDriveEncoder;
   bool m_reverseTurningEncoder;

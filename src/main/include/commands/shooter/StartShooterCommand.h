@@ -19,21 +19,21 @@
 class StartShooterCommand
     : public frc2::CommandHelper<frc2::CommandBase, StartShooterCommand> {
  private:
- ShooterSubsystem* m_shooter;
- TurretSubsystem* m_turret;
+ ShooterSubsystem* m_pShooter;
+ TurretSubsystem* m_pTurret;
 
  public:
   StartShooterCommand(ShooterSubsystem* shooter, TurretSubsystem* turret){
-    m_shooter = shooter;
-    m_turret = turret;
-    AddRequirements(m_shooter);
-    AddRequirements(m_turret);
+    m_pShooter = shooter;
+    m_pTurret = turret;
+    AddRequirements(m_pShooter);
+    AddRequirements(m_pTurret);
   }
 
   void Initialize() override{}
 
   void Execute() override{
-        m_shooter->startShooter(m_turret->getDistance());
+        m_pShooter->startShooter(m_pTurret->getDistance());
   }
 
   void End(bool interrupted) override{}

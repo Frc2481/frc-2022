@@ -42,5 +42,5 @@ class TurretSubsystem : public frc2::SubsystemBase {
   frc::AnalogInput* m_ABSPositionSensor;
   
 
-  TalonFXMotorController* m_turretMotor;
+  TalonFXMotorController* m_pTurretMotor;
 };

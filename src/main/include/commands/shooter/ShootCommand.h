@@ -19,22 +19,22 @@
 class ShootCommand
     : public frc2::CommandHelper<frc2::CommandBase, ShootCommand> {
  private:
- FeederSubsystem* m_feeder;
+ FeederSubsystem* m_pFeeder;
 
  public:
   ShootCommand(FeederSubsystem* feeder){
-    m_feeder = feeder;
+    m_pFeeder = feeder;
     AddRequirements(m_feeder);
   }
 
   void Initialize() override{
-    m_feeder->shootBall();
+    m_pFeeder->shootBall();
   }
 
   void Execute() override{}
 
   void End(bool interrupted) override{
-    m_feeder->stopShooter();
+    m_pFeeder->stopShooter();
   }
 
   bool IsFinished() override{

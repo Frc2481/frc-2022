@@ -34,8 +34,8 @@ class FeederSubsystem : public frc2::SubsystemBase {
   // declared private and exposed only through public methods.
   bool m_isFeederRunning;
   bool m_isIndexerRunning;
-  VictorMotorController* m_feederMotor;
-  VictorMotorController* m_indexerMotor;
+  VictorMotorController* m_pFeederMotor;
+  VictorMotorController* m_pIndexerMotor;
   frc::DigitalInput m_feederBeamBreak;
   frc::DigitalInput m_indexerBeamBreak;
 

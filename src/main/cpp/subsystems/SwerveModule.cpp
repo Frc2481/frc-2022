@@ -28,19 +28,19 @@ SwerveModule::SwerveModule(int driveMotorID, int turningMotorID, int turnEncoder
                            bool turningEncoderReversed, const std::string &name) :m_reverseDriveEncoder(driveEncoderReversed),
       m_reverseTurningEncoder(turningEncoderReversed),  
       m_name(name){
-      m_driveMotor = new TalonFXMotorController(driveMotorID, name);
-      m_turningMotor = new VictorMotorController(turningMotorID, m_name);
-      m_turningMotor->ConfigFactoryDefault();
-      m_turningEncoder = new CTRECANEncoder(turnEncoderID, name);
-      m_driveMotor->SetVelocityConversionFactor(RobotParameters::k_driveMotorEncoderTicksToMPS); // (1 rev / 5 v) * .16 m/rev
-      m_driveMotor->ConfigFactoryDefault();
-      m_driveMotor->SetInverted(driveEncoderReversed);
-      m_driveMotor->Config_kP(0, 0.1);//.07
-      m_driveMotor->Config_kI(0, 0);
-      m_driveMotor->Config_kD(0, 0);//.035
-      m_driveMotor->Config_kF(0, 1023/(RobotParameters::k_maxSpeed/RobotParameters::k_driveMotorEncoderTicksToMPS));
-      m_driveMotor->Config_IntegralZone(0, 0);
-      m_driveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+      m_pDriveMotor = new TalonFXMotorController(driveMotorID, name);
+      m_pTurningMotor = new VictorMotorController(turningMotorID, m_name);
+      m_pTurningMotor->ConfigFactoryDefault();
+      m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
+      m_pDriveMotor->SetVelocityConversionFactor(RobotParameters::k_driveMotorEncoderTicksToMPS); // (1 rev / 5 v) * .16 m/rev
+      m_pDriveMotor->ConfigFactoryDefault();
+      m_pDriveMotor->SetInverted(driveEncoderReversed);
+      m_pDriveMotor->Config_kP(0, 0.1);//.07
+      m_pDriveMotor->Config_kI(0, 0);
+      m_pDriveMotor->Config_kD(0, 0);//.035
+      m_pDriveMotor->Config_kF(0, 1023/(RobotParameters::k_maxSpeed/RobotParameters::k_driveMotorEncoderTicksToMPS));
+      m_pDriveMotor->Config_IntegralZone(0, 0);
+      m_pDriveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
   // // Set the distance per pulse for the drive encoder. We can simply use the
   // // distance traveled for one rotation of the wheel divided by the encoder
   // // resolution.
@@ -61,9 +61,9 @@ SwerveModule::SwerveModule(int driveMotorID, int turningMotorID, int turnEncoder
   
 	
 
-	m_turningMotorController = new MotorPositionController(
-		m_turningMotor,
-		m_turningEncoder,
+	m_pTurningMotorController = new MotorPositionController(
+		m_pTurningMotor,
+		m_pTurningEncoder,
 		false,
 		m_reverseTurningEncoder,
 		RobotParameters::k_steerMotorControllerKp,
@@ -79,18 +79,18 @@ SwerveModule::SwerveModule(int driveMotorID, int turningMotorID, int turnEncoder
 }
 
 frc::SwerveModuleState SwerveModule::GetState() {
-  return {units::meters_per_second_t{m_driveMotor->GetVelocity()},//MATH_CONSTANTS_PI
-          frc::Rotation2d(units::degree_t(m_turningEncoder->getAngle()))};
+  return {units::meters_per_second_t{m_pDriveMotor->GetVelocity()},//MATH_CONSTANTS_PI
+          frc::Rotation2d(units::degree_t(m_pTurningEncoder->getAngle()))};
 }
 
 void SwerveModule::SetDesiredState(frc::SwerveModuleState& state, bool percentMode) {
-  m_turningEncoder->update();
+  m_pTurningEncoder->update();
   
   // Calculate the drive output from the drive PID controller.
   // const auto driveOutput = m_drivePIDController.Calculate(
   //     m_driveMotor->GetEncoder().GetVelocity(), state.speed.to<double>());
 
-  float currentAngle = units::degree_t(m_turningEncoder->getAngle()).to<double>();
+  float currentAngle = units::degree_t(m_pTurningEncoder->getAngle()).to<double>();
   float driveMotorRPM = state.speed.to<double>();///RobotParameters::k_driveMotorEncoderRPMToMPS;
   float desiredAngle = state.angle.Degrees().to<double>();
 
@@ -109,8 +109,8 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state, bool percentMo
   // printf("\nC A: %f\n", currentAngle); //TODO: Remove these printfs once turn issue fixed
   // printf("\nD A: %f\n", desiredAngle);
 frc::SmartDashboard::PutNumber("driveMotorVelpreLogic",driveMotorRPM);
-frc::SmartDashboard::PutNumber(m_name, m_turningEncoder->getAngle());
-frc::SmartDashboard::PutNumber(m_name + " drive", m_driveMotor->GetVelocity());
+frc::SmartDashboard::PutNumber(m_name, m_pTurningEncoder->getAngle());
+frc::SmartDashboard::PutNumber(m_name + " drive", m_pDriveMotor->GetVelocity());
   if(fabs(normalizeToRange::RangedDifference(currentAngle - desiredAngle, -180, 180)) > 90){//used to be 90
     desiredAngle = normalizeToRange::NormalizeToRange(desiredAngle+180, -180, 180, true);
     driveMotorRPM = driveMotorRPM * -1;
@@ -126,20 +126,20 @@ frc::SmartDashboard::PutNumber(m_name + " desiredAngle", desiredAngle);
   // printf("\nUpdated Desired Speed: %f\n", driveMotorRPM);
 
   // Set the motor outputs.
-  if(fabs((m_driveMotor->GetVelocity())  <= RobotParameters::k_driveWheelSlotError && driveMotorRPM == 0.0) || percentMode){
-    m_driveMotor->Set(driveMotorRPM); 
+  if(fabs((m_pDriveMotor->GetVelocity())  <= RobotParameters::k_driveWheelSlotError && driveMotorRPM == 0.0) || percentMode){
+    m_pDriveMotor->Set(driveMotorRPM); 
   }else{
-    m_driveMotor->Set(CommonModes::Velocity, driveMotorRPM);
+    m_pDriveMotor->Set(CommonModes::Velocity, driveMotorRPM);
   }
   frc::SmartDashboard::PutNumber("driveMotorVelfinal",driveMotorRPM);
   // m_turningMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, turnOutput);
 
-  m_turningMotorController->updateAngular(desiredAngle, 0, 0);
+  m_pTurningMotorController->updateAngular(desiredAngle, 0, 0);
 }
 
 void SwerveModule::ResetEncoders() {
-  m_driveMotor->SetEncoderPosition(0);
-  m_turningEncoder->zero();
+  m_pDriveMotor->SetEncoderPosition(0);
+  m_pTurningEncoder->zero();
 
 }
 
@@ -154,22 +154,22 @@ void SwerveModule::updateSteerPID(double p, double i, double d){
 void SwerveModule::updateDrivePID(double p, double i, double d, double f){
   // printf("Drive P: %0.1f, I: %0.1f, D: %0.1f", p, i, d);
   // m_drivePIDController.SetPID(p, i, d);
-  m_driveMotor->Config_kP(0,p);
-  m_driveMotor->Config_kI(0,i);
-  m_driveMotor->Config_kD(0,d);
-  m_driveMotor->Config_kF(0,f);
+  m_pDriveMotor->Config_kP(0,p);
+  m_pDriveMotor->Config_kI(0,i);
+  m_pDriveMotor->Config_kD(0,d);
+  m_pDriveMotor->Config_kF(0,f);
 }
 void SwerveModule::setCoast(){
-  m_driveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
+  m_pDriveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
 }
 
 void SwerveModule::setBrake(){
-  m_driveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+  m_pDriveMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
 }
 
 void SwerveModule::DriveArc(double arcLength, double wheelAngle){
-  m_turningMotorController->updateAngular(wheelAngle, 0, 0);
-  m_driveMotor->ConfigMotionCruiseVelocity((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS);
-  m_driveMotor->ConfigMotionAcceleration(((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS)*2);
-  m_driveMotor->Set(CommonModes::MotionMagic, m_driveMotor->GetPos() + arcLength/RobotParameters::k_driveMotorEncoderTicksToMeters);
+  m_pTurningMotorController->updateAngular(wheelAngle, 0, 0);
+  m_pDriveMotor->ConfigMotionCruiseVelocity((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS);
+  m_pDriveMotor->ConfigMotionAcceleration(((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS)*2);
+  m_pDriveMotor->Set(CommonModes::MotionMagic, m_pDriveMotor->GetPos() + arcLength/RobotParameters::k_driveMotorEncoderTicksToMeters);
 }

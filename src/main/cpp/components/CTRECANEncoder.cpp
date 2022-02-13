@@ -6,7 +6,7 @@
 
 CTRECANEncoder::CTRECANEncoder(int CANID, const std::string &name)
 	:
-    m_CANCoder(new CANCoder(CANID)),
+    m_pCANCoder(new CANCoder(CANID)),
     m_encoderTicks(0),
     m_encoderTicksZero(0)
      {
@@ -25,11 +25,11 @@ CTRECANEncoder::~CTRECANEncoder() {
 }
 
 void CTRECANEncoder::update() {
-    m_encoderTicks = m_CANCoder->GetPosition();
+    m_encoderTicks = m_pCANCoder->GetPosition();
 }
 
 void CTRECANEncoder::zero() {
-    m_encoderTicksZero = m_CANCoder->GetPosition();
+    m_encoderTicksZero = m_pCANCoder->GetPosition();
     while(m_encoderTicksZero < 0){
         printf(" m_endoderTicks: %d\n", m_encoderTicksZero);
         m_encoderTicksZero += 4096;

@@ -19,17 +19,17 @@ TurretSubsystem::TurretSubsystem() :
 
     {
         m_ABSPositionSensor = new frc::AnalogInput(0);
-        m_turretMotor = new TalonFXMotorController(FalconIDs::kturretMotorID, "turretMotor");
-        m_turretMotor->ConfigFactoryDefault();
+        m_pTurretMotor = new TalonFXMotorController(FalconIDs::kturretMotorID, "turretMotor");
+        m_pTurretMotor->ConfigFactoryDefault();
         // m_turretMotor->SetCon
-        m_turretMotor->ConfigMotionCruiseVelocity((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS);  //Degrees per second
-        m_turretMotor->ConfigMotionAcceleration(((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS)*2);
-        m_turretMotor->Config_kP(0, RobotParameters::k_shooterP); //do we need PIDF for turret motor?
-       m_turretMotor->Config_kI(0,RobotParameters::k_shooterI);
-       m_turretMotor->Config_kD(0,RobotParameters::k_shooterD);
-       m_turretMotor->Config_kF(0,RobotParameters::k_shooterF);
-       m_turretMotor->Config_IntegralZone(0,25); //TODO correct values
-       m_turretMotor->SetSensorPhase(true);
+        m_pTurretMotor->ConfigMotionCruiseVelocity((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS);  //Degrees per second
+        m_pTurretMotor->ConfigMotionAcceleration(((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS)*2);
+        m_pTurretMotor->Config_kP(0, RobotParameters::k_shooterP); //do we need PIDF for turret motor?
+       m_pTurretMotor->Config_kI(0,RobotParameters::k_shooterI);
+       m_pTurretMotor->Config_kD(0,RobotParameters::k_shooterD);
+       m_pTurretMotor->Config_kF(0,RobotParameters::k_shooterF);
+       m_pTurretMotor->Config_IntegralZone(0,25); //TODO correct values
+       m_pTurretMotor->SetSensorPhase(true);
        frc::SmartDashboard::PutNumber("Turret ADC", 0);
 
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
@@ -62,7 +62,7 @@ TurretSubsystem::TurretSubsystem() :
     
         frc::SmartDashboard::PutNumber("Diff", diff);
      
-      m_turretMotor->Set(CommonModes::MotionMagic, angle); //m_angle_ticks + ( diff)/RobotParameters::k_turretEncoderTicksToDegrees);
+      m_pTurretMotor->Set(CommonModes::MotionMagic, angle); //m_angle_ticks + ( diff)/RobotParameters::k_turretEncoderTicksToDegrees);
     }
 
     bool TurretSubsystem::isTargetVisible(){
@@ -83,7 +83,7 @@ TurretSubsystem::TurretSubsystem() :
 
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
-    m_angle_ticks = m_turretMotor->GetSelectedSensorPosition(0);
+    m_angle_ticks = m_pTurretMotor->GetSelectedSensorPosition(0);
     frc::SmartDashboard::PutNumber("Turret Position Ticks", m_angle_ticks);
     frc::SmartDashboard::PutNumber("Turret Angle Offset", m_angleOffsetTicks);
     frc::SmartDashboard::PutNumber("Turret Absolute Angle",getTurretAbsoluteAngle());
@@ -95,8 +95,8 @@ void TurretSubsystem::Periodic() {
 
      
 
-    m_turretMotor->Config_kP(0,frc::SmartDashboard::GetNumber("TurretP", 0)); 
-    m_turretMotor->Config_kI(0,frc::SmartDashboard::GetNumber("TurretI", 0));
-    m_turretMotor->Config_kD(0,frc::SmartDashboard::GetNumber("TurretD", 0));
-    m_turretMotor->Config_kF(0,frc::SmartDashboard::GetNumber("TurretF", 0));
+    m_pTurretMotor->Config_kP(0,frc::SmartDashboard::GetNumber("TurretP", 0)); 
+    m_pTurretMotor->Config_kI(0,frc::SmartDashboard::GetNumber("TurretI", 0));
+    m_pTurretMotor->Config_kD(0,frc::SmartDashboard::GetNumber("TurretD", 0));
+    m_pTurretMotor->Config_kF(0,frc::SmartDashboard::GetNumber("TurretF", 0));
 }

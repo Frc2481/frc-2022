@@ -14,15 +14,15 @@ class ExtendIntakeCommand
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  ExtendIntakeCommand> {
  private:
- IntakeSubsystem* m_intake;
+ IntakeSubsystem* m_pIntake;
  public:
   ExtendIntakeCommand(IntakeSubsystem* intake){
-    m_intake = intake;
+    m_pIntake = intake;
     // AddRequirements(m_intake);
   }
   void Initialize() override{
-    m_intake->extendIntake();
-    m_intake->setRollerSpeed(IntakeConstants::kDefaultIntakeRollerSpeed);
+    m_pIntake->extendIntake();
+    m_pIntake->setRollerSpeed(IntakeConstants::kDefaultIntakeRollerSpeed);
     frc::SmartDashboard::PutBoolean("Intake Extended", true);
   }
 };
