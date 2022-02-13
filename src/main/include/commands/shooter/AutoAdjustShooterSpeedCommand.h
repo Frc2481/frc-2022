@@ -16,18 +16,17 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class StartShooterCommand
-    : public frc2::CommandHelper<frc2::CommandBase, StartShooterCommand> {
+class AutoAdjustShooterSpeedCommand
+    : public frc2::CommandHelper<frc2::CommandBase, AutoAdjustShooterSpeedCommand> {
  private:
  ShooterSubsystem* m_pShooter;
  TurretSubsystem* m_pTurret;
 
  public:
-  StartShooterCommand(ShooterSubsystem* shooter, TurretSubsystem* turret){
+  AutoAdjustShooterSpeedCommand(ShooterSubsystem* shooter, TurretSubsystem* turret){
     m_pShooter = shooter;
     m_pTurret = turret;
     AddRequirements(m_pShooter);
-    AddRequirements(m_pTurret);
   }
 
   void Initialize() override{}

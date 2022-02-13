@@ -6,12 +6,18 @@
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/InstantCommand.h>
+#include "subsystems/ClimberSubsystem.h"
 
 class FireJavelinCommand
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  FireJavelinCommand> {
+ private:
+      ClimberSubsystem* m_pClimber;                            
  public:
-  FireJavelinCommand();
-
-  void Initialize() override;
+  FireJavelinCommand(ClimberSubsystem* climber){
+    m_pClimber = climber;
+  }
+  void Initialize() override{
+    m_pClimber->fireJavelin();
+  }
 };

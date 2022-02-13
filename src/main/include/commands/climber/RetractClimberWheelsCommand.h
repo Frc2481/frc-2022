@@ -6,12 +6,21 @@
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/InstantCommand.h>
+#include "subsystems/ClimberSubsystem.h"
 
 class ExtendClimberWheelsCommand
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  ExtendClimberWheelsCommand> {
+  private:
+   ClimberSubsystem* m_pClimber;                     
  public:
-  ExtendClimberWheelsCommand();
+  ExtendClimberWheelsCommand(ClimberSubsystem* climber){
+    m_pClimber = climber;
 
-  void Initialize() override;
+  }
+
+  void Initialize() override{
+    m_pClimber->retractLeftWheels();
+    m_pClimber->retractRightWheels();
+  }
 };

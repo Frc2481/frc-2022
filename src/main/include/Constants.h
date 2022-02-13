@@ -93,6 +93,7 @@ constexpr bool kRearRightDriveEncoderReversed = true;
 constexpr bool kRearMiddleDriveEncoderReversed = true;
 
 constexpr bool kGyroReversed = true;
+constexpr units::meters_per_second_t kDriveClimbSpeed = 0.5_mps;
 
 }  // namespace DriveConstants
 
@@ -185,3 +186,7 @@ namespace LimelightConstants{
     
 }
 
+namespace ClimberConstants{
+    static constexpr double kLeftWheelSpeed = 100;
+    static constexpr double kRightWheelSpeed = 100;
+}

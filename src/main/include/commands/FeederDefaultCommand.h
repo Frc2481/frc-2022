@@ -25,8 +25,7 @@ class FeederDefaultCommand
       FeederSubsystem* m_pFeeder;
       IntakeSubsystem* m_pIntake;
       bool m_isIntakeOn;
-      bool m_ballAtIndexer;
-      bool m_ballAtFeeder;
+      bool m_ballInIndexer;
       frc::Timer m_timeout;
       
  public:
@@ -46,13 +45,13 @@ class FeederDefaultCommand
     if (m_isIntakeOn){
       m_pFeeder->setIndexerSpeed(FeederConstants::kIndexerSpeed);
       frc::SmartDashboard::PutBoolean("Indexer Running", true);
-      if (m_ballAtFeeder){
+      if (m_ballInIndexer){
         if (m_pFeeder->getFeederBeamBreak()){
          m_pFeeder->setIndexerSpeed(0.0);
          m_pFeeder->setFeederSpeed(0.0);
          m_isIntakeOn = false;
          m_timeout.Stop();
-         m_ballAtFeeder = false;
+         m_ballInIndexer = false;
          frc::SmartDashboard::PutBoolean("Feeder Running", false);
          frc::SmartDashboard::PutBoolean("Indexer Running", false);
         }
@@ -70,7 +69,7 @@ class FeederDefaultCommand
           frc::SmartDashboard::PutBoolean("Indexer Running", false);
       }
      else {
-       m_ballAtFeeder = m_pFeeder->getIndexerBeamBreak();
+       m_ballInIndexer = m_pFeeder->getIndexerBeamBreak();
      } 
     }
     else {

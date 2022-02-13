@@ -8,6 +8,7 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/FeederSubsystem.h"
+#include "Constants.h"
 
 /**
  * An example command.
@@ -24,17 +25,17 @@ class ShootCommand
  public:
   ShootCommand(FeederSubsystem* feeder){
     m_pFeeder = feeder;
-    AddRequirements(m_feeder);
+    AddRequirements(m_pFeeder);
   }
 
   void Initialize() override{
-    m_pFeeder->shootBall();
+    m_pFeeder->setFeederSpeed(FeederConstants::kShootingSpeed);
   }
 
   void Execute() override{}
 
   void End(bool interrupted) override{
-    m_pFeeder->stopShooter();
+    m_pFeeder->setFeederSpeed(0);
   }
 
   bool IsFinished() override{
