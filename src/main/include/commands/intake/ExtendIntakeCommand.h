@@ -18,7 +18,7 @@ class ExtendIntakeCommand
  public:
   ExtendIntakeCommand(IntakeSubsystem* intake){
     m_pIntake = intake;
-    // AddRequirements(m_intake);
+    AddRequirements(m_pIntake);
   }
   void Initialize() override{
     m_pIntake->extendIntake();

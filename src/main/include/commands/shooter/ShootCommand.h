@@ -30,12 +30,14 @@ class ShootCommand
 
   void Initialize() override{
     m_pFeeder->setFeederSpeed(FeederConstants::kShootingSpeed);
+    m_pFeeder->setIndexerSpeed(FeederConstants::kShootingIndexerSpeed);
   }
 
   void Execute() override{}
 
   void End(bool interrupted) override{
     m_pFeeder->setFeederSpeed(0);
+    m_pFeeder->setIndexerSpeed(0);
   }
 
   bool IsFinished() override{

@@ -165,6 +165,7 @@ namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = 10.0;
     static constexpr double kShootingSpeed = 10.0;
     static constexpr double kIndexerSpeed = 10.0;
+    static constexpr double kShootingIndexerSpeed = 10.0;
 }
 
 namespace DigitalInputs{
@@ -190,3 +191,4 @@ namespace ClimberConstants{
     static constexpr double kLeftWheelSpeed = 100;
     static constexpr double kRightWheelSpeed = 100;
 }
+

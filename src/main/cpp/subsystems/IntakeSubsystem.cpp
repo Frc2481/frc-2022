@@ -7,8 +7,8 @@
 
 IntakeSubsystem::IntakeSubsystem() :
 m_isIntakeExtended(false),
-m_rollerSpeed(0)
-// m_intakeSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort)
+m_rollerSpeed(0),
+ m_intakeSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort)
 {
     m_pRollerMotor = new VictorMotorController(VictorIDs::kIntakeRollerMotorID, "RollerMotor");
 }
@@ -19,12 +19,12 @@ void IntakeSubsystem::setRollerSpeed(double speed){
 }
 
 void IntakeSubsystem::extendIntake(){
-    // m_intakeSolenoid.Set(m_intakeSolenoid.kForward);
+    m_intakeSolenoid.Set(m_intakeSolenoid.kForward);
     m_isIntakeExtended = true;
 }
 
 void IntakeSubsystem::retractIntake(){
-    // m_intakeSolenoid.Set(m_intakeSolenoid.kReverse);
+    m_intakeSolenoid.Set(m_intakeSolenoid.kReverse);
     m_isIntakeExtended = false;
 }
 

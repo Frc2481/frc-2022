@@ -27,6 +27,6 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   // declared private and exposed only through public methods.
   bool m_isIntakeExtended;
   double m_rollerSpeed;
-  // frc::DoubleSolenoid m_intakeSolenoid;
+  frc::DoubleSolenoid m_intakeSolenoid;
   VictorMotorController* m_pRollerMotor;
 };
