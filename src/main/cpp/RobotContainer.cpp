@@ -7,6 +7,7 @@
 #include "RobotParameters.h"
 #include "commands/ControlMotorWithJoystickCommand.h"
 #include <frc2/command/InstantCommand.h>
+#include "commands/Drive/DriveWithJoystickCommand.h"
 #include "commands/intake/ExtendIntakeCommand.h"
 #include "commands/intake/RetractIntakeCommand.h"
 #include "commands/FeederDefaultCommand.h"
@@ -29,9 +30,28 @@ RobotContainer::RobotContainer(): m_driverController(0) {
   frc::SmartDashboard::PutBoolean("Feeder Beam Break", false);
   frc::SmartDashboard::PutBoolean("Indexer Beam Break", false);
 
+  m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
 
+class InstantDisabledCommand : public frc2::InstantCommand {
+public:
+
+  InstantDisabledCommand(std::function<void()> toRun,
+                 std::initializer_list<frc2::Subsystem*> requirements = {}) : frc2::InstantCommand(toRun, requirements) {} 
+
+  virtual bool RunsWhenDisabled() const override {
+    return true;
+  }
+};
+
 void RobotContainer::ConfigureButtonBindings() {
+  frc::SmartDashboard::PutData("Zero Steer Encoders", new InstantDisabledCommand([this](){
+    m_driveSubsystem.ResetEncoders();
+  }));
+
+  frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this](){
+    m_driveSubsystem.ResetOdometry(frc::Pose2d());
+  }));
   // Configure your button bindings here
   //TODO Add fireshooter button
   frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
@@ -39,6 +59,8 @@ void RobotContainer::ConfigureButtonBindings() {
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem)); 
   bButton.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
   bButton.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
+
+  
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
