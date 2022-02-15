@@ -10,7 +10,7 @@
 #include <frc/geometry/Rotation2d.h>
 #include <wpi/numbers>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include "Constants.h"
+#include "RobotParameters.h"
 #include "components/MotorPositionController.h"
 #include "Utils/MathConstants.h"
 #include "Utils/NormalizeToRange.h"

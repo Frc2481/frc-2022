@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/ShooterSubsystem.h"
-#include "Constants.h"
 #include "RobotParameters.h"
 #include "utils/Interpolate.h"
 

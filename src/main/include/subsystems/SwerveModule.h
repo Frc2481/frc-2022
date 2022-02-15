@@ -18,10 +18,9 @@
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <wpi/numbers>
 
-#include "Constants.h"
+#include "RobotParameters.h"
 #include "components/CTRECANEncoder.h"
 #include "components/MotorPositionController.h"
-#include "RobotParameters.h"
 #include "components/CommonMotorController.h"
 #include "components/VictorMotorController.h"
 #include "components/TalonFXMotorController.h"

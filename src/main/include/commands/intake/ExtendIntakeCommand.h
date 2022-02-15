@@ -7,7 +7,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/InstantCommand.h>
 #include "subsystems/IntakeSubsystem.h"
-#include "constants.h"
+#include "RobotParameters.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
 class ExtendIntakeCommand

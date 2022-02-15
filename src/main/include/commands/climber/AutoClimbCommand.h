@@ -20,7 +20,7 @@
 #include "commands/climber/StartClimberWheelsReverseCommand.h"
 #include "commands/climber/StopClimberWheelsCommand.h"
 #include "commands/drive/DriveOpenLoopCommand.h"
-#include "Constants.h"
+#include "RobotParameters.h"
 class AutoClimbCommand
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  AutoClimbCommand> {

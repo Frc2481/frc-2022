@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "subsystems/ClimberSubsystem.h"
-#include "Constants.h"
+#include "RobotParameters.h"
 
 ClimberSubsystem::ClimberSubsystem() :
 m_leftWheelsSpeed(0),
