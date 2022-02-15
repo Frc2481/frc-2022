@@ -11,9 +11,9 @@ m_rightWheelsSpeed(0),
 m_areLeftWheelsExtended(false),
 m_areRightWheelsExtended(false),
 m_isJavelinExtended(false),
-m_pLeftSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kLeftClimberSolenoidPort,SolenoidPorts::kLeftClimberSolenoidReversePort),
-m_pRightSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kRightClimberSolenoidPort,SolenoidPorts::kRightClimberSolenoidReversePort),
-m_pJavelinSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kJavelinSolenoidPort)
+m_pLeftSolenoid(frc::PneumaticsModuleType::REVPH, SolenoidPorts::kLeftClimberSolenoidPort,SolenoidPorts::kLeftClimberSolenoidReversePort),
+m_pRightSolenoid(frc::PneumaticsModuleType::REVPH, SolenoidPorts::kRightClimberSolenoidPort,SolenoidPorts::kRightClimberSolenoidReversePort),
+m_pJavelinSolenoid(frc::PneumaticsModuleType::REVPH, SolenoidPorts::kJavelinSolenoidPort)
 {
     m_pLeftMotor = new TalonFXMotorController(FalconIDs::kLeftClimberMotorID, "leftClimberMotor");
     m_pRightMotor = new TalonFXMotorController(FalconIDs::kRightClimberMotorID, "rightClimberMotorMotor");

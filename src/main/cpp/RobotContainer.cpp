@@ -34,11 +34,25 @@ RobotContainer::RobotContainer(): m_driverController(0) {
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   //TODO Add fireshooter button
-  frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
-  aButton.WhenPressed(m_zeroTurret);
+
+  // ClimberSubsystem Commands
+
+  // DriveSubsystem Commands
+
+  // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem)); 
-  bButton.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
-  bButton.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
+  
+  // IntakeSubsystem Commands
+  m_bButtonDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
+  m_bButtonDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
+  
+  // ShooterSubsystem Commands
+  
+  // TurretSubsystem Commands
+  frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
+  m_aButtonDriver.WhenPressed(m_zeroTurret);
+
+  
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

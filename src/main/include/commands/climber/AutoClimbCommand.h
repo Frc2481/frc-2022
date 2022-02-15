@@ -40,8 +40,8 @@ class AutoClimbCommand
         frc2::ParallelRaceGroup{
           StartClimberWheelsCommand(m_pClimber),
           DriveOpenLoopCommand(m_pDrive, DriveConstants::kDriveClimbSpeed, 0_mps, 0_rad_per_s, false),
-          frc2::WaitCommand(3_s)
-        }
+        },
+        frc2::WaitCommand(3_s)
       }
     );
   }
