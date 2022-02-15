@@ -178,9 +178,9 @@ namespace ShooterConstants{ //TODO wheel speeds
 }
 
 namespace LimelightConstants{
-    static constexpr double kTargetHeight = 103; //inches
-    static constexpr double kLimelightHeight = 37; //TODO find actual height
-    static constexpr double kLimelightAngle = 45; //TODO find angle
+    static constexpr double kTargetHeight = 102; //inches
+    static constexpr double kLimelightHeight = 35; //TODO find actual height
+    static constexpr double kLimelightAngle = 48.5; //TODO find angle
     
 }
 

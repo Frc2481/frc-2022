@@ -11,10 +11,12 @@
 #include "commands/intake/ExtendIntakeCommand.h"
 #include "commands/intake/RetractIntakeCommand.h"
 #include "commands/FeederDefaultCommand.h"
-RobotContainer::RobotContainer(): m_driverController(0) {
+#include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
+#include "commands/shooter/StopShooterCommand.h"
+RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
+ {
   
   // Initialize all of your commands and subsystems here
-    // m_turret.SetDefaultCommand(StayOnTargetCommand(&m_turret));
   // Configure the button bindings
 
 
@@ -29,8 +31,6 @@ RobotContainer::RobotContainer(): m_driverController(0) {
   
   frc::SmartDashboard::PutBoolean("Feeder Beam Break", false);
   frc::SmartDashboard::PutBoolean("Indexer Beam Break", false);
-
-  m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
 
 class InstantDisabledCommand : public frc2::InstantCommand {
@@ -61,19 +61,17 @@ void RobotContainer::ConfigureButtonBindings() {
 
   // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem)); 
-<<<<<<< HEAD
-  bButton.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
-  bButton.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
-=======
->>>>>>> 4c97ac18434a0dd2b08d7da2c28073846ff28f09
   
   // IntakeSubsystem Commands
   m_bButtonDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
   m_bButtonDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
   
   // ShooterSubsystem Commands
-  
+  m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
+  m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
+
   // TurretSubsystem Commands
+  m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
   frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
   m_aButtonDriver.WhenPressed(m_zeroTurret);
 
