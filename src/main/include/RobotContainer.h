@@ -35,8 +35,31 @@ class RobotContainer {
   TurretSubsystem m_turretSubsystem;
   FeederSubsystem m_feederSubsystem;
   IntakeSubsystem m_intakeSubsystem;
-  frc2::Button aButton{[&] { return m_driverController.GetRawButton(XBOX_A_BUTTON); }};
-  frc2::Button bButton{[&] { return m_driverController.GetRawButton(XBOX_B_BUTTON); }};
+  //driver
+  frc2::Button m_aButtonDriver{[&] { return m_driverController.GetRawButton(XBOX_A_BUTTON); }};
+  frc2::Button m_bButtonDriver{[&] { return m_driverController.GetRawButton(XBOX_B_BUTTON); }};
+  frc2::Button m_yButtonDriver{[&] { return m_driverController.GetRawButton(XBOX_Y_BUTTON); }};
+  frc2::Button m_xButtonDriver{[&] { return m_driverController.GetRawButton(XBOX_X_BUTTON); }};
+
+  frc2::Button m_rBumperDriver{[&] { return m_driverController.GetRawButton(XBOX_RIGHT_BUMPER); }};//
+  frc2::Button m_lBumperDriver{[&] { return m_driverController.GetRawButton(XBOX_LEFT_BUMPER); }};//
+  frc2::Button m_rTriggerDriver{[&] { return m_driverController.GetAxis(XBOX_RIGHT_TRIGGER, .5); }};//
+  frc2::Button m_lTriggerDriver{[&] { return m_driverController.GetAxis(XBOX_LEFT_TRIGGER, .5); }};//
+
+  //operator
+  frc2::Button m_startAux{[&] { return m_auxController.GetRawButton(XBOX_START_BUTTON); }};//
+  frc2::Button m_backAux{[&] { return m_auxController.GetRawButton(XBOX_BACK_BUTTON); }};//
+
+  frc2::Button m_aButtonAux{[&] { return m_auxController.GetRawButton(XBOX_A_BUTTON); }};//
+
+  frc2::Button m_bButtonAux{[&] { return m_auxController.GetRawButton(XBOX_B_BUTTON); }};//
+  frc2::Button m_yButtonAux{[&] { return m_auxController.GetRawButton(XBOX_Y_BUTTON); }};//
+  frc2::Button m_xButtonAux{[&] { return m_auxController.GetRawButton(XBOX_X_BUTTON); }};//
+  
+  frc2::Button m_rBumperAux{[&] { return m_auxController.GetRawButton(XBOX_RIGHT_BUMPER); }};//
+  frc2::Button m_lBumperAux{[&] { return m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
+  frc2::Button m_rTriggerAux{[&] { return m_auxController.GetAxis(XBOX_RIGHT_TRIGGER, .5); }};//
+  frc2::Button m_lTriggerAux{[&] { return m_auxController.GetAxis(XBOX_LEFT_TRIGGER, .5); }};//
   // TurretSubsystem m_turret;
   
 

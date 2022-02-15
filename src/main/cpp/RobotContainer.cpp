@@ -61,8 +61,11 @@ void RobotContainer::ConfigureButtonBindings() {
 
   // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem)); 
+<<<<<<< HEAD
   bButton.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
   bButton.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
+=======
+>>>>>>> 4c97ac18434a0dd2b08d7da2c28073846ff28f09
   
   // IntakeSubsystem Commands
   m_bButtonDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
