@@ -45,6 +45,12 @@ public:
 };
 
 void RobotContainer::ConfigureButtonBindings() {
+  // Configure your button bindings here
+  //TODO Add fireshooter button
+
+  // ClimberSubsystem Commands
+
+  // DriveSubsystem Commands
   frc::SmartDashboard::PutData("Zero Steer Encoders", new InstantDisabledCommand([this](){
     m_driveSubsystem.ResetEncoders();
   }));
@@ -52,20 +58,17 @@ void RobotContainer::ConfigureButtonBindings() {
   frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this](){
     m_driveSubsystem.ResetOdometry(frc::Pose2d());
   }));
-  // Configure your button bindings here
-  //TODO Add fireshooter button
-
-  // ClimberSubsystem Commands
-
-  // DriveSubsystem Commands
+  m_startDriver.WhenPressed(new frc2::InstantCommand([this]{
+                              m_driveSubsystem.ResetOdometry(frc::Pose2d(
+                                                                m_driveSubsystem.GetPose().Translation().X(), 
+                                                                m_driveSubsystem.GetPose().Translation().Y(),
+                                                                frc::Rotation2d(units::degree_t(0))));
+                              },{&m_driveSubsystem}));
 
   // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem)); 
-<<<<<<< HEAD
-  bButton.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
-  bButton.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
-=======
->>>>>>> 4c97ac18434a0dd2b08d7da2c28073846ff28f09
+  m_bButtonDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
+  m_bButtonDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
   
   // IntakeSubsystem Commands
   m_bButtonDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
