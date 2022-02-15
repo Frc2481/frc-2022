@@ -13,7 +13,6 @@
 #include "subsystems/FeederSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/DriveSubsystem.h"
-#include "subsystems/ShooterSubsystem.h"
 /**
  * This class is where the bulk of the robot should be declared.  Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -30,14 +29,12 @@ class RobotContainer {
  private:
   // The robot's subsystems and commands are defined here...
   Joystick2481 m_driverController;
-  Joystick2481 m_auxController;
   
  public:
   DriveSubsystem m_driveSubsystem;
   TurretSubsystem m_turretSubsystem;
   FeederSubsystem m_feederSubsystem;
   IntakeSubsystem m_intakeSubsystem;
-  ShooterSubsystem m_shooterSubsystem;
   //driver
   frc2::Button m_startDriver{[&] { return m_driverController.GetRawButton(XBOX_START_BUTTON); }};//
   frc2::Button m_backDriver{[&] { return m_driverController.GetRawButton(XBOX_BACK_BUTTON); }};//

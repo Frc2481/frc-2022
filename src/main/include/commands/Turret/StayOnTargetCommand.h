@@ -39,7 +39,7 @@ class StayOnTargetCommand
     frc::SmartDashboard::PutNumber("Angle to Target", m_pTurret->getAngleToTarget());
     frc::SmartDashboard::PutNumber("Current Angle", m_pTurret->getTurretAngle());
     
-   // m_pTurret->rotateTurret(frc::SmartDashboard::GetNumber("Set Target Angle", 0));//m_pTurret->getAngleToTarget()); TODO uncomment
+    m_pTurret->rotateTurret(frc::SmartDashboard::GetNumber("Set Target Angle", 0));//m_pTurret->getAngleToTarget());
   }
 
   void End(bool interrupted) override
