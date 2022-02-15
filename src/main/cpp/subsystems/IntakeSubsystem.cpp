@@ -8,7 +8,7 @@
 IntakeSubsystem::IntakeSubsystem() :
 m_isIntakeExtended(false),
 m_rollerSpeed(0),
- m_intakeSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort)
+ m_intakeSolenoid(frc::PneumaticsModuleType::REVPH, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort)
 {
     m_pRollerMotor = new VictorMotorController(VictorIDs::kIntakeRollerMotorID, "RollerMotor");
 }
