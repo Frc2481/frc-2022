@@ -102,8 +102,8 @@ ShooterSubsystem::ShooterSubsystem() :
 
 // This method will be called once per scheduler run
 void ShooterSubsystem::Periodic() {
-     m_pBottomShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0));
-       m_pTopShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::GetNumber("Top Shoot Spd", 0));
+     m_pBottomShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0)/60.0/10.0)*2048.0);
+       m_pTopShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Top Shoot Spd", 0)/60.0/10.0)*2048.0);
 
     frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0);
     frc::SmartDashboard::GetNumber("Top Shoot Spd", 0);
