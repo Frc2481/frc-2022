@@ -11,8 +11,12 @@
 #include "commands/intake/ExtendIntakeCommand.h"
 #include "commands/intake/RetractIntakeCommand.h"
 #include "commands/FeederDefaultCommand.h"
-RobotContainer::RobotContainer(): m_driverController(0) {
-  
+#include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
+#include "commands/shooter/StopShooterCommand.h"
+#include "commands/turret/StayOnTargetCommand.h"
+
+RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
+ {
   // Initialize all of your commands and subsystems here
     // m_turret.SetDefaultCommand(StayOnTargetCommand(&m_turret));
   // Configure the button bindings
@@ -67,14 +71,18 @@ void RobotContainer::ConfigureButtonBindings() {
 
   // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem));
+  m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem)); 
   
   // IntakeSubsystem Commands
   m_bButtonDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
   m_bButtonDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
   
   // ShooterSubsystem Commands
-  
+  // m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
+  m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
+
   // TurretSubsystem Commands
+  m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
   frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
   m_aButtonDriver.WhenPressed(m_zeroTurret);
 

@@ -5,6 +5,8 @@
 #include "subsystems/ShooterSubsystem.h"
 #include "RobotParameters.h"
 #include "utils/Interpolate.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+
 
 ShooterSubsystem::ShooterSubsystem() :
    m_isShooterOn(false),
@@ -31,7 +33,8 @@ ShooterSubsystem::ShooterSubsystem() :
        m_pBottomShooterMotor->Config_kF(0,RobotParameters::k_shooterF);
        m_pBottomShooterMotor->Config_IntegralZone(0,25); //TODO correct values
 
-       
+       m_pBottomShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::PutNumber("Bot Shoot Spd", 0));
+       m_pTopShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::PutNumber("Top Shoot Spd", 0));
 
        
    }
@@ -98,4 +101,10 @@ ShooterSubsystem::ShooterSubsystem() :
 
 
 // This method will be called once per scheduler run
-void ShooterSubsystem::Periodic() {}
+void ShooterSubsystem::Periodic() {
+     m_pBottomShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0));
+       m_pTopShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::GetNumber("Top Shoot Spd", 0));
+
+    frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0);
+    frc::SmartDashboard::GetNumber("Top Shoot Spd", 0);
+}

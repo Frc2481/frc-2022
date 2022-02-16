@@ -178,9 +178,9 @@ namespace ShooterConstants{ //TODO wheel speeds
 }
 
 namespace LimelightConstants{
-    static constexpr double kTargetHeight = 103; //inches
-    static constexpr double kLimelightHeight = 37; //TODO find actual height
-    static constexpr double kLimelightAngle = 45; //TODO find angle
+    static constexpr double kTargetHeight = 102; //inches
+    static constexpr double kLimelightHeight = 35; //TODO find actual height
+    static constexpr double kLimelightAngle = 48.5; //TODO find angle
     
 }
 
@@ -240,10 +240,10 @@ namespace RobotParameters {
 
 
     //shooter Constants TODO set correct values
-    static constexpr double k_shooterP = 0.0;
-    static constexpr double k_shooterI = 0.0;
+    static constexpr double k_shooterP = 0.15;
+    static constexpr double k_shooterI = 0.001;
     static constexpr double k_shooterD = 0.0;
-    static constexpr double k_shooterF = 0.0;
+    static constexpr double k_shooterF = 0.0447;
 
     //turret Constants TODO set correct values
     static constexpr double k_turretP = 0.0;
