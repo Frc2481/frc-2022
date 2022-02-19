@@ -20,7 +20,7 @@ class StartClimberWheelsReverseCommand
   }
 
   void Initialize() override{
-    m_pClimber->setLeftWheelsSpeed(-ClimberConstants::kLeftWheelSpeed);
+    m_pClimber->setFloorWheelsSpeed(-ClimberConstants::kLeftWheelSpeed);
     m_pClimber->setTrussWheelsSpeed(-ClimberConstants::kRightWheelSpeed);
   }
 };

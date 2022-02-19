@@ -53,10 +53,9 @@ class AutoClimbCommand
           StopClimberWheelsCommand(m_pClimber),
           DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
         },
-        RetractFloorClimberWheelsCommand
+        RetractFloorClimberWheelsCommand(m_pClimber)
       }
     );
   }
 
-  void Initialize() override;
 };

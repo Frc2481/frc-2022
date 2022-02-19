@@ -93,6 +93,13 @@ ShooterSubsystem::ShooterSubsystem() :
        m_pTopShooterMotor->Set(CommonModes::Velocity, m_manualOffsetSpeed + ShooterConstants::kDonutTopWheelSpeed);
 
    }
+   void ShooterSubsystem::topMotorSetSpeed(double speed){
+       m_pTopShooterMotor->Set(CommonModes::Velocity, speed);
+   }
+   void ShooterSubsystem::bottomMotorSetSpeed(double speed){
+       m_pBottomShooterMotor->Set(CommonModes::Velocity, speed);
+   }
+
 
    
    
@@ -102,9 +109,9 @@ ShooterSubsystem::ShooterSubsystem() :
 
 // This method will be called once per scheduler run
 void ShooterSubsystem::Periodic() {
-     m_pBottomShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0)/60.0/10.0)*2048.0);
-       m_pTopShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Top Shoot Spd", 0)/60.0/10.0)*2048.0);
+    //  m_pBottomShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0)/60.0/10.0)*2048.0);
+    //    m_pTopShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Top Shoot Spd", 0)/60.0/10.0)*2048.0);
 
-    frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0);
-    frc::SmartDashboard::GetNumber("Top Shoot Spd", 0);
+    frc::SmartDashboard::PutNumber("Actual Bot Shoot Spd", (m_pBottomShooterMotor->GetVelocity()/60.0/10.0)*2048.0);
+    frc::SmartDashboard::PutNumber("Actual Top Shoot Spd", (m_pTopShooterMotor->GetVelocity()/60.0/10.0)*2048.0);
 }

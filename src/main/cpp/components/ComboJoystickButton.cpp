@@ -13,7 +13,7 @@
 // }
 
 // bool ComboJoystickButton::Get() {
-// 	return m_pPrimaryButton->Get() &&
+// 	return m_pPrimaryButton->isPressed() &&
 // 		 ((m_pSecondaryButton->Get() && m_secondaryPressed) ||
 // 		 (!m_pSecondaryButton->Get() && !m_secondaryPressed));
 // }

@@ -28,7 +28,8 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   bool isInManual();
   void incrementManualSpeed();
   void decrementManualSpeed();
-
+  void topMotorSetSpeed(double speed);
+  void bottomMotorSetSpeed(double speed);
 
  void Periodic() override;
 

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-#include "subsystems/TurretSubsystem.h"
+// #include "subsystems/TurretSubsystem.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "components/Joystick2481.h"
 #include <frc2/command/button/Button.h>
@@ -14,6 +14,7 @@
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 /**
  * This class is where the bulk of the robot should be declared.  Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -33,11 +34,12 @@ class RobotContainer {
   Joystick2481 m_auxController;
   
  public:
-  DriveSubsystem m_driveSubsystem;
-  TurretSubsystem m_turretSubsystem;
+  // DriveSubsystem m_driveSubsystem;
+  // TurretSubsystem m_turretSubsystem;
   FeederSubsystem m_feederSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   ShooterSubsystem m_shooterSubsystem;
+  ClimberSubsystem m_climberSubsystem;
   //driver
   frc2::Button m_startDriver{[&] { return m_driverController.GetRawButton(XBOX_START_BUTTON); }};//
   frc2::Button m_backDriver{[&] { return m_driverController.GetRawButton(XBOX_BACK_BUTTON); }};//
@@ -51,6 +53,7 @@ class RobotContainer {
   frc2::Button m_lBumperDriver{[&] { return m_driverController.GetRawButton(XBOX_LEFT_BUMPER); }};//
   frc2::Button m_rTriggerDriver{[&] { return m_driverController.GetAxis(XBOX_RIGHT_TRIGGER, .5); }};//
   frc2::Button m_lTriggerDriver{[&] { return m_driverController.GetAxis(XBOX_LEFT_TRIGGER, .5); }};//
+  
 
   //operator
   frc2::Button m_startAux{[&] { return m_auxController.GetRawButton(XBOX_START_BUTTON); }};//

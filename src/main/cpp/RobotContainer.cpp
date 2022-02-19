@@ -7,13 +7,18 @@
 #include "RobotParameters.h"
 #include "commands/ControlMotorWithJoystickCommand.h"
 #include <frc2/command/InstantCommand.h>
-#include "commands/Drive/DriveWithJoystickCommand.h"
+// #include "commands/Drive/DriveWithJoystickCommand.h"
 #include "commands/intake/ExtendIntakeCommand.h"
 #include "commands/intake/RetractIntakeCommand.h"
 #include "commands/FeederDefaultCommand.h"
 #include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
 #include "commands/shooter/StopShooterCommand.h"
-#include "commands/turret/StayOnTargetCommand.h"
+// #include "commands/turret/StayOnTargetCommand.h"
+#include "commands/climber/AutoClimbCommand.h"
+#include "commands/shooter/ShootCommand.h"
+#include "commands/ManualStartIntakeFeederCommand.h"
+#include "commands/ManualStopIntakeFeederCommand.h"
+#include "commands/shooter/StartShooterCommand.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
  {
@@ -34,7 +39,10 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
   frc::SmartDashboard::PutBoolean("Feeder Beam Break", false);
   frc::SmartDashboard::PutBoolean("Indexer Beam Break", false);
 
-  m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
+  frc::SmartDashboard::PutNumber("Bottom Motor Speed", 0);
+  frc::SmartDashboard::PutNumber("Top Motor Speed", 0);
+
+  // m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
 
 class InstantDisabledCommand : public frc2::InstantCommand {
@@ -53,38 +61,50 @@ void RobotContainer::ConfigureButtonBindings() {
   //TODO Add fireshooter button
 
   // ClimberSubsystem Commands
+    // m_rBumperAux.WhenPressed(new frc2::InstantCommand([this](){
+    //   if(m_auxController.GetRawButton(XBOX_LEFT_BUMPER)){
+    //     new AutoClimbCommand(&m_climberSubsystem, &m_driveSubsystem);
+    //     frc::SmartDashboard::PutBoolean("Button Works", true);
+    //     // new ExtendIntakeCommand(&m_intakeSubsystem);
+    // }
+    // else{
+    //   frc::SmartDashboard::PutBoolean("Button Works", false);
+    // }
+    // },{&m_climberSubsystem, &m_driveSubsystem}));
 
+  m_xButtonAux.WhenPressed(ManualStartIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
+  m_yButtonAux.WhenPressed(ManualStopIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
   // DriveSubsystem Commands
-  frc::SmartDashboard::PutData("Zero Steer Encoders", new InstantDisabledCommand([this](){
-    m_driveSubsystem.ResetEncoders();
-  }));
+  // frc::SmartDashboard::PutData("Zero Steer Encoders", new InstantDisabledCommand([this](){
+  //   m_driveSubsystem.ResetEncoders();
+  // }));
 
-  frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this](){
-    m_driveSubsystem.ResetOdometry(frc::Pose2d());
-  }));
-  m_startDriver.WhenPressed(new frc2::InstantCommand([this]{
-                              m_driveSubsystem.ResetOdometry(frc::Pose2d(
-                                                                m_driveSubsystem.GetPose().Translation().X(), 
-                                                                m_driveSubsystem.GetPose().Translation().Y(),
-                                                                frc::Rotation2d(units::degree_t(0))));
-                              },{&m_driveSubsystem}));
+  // frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this](){
+  //   m_driveSubsystem.ResetOdometry(frc::Pose2d());
+  // }));
+  // m_startDriver.WhenPressed(new frc2::InstantCommand([this]{
+  //                             m_driveSubsystem.ResetOdometry(frc::Pose2d(
+  //                                                               m_driveSubsystem.GetPose().Translation().X(), 
+  //                                                               m_driveSubsystem.GetPose().Translation().Y(),
+  //                                                               frc::Rotation2d(units::degree_t(0))));
+  //                             },{&m_driveSubsystem}));
 
   // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem));
-  m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem)); 
   
   // IntakeSubsystem Commands
-  m_bButtonDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
-  m_bButtonDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
+  m_rTriggerDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
+  m_rTriggerDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
   
   // ShooterSubsystem Commands
-  m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
+  m_aButtonAux.WhenPressed(StartShooterCommand(&m_shooterSubsystem));
   m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
+  m_rTriggerAux.WhileHeld(ShootCommand(&m_feederSubsystem));
 
   // TurretSubsystem Commands
-  m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
-  frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
-  m_aButtonDriver.WhenPressed(m_zeroTurret);
+  // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
+  // frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
+  // m_aButtonDriver.WhenPressed(m_zeroTurret);
 
   
 }

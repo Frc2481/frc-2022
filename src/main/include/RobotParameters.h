@@ -26,14 +26,14 @@ namespace PDPChannels{
 
 namespace VictorIDs{
     static constexpr int kIntakeRollerMotorID = 11;
-    static constexpr int kIndexerRollerMotorID = 12;
+    // static constexpr int kIndexerRollerMotorID = 12;
     static constexpr int kFrontRightTurningMotorID = 3;//1
     static constexpr int kFrontLeftTurningMotorID = 1;//4
     static constexpr int kRearRightTurningMotorID = 4;//3
     static constexpr int kRearLeftTurningMotorID = 2;//2
     static constexpr int kRearMiddleTurningMotorID = 22;//TODO figure me out
     static constexpr int kFeederMotorID = 10; //TODO figure me out
-    static constexpr int kIndexerMotorID = 21; //TODO
+    static constexpr int kIndexerMotorID = 12; //TODO
 }
 
 namespace FalconIDs{
@@ -165,10 +165,10 @@ namespace IntakeConstants{
     static constexpr double kIntakeCurrentBallDetectThreshhold = 10; //TODO find out
 }
 namespace FeederConstants{ //TODO figure out
-    static constexpr double kDefaultFeederSpeed = 10.0;
-    static constexpr double kShootingSpeed = 10.0;
-    static constexpr double kIndexerSpeed = 10.0;
-    static constexpr double kShootingIndexerSpeed = 10.0;
+    static constexpr double kDefaultFeederSpeed = .4;
+    static constexpr double kShootingSpeed = .4;
+    static constexpr double kIndexerSpeed = .4;
+    static constexpr double kShootingIndexerSpeed = .4;
 }
 
 namespace DigitalInputs{
@@ -179,6 +179,8 @@ namespace DigitalInputs{
 namespace ShooterConstants{ //TODO wheel speeds
     static constexpr double kDonutTopWheelSpeed = 0; 
     static constexpr double kDonutBottomWheelSpeed = 0; 
+    static constexpr double kTopShooterSpeed = 2500;
+    static constexpr double kBottomShooterSpeed = -1700;
 
 
 }

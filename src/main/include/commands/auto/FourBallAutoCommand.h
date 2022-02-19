@@ -55,5 +55,4 @@ class FourBallAutoCommand
         
   }
 
-  void Initialize() override;
 };

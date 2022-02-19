@@ -2,17 +2,20 @@
 // #define COMBO_JOYSTICK_BUTTON_H
 
 // #include <frc2/command/button/Button.h>
+// #include <functional>
+// #include <initializer_list>
+// #include <utility>
+
+// #include <wpi/span.h>
+// using namespace frc2;
 // class ComboJoystickButton : public frc2::Button {
 // public:
-//     ComboJoystickButton(frc2::Button *primaryButton, frc2::Button *secondaryButton, bool secondaryPressed);
-//     virtual ~ComboJoystickButton();
+// template <class T, typename = std::enable_if_t<std::is_base_of_v<
+//                          Command, std::remove_reference_t<T>>>>
+//     ComboJoystickButton(bool secondButtonState, T&& command);
 
 //     virtual bool Get();
 
-// private:
-//     frc2::Button *m_pPrimaryButton;
-// 	frc2::Button *m_pSecondaryButton;
-// 	bool m_secondaryPressed;
 // };
 
 // #endif // COMBO_JOYSTICK_BUTTON_H

@@ -18,7 +18,7 @@ class StopClimberWheelsCommand
     m_pClimber = climber;
   }
   void Initialize() override{
-    m_pClimber->setLeftWheelsSpeed(0.0);
+    m_pClimber->setFloorWheelsSpeed(0.0);
     m_pClimber->setTrussWheelsSpeed(0.0);
   }
 };
