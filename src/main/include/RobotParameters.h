@@ -20,6 +20,9 @@
  * command-specific namespaces within this header, which can then be used where
  * they are needed.
  */
+namespace PDPChannels{
+    static constexpr int kIntake = 0; //find
+}
 
 namespace VictorIDs{
     static constexpr int kIntakeRollerMotorID = 11;
@@ -42,8 +45,8 @@ namespace FalconIDs{
     static constexpr int kTopShooterMotorID = 25; //TODO figure me out
     static constexpr int kBottomShooterMotorID = 50; //TODO figure me out
     static constexpr int kturretMotorID = 3; 
-    static constexpr int kLeftClimberMotorID = 33; //TODO figure out
-    static constexpr int kRightClimberMotorID = 34; //TODO figure out
+    static constexpr int kFloorClimberMotorID = 33; //TODO figure out
+    static constexpr int kTrussClimberMotorID = 34; //TODO figure out
     
 } 
 
@@ -68,10 +71,10 @@ namespace SolenoidPorts{
     static constexpr int kIntakeSolenoidReversePort = 1;
     static constexpr int kShooterSolenoidPort = 2;
     static constexpr int kShooterSolenoidReversePort = 3;
-    static constexpr int kLeftClimberSolenoidPort = 8;
-    static constexpr int kLeftClimberSolenoidReversePort = 9;
-    static constexpr int kRightClimberSolenoidPort = 10;
-    static constexpr int kRightClimberSolenoidReversePort = 11;
+    static constexpr int kFloorClimberSolenoidPort = 8;
+    static constexpr int kFloorClimberSolenoidReversePort = 9;
+    static constexpr int kTrussClimberSolenoidPort = 10;
+    static constexpr int kTrussClimberSolenoidReversePort = 11;
     static constexpr int kJavelinSolenoidPort = 12;
 }
 
@@ -82,6 +85,8 @@ constexpr bool kRearLeftTurningEncoderReversed = false;
 constexpr bool kFrontRightTurningEncoderReversed = false;
 constexpr bool kRearRightTurningEncoderReversed = false;
 constexpr bool kRearMiddleTurningEncoderReversed = false;
+
+static constexpr units::meters_per_second_t  kAutoDriveSpeed = 1.0_mps; //TODO fix
 
 constexpr bool kFrontLeftDriveEncoderReversed = true;
 constexpr bool kRearLeftDriveEncoderReversed = true;
@@ -157,6 +162,7 @@ namespace PathConstants{ // TODO check
 }
 namespace IntakeConstants{
     static constexpr double kDefaultIntakeRollerSpeed = 10; //TODO: Find out
+    static constexpr double kIntakeCurrentBallDetectThreshhold = 10; //TODO find out
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = 10.0;
@@ -187,6 +193,7 @@ namespace LimelightConstants{
 namespace ClimberConstants{
     static constexpr double kLeftWheelSpeed = 100;
     static constexpr double kRightWheelSpeed = 100;
+    static constexpr double kJavelinDeployRoll = 45;
 }
 
 //TODO: figure this all out

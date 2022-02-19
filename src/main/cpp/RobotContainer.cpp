@@ -78,7 +78,7 @@ void RobotContainer::ConfigureButtonBindings() {
   m_bButtonDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
   
   // ShooterSubsystem Commands
-  // m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
+  m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
   m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
 
   // TurretSubsystem Commands

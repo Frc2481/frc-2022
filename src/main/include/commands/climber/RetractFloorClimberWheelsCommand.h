@@ -20,7 +20,6 @@ class ExtendClimberWheelsCommand
   }
 
   void Initialize() override{
-    m_pClimber->retractLeftWheels();
-    m_pClimber->retractRightWheels();
+    m_pClimber->retractFloorWheels();
   }
 };

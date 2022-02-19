@@ -155,6 +155,10 @@ double DriveSubsystem::GetHeading() {
   return normalizeToRange::NormalizeToRange(m_pChassisIMU.GetYaw() , -180, 180, true) * (kGyroReversed ? -1: 1);
 }
 
+double DriveSubsystem::GetRoll() {
+  return normalizeToRange::NormalizeToRange(m_pChassisIMU.GetRoll(), -180, 180, true);
+}
+
 void DriveSubsystem::ZeroHeading() { 
   m_pChassisIMU.Reset(); 
   }

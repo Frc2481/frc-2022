@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include "components/VictorMotorController.h"
 #include <frc/DoubleSolenoid.h>
+#include <frc/PowerDistribution.h>
 
 class IntakeSubsystem : public frc2::SubsystemBase {
  public:
@@ -20,6 +21,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   void retractIntake();
   void setRollerSpeed(double speed);
   double getRollerSpeed();
+  double getCurrent();
   bool isIntakeExtended();
 
  private:
@@ -29,4 +31,5 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   double m_rollerSpeed;
   frc::DoubleSolenoid m_intakeSolenoid;
   VictorMotorController* m_pRollerMotor;
+  frc::PowerDistribution m_PDP;
 };

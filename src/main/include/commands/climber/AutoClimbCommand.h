@@ -14,13 +14,16 @@
 #include <frc2/command/WaitCommand.h>
 
 #include "commands/climber/ExtendClimberWheelsCommand.h"
-#include "commands/climber/RetractClimberWheelsCommand.h"
+#include "commands/climber/RetractFloorClimberWheelsCommand.h"
 #include "commands/climber/FireJavelinCommand.h"
 #include "commands/climber/StartClimberWheelsCommand.h"
 #include "commands/climber/StartClimberWheelsReverseCommand.h"
 #include "commands/climber/StopClimberWheelsCommand.h"
 #include "commands/drive/DriveOpenLoopCommand.h"
+#include "commands/Drive/WaitForRoll.h"
+#include "commands/climber/FireJavelinCommand.h"
 #include "RobotParameters.h"
+
 class AutoClimbCommand
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  AutoClimbCommand> {
@@ -31,9 +34,7 @@ class AutoClimbCommand
   AutoClimbCommand(ClimberSubsystem* climber, DriveSubsystem* drive){
     m_pClimber = climber;
     m_pDrive = drive;
-  }
- public:
-  AutoClimbCommand(){
+ 
     AddCommands(
       frc2::SequentialCommandGroup{
         ExtendClimberWheelsCommand(m_pClimber),
@@ -41,7 +42,18 @@ class AutoClimbCommand
           StartClimberWheelsCommand(m_pClimber),
           DriveOpenLoopCommand(m_pDrive, DriveConstants::kDriveClimbSpeed, 0_mps, 0_rad_per_s, false),
         },
-        frc2::WaitCommand(3_s)
+        WaitForRoll(m_pDrive, ClimberConstants::kJavelinDeployRoll),
+        FireJavelinCommand(m_pClimber),
+        frc2::ParallelRaceGroup{
+          StartClimberWheelsReverseCommand(m_pClimber),
+          DriveOpenLoopCommand(m_pDrive, -DriveConstants::kDriveClimbSpeed, 0_mps, 0_rad_per_s, false),
+        },
+        frc2::WaitCommand(2_s),
+        frc2::ParallelRaceGroup{
+          StopClimberWheelsCommand(m_pClimber),
+          DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+        },
+        RetractFloorClimberWheelsCommand
       }
     );
   }

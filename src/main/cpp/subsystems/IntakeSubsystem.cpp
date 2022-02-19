@@ -31,7 +31,9 @@ void IntakeSubsystem::retractIntake(){
 double IntakeSubsystem::getRollerSpeed(){
     return m_rollerSpeed;
 }
-
+double IntakeSubsystem::getCurrent(){
+    return m_PDP.GetCurrent(PDPChannels::kIntake);
+}
 bool IntakeSubsystem::isIntakeExtended(){
     return m_isIntakeExtended;
 }

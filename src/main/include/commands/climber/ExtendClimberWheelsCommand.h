@@ -19,7 +19,7 @@ class ExtendClimberWheelsCommand
   }
 
   void Initialize() override{
-    m_pClimber->extendLeftWheels();
-    m_pClimber->extendRightWheels();
+    m_pClimber->extendFloorWheels();
+    m_pClimber->extendTrussWheels();
   }
 };

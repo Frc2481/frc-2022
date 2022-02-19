@@ -71,6 +71,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   double GetHeading();
 
+  double GetRoll();
+
   /**
    * Zeroes the heading of the robot.
    */

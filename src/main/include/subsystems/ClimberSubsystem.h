@@ -18,31 +18,31 @@ class ClimberSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  void extendLeftWheels();
-  void extendRightWheels();
-  void retractLeftWheels();
-  void retractRightWheels();
-  void setLeftWheelsSpeed(double speed);
-  void setRightWheelsSpeed(double speed);
-  double getRightWheelSpeed();
-  double getLeftWheelSpeed();
+  void extendFloorWheels();
+  void extendTrussWheels();
+  void retractFloorWheels();
+  void retractTrussWheels();
+  void setFloorWheelsSpeed(double speed);
+  void setTrussWheelsSpeed(double speed);
+  double getTrussWheelSpeed();
+  double getFloorWheelSpeed();
   void fireJavelin();
   void retractJavelin();
-  bool areLeftWheelsExtended();
-  bool areRightWheelsExtended();
+  bool areFloorWheelsExtended();
+  bool areTrussWheelsExtended();
   bool isJavelinExtended();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-  double m_leftWheelsSpeed;
-  double m_rightWheelsSpeed;
-  bool m_areLeftWheelsExtended;
-  bool m_areRightWheelsExtended;
+  double m_floorWheelsSpeed;
+  double m_trussWheelsSpeed;
+  bool m_areFloorWheelsExtended;
+  bool m_areTrussWheelsExtended;
   bool m_isJavelinExtended;
-  TalonFXMotorController* m_pLeftMotor;
-  TalonFXMotorController* m_pRightMotor;
-  frc::DoubleSolenoid m_pLeftSolenoid;
-  frc::DoubleSolenoid m_pRightSolenoid;
+  TalonFXMotorController* m_pFloorMotor;
+  TalonFXMotorController* m_pTrussMotor;
+  frc::DoubleSolenoid m_pFloorSolenoid;
+  frc::DoubleSolenoid m_pTrussSolenoid;
   frc::Solenoid m_pJavelinSolenoid;
 };

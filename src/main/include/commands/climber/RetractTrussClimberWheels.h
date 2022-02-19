@@ -8,17 +8,18 @@
 #include <frc2/command/InstantCommand.h>
 #include "subsystems/ClimberSubsystem.h"
 
-class StopClimberWheelsCommand
+class RetractTrussClimberWheelsCommand
     : public frc2::CommandHelper<frc2::InstantCommand,
-                                 StopClimberWheelsCommand> {
- private:
- ClimberSubsystem* m_pClimber;                                  
+                                 RetractTrussClimberWheelsCommand> {
+  private:
+   ClimberSubsystem* m_pClimber;                     
  public:
-  StopClimberWheelsCommand(ClimberSubsystem* climber){
+  RetractTrussClimberWheelsCommand(ClimberSubsystem* climber){
     m_pClimber = climber;
+
   }
+
   void Initialize() override{
-    m_pClimber->setLeftWheelsSpeed(0.0);
-    m_pClimber->setTrussWheelsSpeed(0.0);
+    m_pClimber->retractTrussWheels();
   }
 };
