@@ -30,20 +30,12 @@ class ManualStartIntakeFeederCommand
       AddRequirements(m_pFeeder);
   }
   void Initialize() override{
-      m_pFeeder->setFeederSpeed(FeederConstants::kDefaultFeederSpeed);
+      // m_pFeeder->setFeederSpeed(FeederConstants::kDefaultFeederSpeed);
       m_pFeeder->setIndexerSpeed(FeederConstants::kIndexerSpeed);
       m_pIntake->setRollerSpeed(IntakeConstants::kDefaultIntakeRollerSpeed);
+
+      m_pFeeder->setFeederSpeed((frc::SmartDashboard::GetNumber("Feeder Speed", 0)/60.0/10.0)*2048.0);
+      m_pFeeder->setFeederSpeed((frc::SmartDashboard::PutNumber("Feeder Speed", 0)));
   }
 
-  void Execute() override{
-    
-  }
-
-  void End(bool interrupted) override{
-
-  }
-
-  bool IsFinished() override{
-    return true;
-  }
 };

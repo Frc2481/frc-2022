@@ -31,14 +31,5 @@ class StartShooterCommand
     m_pShooter->bottomMotorSetSpeed((frc::SmartDashboard::GetNumber("Bottom Motor Speed", 0)/60.0/10.0)*2048.0);
   }
 
-  void Execute() override{
-  }
-
-  void End(bool interrupted) override{
-    // m_pShooter->stopShooter();
-  }
-
-  bool IsFinished() override{
-    return true;
-  }
+  
 };

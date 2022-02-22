@@ -35,11 +35,5 @@ class ManualStopIntakeFeederCommand
       m_pIntake->setRollerSpeed(0);
   }
 
-  void Execute() override{}
 
-  void End(bool interrupted) override{}
-
-  bool IsFinished() override{
-      return true;
-  }
 };

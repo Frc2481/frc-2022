@@ -74,6 +74,7 @@ TurretSubsystem::TurretSubsystem() :
     void TurretSubsystem::zeroTurret(){
         m_angleOffsetTicks = ((getTurretRelativeAngle()) - (getTurretAbsoluteAngle())/(RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio))*RobotParameters::k_turretTicksPerRotation;
     }
+    
 
 
 // This method will be called once per scheduler run

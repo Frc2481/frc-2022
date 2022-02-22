@@ -157,9 +157,13 @@ enum class CommonModes{
 namespace PathConstants{ // TODO check
     static constexpr double kMinLookAhead = 6*.0254;
     static constexpr double kMaxLookAhead = 24*.0254;
-
-
 }
+namespace FieldConstants{
+    static constexpr double kDistanceTargetToOriginY = 324;
+    static constexpr double kDistanceTargetToOriginX = 162;
+    // static constexpr double kRedAllianceOrigin = ;
+    // static constexpr double kBlueAllianceOrigin = ;
+    }
 namespace IntakeConstants{
     static constexpr double kDefaultIntakeRollerSpeed = 10; //TODO: Find out
     static constexpr double kIntakeCurrentBallDetectThreshhold = 10; //TODO find out

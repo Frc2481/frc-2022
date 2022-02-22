@@ -18,6 +18,9 @@ FeederSubsystem::FeederSubsystem() :
        m_pIndexerMotor = new VictorMotorController(VictorIDs::kIndexerMotorID, "indexerMotor");
        m_pIndexerMotor->ConfigFactoryDefault();
        m_pIndexerMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+
+       
+       
    }
 
    bool FeederSubsystem::isFeederRunning(){
@@ -27,7 +30,8 @@ FeederSubsystem::FeederSubsystem() :
        return m_isIndexerRunning;
    }
    void FeederSubsystem::setFeederSpeed(double speed){
-        m_pFeederMotor->Set(speed);
+        // m_pFeederMotor->Set(speed);
+        m_pFeederMotor->Set(CommonModes::Velocity, speed);
         m_isFeederRunning = speed;
    }
    void FeederSubsystem::setIndexerSpeed(double speed){

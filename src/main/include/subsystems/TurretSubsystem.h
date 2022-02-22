@@ -24,6 +24,7 @@ class TurretSubsystem : public frc2::SubsystemBase {
   double getTurretAbsoluteAngle();
   double getTurretRelativeAngle();
   void zeroTurret();
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
