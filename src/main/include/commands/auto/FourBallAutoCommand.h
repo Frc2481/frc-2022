@@ -46,6 +46,7 @@ class FourBallAutoCommand
       frc2::SequentialCommandGroup{
         frc2::ScheduleCommand(&AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret)),
 
+        //FeederDefaultCommand(m_pFeeder),
         ExtendIntakeCommand(m_pIntake),
         DriveOpenLoopCommand(m_pDrive, DriveConstants::kAutoDriveSpeed, 0_mps, 0_rad_per_s, false), 
         WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
@@ -55,10 +56,10 @@ class FourBallAutoCommand
 
       //Rachel's part - don't judge
         // RotateWithMotionMagic(m_pDrive, 97, 1, true)
-        DriveOpenLoopCommand(m_pDrive, DriveConstants::kAutoDriveSpeed, 0_mps, 0_rad_per_s, false),
+        DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
         WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
         // RotateWithMotionMagic(m_pDrive, 97, 1, true)
-        DriveOpenLoopCommand(m_pDrive, DriveConstants::kAutoDriveSpeed, 0_mps, 0_rad_per_s, false),
+        DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
         WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
         ShootCommand(m_pFeeder).WithTimeout(3_s),
 

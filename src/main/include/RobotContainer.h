@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-// #include "subsystems/TurretSubsystem.h"
+#include "subsystems/TurretSubsystem.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "components/Joystick2481.h"
 #include <frc2/command/button/Button.h>
@@ -34,8 +34,8 @@ class RobotContainer {
   Joystick2481 m_auxController;
   
  public:
-  // DriveSubsystem m_driveSubsystem;
-  // TurretSubsystem m_turretSubsystem;
+  DriveSubsystem m_driveSubsystem;
+  TurretSubsystem m_turretSubsystem;
   FeederSubsystem m_feederSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   ShooterSubsystem m_shooterSubsystem;
@@ -56,10 +56,12 @@ class RobotContainer {
   
 
   //operator
-  frc2::Button m_startAux{[&] { return m_auxController.GetRawButton(XBOX_START_BUTTON); }};//
+  frc2::Button m_startBackAux{[&] { return m_auxController.GetRawButton(XBOX_START_BUTTON) && m_auxController.GetRawButton(XBOX_BACK_BUTTON); }};
+  frc2::Button m_startAux{[&] { return m_auxController.GetRawButton(XBOX_START_BUTTON) && !m_auxController.GetRawButton(XBOX_BACK_BUTTON); }};
   frc2::Button m_backAux{[&] { return m_auxController.GetRawButton(XBOX_BACK_BUTTON); }};//
 
-  frc2::Button m_aButtonAux{[&] { return m_auxController.GetRawButton(XBOX_A_BUTTON); }};//
+  frc2::Button m_aButtonLeftBumpAux{[&] { return m_auxController.GetRawButton(XBOX_A_BUTTON) && m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
+  frc2::Button m_aButtonAux{[&] { return m_auxController.GetRawButton(XBOX_A_BUTTON) && !m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
 
   frc2::Button m_bButtonAux{[&] { return m_auxController.GetRawButton(XBOX_B_BUTTON); }};//
   frc2::Button m_yButtonAux{[&] { return m_auxController.GetRawButton(XBOX_Y_BUTTON); }};//

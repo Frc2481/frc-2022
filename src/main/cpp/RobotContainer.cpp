@@ -19,6 +19,8 @@
 #include "commands/ManualStartIntakeFeederCommand.h"
 #include "commands/ManualStopIntakeFeederCommand.h"
 #include "commands/shooter/StartShooterCommand.h"
+#include "commands/turret/MoveTurretWithJoystickCommand.h"
+#include "components/Joystick2481.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
  {
@@ -91,15 +93,23 @@ void RobotContainer::ConfigureButtonBindings() {
 
   // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem));
+  m_turretSubsystem.SetDefaultCommand(MoveTurretWithJoystickCommand(&m_turretSubsystem, &m_auxController));
   
   // IntakeSubsystem Commands
   m_rTriggerDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
   m_rTriggerDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
   
   // ShooterSubsystem Commands
-  m_aButtonAux.WhenPressed(StartShooterCommand(&m_shooterSubsystem));
+  m_aButtonLeftBumpAux.WhenPressed(StartShooterCommand(&m_shooterSubsystem));
+  m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
   m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
   m_rTriggerAux.WhileHeld(ShootCommand(&m_feederSubsystem));
+
+  //ClimberSubsystem commands
+  m_startBackAux.WhenPressed(AutoClimbCommand(&m_climberSubsystem, &m_driveSubsystem));
+
+  //DriveSubsystem commands
+  m_lBumperDriver.WhenPressed(new frc2::InstantCommand([this]{m_driveSubsystem.toggleFieldCentricForJoystick();},{&m_driveSubsystem}));
 
   // TurretSubsystem Commands
   // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
