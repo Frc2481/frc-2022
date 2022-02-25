@@ -25,38 +25,38 @@ namespace PDPChannels{
 }
 
 namespace VictorIDs{
-    static constexpr int kIntakeRollerMotorID = 11;
+    static constexpr int kIntakeRollerMotorID = 8;
     // static constexpr int kIndexerRollerMotorID = 12;
-    static constexpr int kFrontRightTurningMotorID = 3;//1
-    static constexpr int kFrontLeftTurningMotorID = 1;//4
-    static constexpr int kRearRightTurningMotorID = 4;//3
-    static constexpr int kRearLeftTurningMotorID = 2;//2
-    static constexpr int kRearMiddleTurningMotorID = 22;//TODO figure me out
-    static constexpr int kFeederMotorID = 10; //TODO figure me out
-    static constexpr int kIndexerMotorID = 12; //TODO
+    static constexpr int kFrontRightTurningMotorID = 3;
+    static constexpr int kFrontLeftTurningMotorID = 1;
+    static constexpr int kRearRightTurningMotorID = 4;
+    static constexpr int kRearLeftTurningMotorID = 2;
+    static constexpr int kRearMiddleTurningMotorID = 5;
+    static constexpr int kFeederMotorID = 6;
+    static constexpr int kIndexerMotorID = 7;
 }
 
 namespace FalconIDs{
-    static constexpr int kFrontRightDriveMotorID = 333;//5
-    static constexpr int kFrontLeftDriveMotorID = 4;//6
-    static constexpr int kRearRightDriveMotorID = 8;//7
-    static constexpr int kRearLeftDriveMotorID = 6;//8
-    static constexpr int kRearMiddleDriveMotorID = 99;//TODO figure me out
+    static constexpr int kFrontRightDriveMotorID = 3;//5
+    static constexpr int kFrontLeftDriveMotorID = 1;//6
+    static constexpr int kRearRightDriveMotorID = 4;//7
+    static constexpr int kRearLeftDriveMotorID = 2;//8
+    static constexpr int kRearMiddleDriveMotorID = 5;//TODO figure me out
     static constexpr int kTopShooterMotorID = 25; //TODO figure me out
     static constexpr int kBottomShooterMotorID = 50; //TODO figure me out
-    static constexpr int kturretMotorID = 3; 
-    static constexpr int kFloorClimberMotorID = 33; //TODO figure out
-    static constexpr int kTrussClimberMotorID = 34; //TODO figure out
+    static constexpr int kturretMotorID = 6; 
+    static constexpr int kFloorClimberMotorID = 7; //TODO figure out
+    static constexpr int kTrussClimberMotorID = 8; //TODO figure out
     
 } 
 
 namespace CANCoderIDs
 {
-    static constexpr int kFrontRightSteerCANCoderID = 41;
-    static constexpr int kFrontLeftSteerCANCoderID = 42;
-    static constexpr int kRearRightSteerCANCoderID = 43;
-    static constexpr int kRearLeftSteerCANCoderID = 44;
-    static constexpr int kRearMiddleSteerCANCoderID = 45;
+    static constexpr int kFrontRightSteerCANCoderID = 3;
+    static constexpr int kFrontLeftSteerCANCoderID = 1;
+    static constexpr int kRearRightSteerCANCoderID = 4;
+    static constexpr int kRearLeftSteerCANCoderID = 2;
+    static constexpr int kRearMiddleSteerCANCoderID = 5;
 }
 
 namespace SparkMaxIDs{

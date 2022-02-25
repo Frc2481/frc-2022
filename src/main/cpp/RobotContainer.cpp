@@ -7,7 +7,7 @@
 #include "RobotParameters.h"
 #include "commands/ControlMotorWithJoystickCommand.h"
 #include <frc2/command/InstantCommand.h>
-// #include "commands/Drive/DriveWithJoystickCommand.h"
+#include "commands/Drive/DriveWithJoystickCommand.h"
 #include "commands/intake/ExtendIntakeCommand.h"
 #include "commands/intake/RetractIntakeCommand.h"
 #include "commands/FeederDefaultCommand.h"
@@ -77,6 +77,7 @@ void RobotContainer::ConfigureButtonBindings() {
   m_xButtonAux.WhenPressed(ManualStartIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
   m_yButtonAux.WhenPressed(ManualStopIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
   // DriveSubsystem Commands
+  m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController));
   // frc::SmartDashboard::PutData("Zero Steer Encoders", new InstantDisabledCommand([this](){
   //   m_driveSubsystem.ResetEncoders();
   // }));
