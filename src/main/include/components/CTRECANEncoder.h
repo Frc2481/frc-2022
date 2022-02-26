@@ -25,6 +25,7 @@ public:
     bool isConnected() const;
     bool isCalibrated() const;
     int getZero() const;
+    CANCoder* getCANCoder();
 
 private:
     CANCoder* m_pCANCoder;

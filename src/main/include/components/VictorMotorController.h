@@ -38,6 +38,7 @@ class VictorMotorController : public CommonMotorController {
   void Set(CommonModes mode, double demand0, ctre::phoenix::motorcontrol::DemandType demand1Type, double demand1);
   void ConfigFactoryDefault();
   void ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+  void ConfigRemoteFeedbackFilter(ctre::phoenix::sensors::CANCoder &canCoderRef, int remoteOrdinal);
   int GetSelectedSensorPosition(int id);
   void SetEncoderPosition(double pos);
   void SetVelocityConversionFactor(double factor);

@@ -13,8 +13,8 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 
-#include "commands/climber/ExtendClimberWheelsCommand.h"
-#include "commands/climber/RetractFloorClimberWheelsCommand.h"
+#include "commands/climber/ExtendFloorTrussClimberWheelsCommand.h"
+#include "commands/climber/RetractFloorTrussClimberWheelsCommand.h"
 #include "commands/climber/FireJavelinCommand.h"
 #include "commands/climber/StartClimberWheelsCommand.h"
 #include "commands/climber/StartClimberWheelsReverseCommand.h"

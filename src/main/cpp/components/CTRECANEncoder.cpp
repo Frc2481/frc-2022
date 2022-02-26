@@ -15,6 +15,8 @@ CTRECANEncoder::CTRECANEncoder(int CANID, const std::string &name)
 	m_calibrationKey = ss.str();
     m_encoderTicksZero = frc::Preferences::GetDouble(m_calibrationKey);
     printf("\n\n\nEncoder ticks zero %d\n\n\n\n", m_encoderTicksZero);
+    m_pCANCoder->ConfigSensorInitializationStrategy(ctre::phoenix::sensors::BootToAbsolutePosition);
+    m_pCANCoder->ConfigFeedbackCoefficient(1, "ticks", ctre::phoenix::sensors::Per100Ms_Legacy);
 
     //m_CANCoder->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     //m_CANCoder->SetStatusFramePeriod(Status_2_Feedback0, 10, 10);
@@ -97,4 +99,7 @@ bool CTRECANEncoder::isCalibrated() const {
 
 int CTRECANEncoder::getZero() const {
     return m_encoderTicksZero;
+}
+CANCoder* CTRECANEncoder::getCANCoder() {
+    return m_pCANCoder;
 }

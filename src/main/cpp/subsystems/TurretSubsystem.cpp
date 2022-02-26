@@ -21,13 +21,13 @@ TurretSubsystem::TurretSubsystem() :
         m_pTurretMotor = new TalonFXMotorController(FalconIDs::kturretMotorID, "turretMotor");
         m_pTurretMotor->ConfigFactoryDefault();
         // m_turretMotor->SetCon
-        m_pTurretMotor->ConfigMotionCruiseVelocity((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS);  //Degrees per second
-        m_pTurretMotor->ConfigMotionAcceleration(((RobotParameters::k_maxTurretSpeed)/RobotParameters::k_turretEncoderTicksToDPS)*2);
-        m_pTurretMotor->Config_kP(0, RobotParameters::k_shooterP); //do we need PIDF for turret motor?
-       m_pTurretMotor->Config_kI(0,RobotParameters::k_shooterI);
-       m_pTurretMotor->Config_kD(0,RobotParameters::k_shooterD);
-       m_pTurretMotor->Config_kF(0,RobotParameters::k_shooterF);
-       m_pTurretMotor->Config_IntegralZone(0,25); //TODO correct values
+        m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS, 10);  //Degrees per second
+        m_pTurretMotor->ConfigMotionAcceleration((RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS)*2, 10);
+        m_pTurretMotor->Config_kP(0, RobotParameters::k_turretP, 10); //do we need PIDF for turret motor?
+       m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
+       m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
+       m_pTurretMotor->Config_kF(0,RobotParameters::k_turretF, 10);
+       m_pTurretMotor->Config_IntegralZone(0,25, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
        frc::SmartDashboard::PutNumber("Turret ADC", 0);
 

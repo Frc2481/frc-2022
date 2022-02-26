@@ -25,15 +25,16 @@ namespace PDPChannels{
 }
 
 namespace VictorIDs{
-    static constexpr int kIntakeRollerMotorID = 8;
+    
     // static constexpr int kIndexerRollerMotorID = 12;
-    static constexpr int kFrontRightTurningMotorID = 3;
-    static constexpr int kFrontLeftTurningMotorID = 1;
-    static constexpr int kRearRightTurningMotorID = 4;
-    static constexpr int kRearLeftTurningMotorID = 2;
-    static constexpr int kRearMiddleTurningMotorID = 5;
-    static constexpr int kFeederMotorID = 6;
-    static constexpr int kIndexerMotorID = 7;
+    static constexpr int kFrontRightTurningMotorID = 33;
+    static constexpr int kFrontLeftTurningMotorID = 31;
+    static constexpr int kRearRightTurningMotorID = 34;
+    static constexpr int kRearLeftTurningMotorID = 32;
+    static constexpr int kRearMiddleTurningMotorID = 35;
+    static constexpr int kFeederMotorID = 36;
+    static constexpr int kIndexerMotorID = 37;
+    static constexpr int kIntakeRollerMotorID = 0; //intake roller motor is a talon SRX
 }
 
 namespace FalconIDs{
@@ -47,7 +48,7 @@ namespace FalconIDs{
     static constexpr int kturretMotorID = 6; 
     static constexpr int kFloorClimberMotorID = 7; //TODO figure out
     static constexpr int kTrussClimberMotorID = 8; //TODO figure out
-    
+    static constexpr int kIntakeRollerMotorID = 9; //intake roller motor is a talon SRX
 } 
 
 namespace CANCoderIDs
@@ -65,17 +66,16 @@ namespace SparkMaxIDs{
 }
 
 namespace SolenoidPorts{
-    static constexpr int kManipulatorSolenoidPort = 7;
-    static constexpr int kManipulatorSolenoidReversePort = 6;
+ 
     static constexpr int kIntakeSolenoidPort = 0;
     static constexpr int kIntakeSolenoidReversePort = 1;
-    static constexpr int kShooterSolenoidPort = 2;
-    static constexpr int kShooterSolenoidReversePort = 3;
-    static constexpr int kFloorClimberSolenoidPort = 8;
-    static constexpr int kFloorClimberSolenoidReversePort = 9;
-    static constexpr int kTrussClimberSolenoidPort = 10;
-    static constexpr int kTrussClimberSolenoidReversePort = 11;
-    static constexpr int kJavelinSolenoidPort = 12;
+   
+    static constexpr int kFloorClimberSolenoidPort = 2;
+    static constexpr int kFloorClimberSolenoidReversePort = 3;
+    // static constexpr int kTrussClimberSolenoidPort = 10;
+    // static constexpr int kTrussClimberSolenoidReversePort = 11;
+    static constexpr int kJavelinSolenoidPort = 6;
+    static constexpr int kJavelinReverseSolenoidPort = 7;
 }
 
 namespace DriveConstants {

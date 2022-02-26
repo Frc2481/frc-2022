@@ -20,6 +20,6 @@ class RetractFloorClimberWheelsCommand
   }
 
   void Initialize() override{
-    m_pClimber->retractFloorWheels();
+    m_pClimber->retractFloorTrussWheels();
   }
 };

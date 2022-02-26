@@ -31,7 +31,10 @@ SwerveModule::SwerveModule(int driveMotorID, int turningMotorID, int turnEncoder
       m_pDriveMotor = new TalonFXMotorController(driveMotorID, name);
       m_pTurningMotor = new VictorMotorController(turningMotorID, m_name);
       m_pTurningMotor->ConfigFactoryDefault();
+
       m_pTurningEncoder = new CTRECANEncoder(turnEncoderID, name);
+      m_pTurningMotor->ConfigRemoteFeedbackFilter(*(m_pTurningEncoder->getCANCoder()), 0);
+      m_pTurningMotor->ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::RemoteSensor0, 0, 10);
       m_pDriveMotor->SetVelocityConversionFactor(RobotParameters::k_driveMotorEncoderTicksToMPS); // (1 rev / 5 v) * .16 m/rev
       m_pDriveMotor->ConfigFactoryDefault();
       m_pDriveMotor->SetInverted(driveEncoderReversed);

@@ -20,6 +20,7 @@
 #include "commands/ManualStopIntakeFeederCommand.h"
 #include "commands/shooter/StartShooterCommand.h"
 #include "commands/turret/MoveTurretWithJoystickCommand.h"
+#include "commands/BarfCommand.h"
 #include "components/Joystick2481.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
@@ -61,7 +62,9 @@ public:
 void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
   //TODO Add fireshooter button
-
+  frc::SmartDashboard::PutData("Zero Steer Encoders", new InstantDisabledCommand([this](){
+    m_driveSubsystem.ResetEncoders();
+  }));
   // ClimberSubsystem Commands
     // m_rBumperAux.WhenPressed(new frc2::InstantCommand([this](){
     //   if(m_auxController.GetRawButton(XBOX_LEFT_BUMPER)){
@@ -99,6 +102,9 @@ void RobotContainer::ConfigureButtonBindings() {
   // IntakeSubsystem Commands
   m_rTriggerDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
   m_rTriggerDriver.WhenReleased(RetractIntakeCommand(&m_intakeSubsystem));
+  // m_lTriggerDriver.WhenPressed(BarfCommand(&m_intakeSubsystem));
+  
+
   
   // ShooterSubsystem Commands
   m_aButtonLeftBumpAux.WhenPressed(StartShooterCommand(&m_shooterSubsystem));
@@ -111,6 +117,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
   //DriveSubsystem commands
   m_lBumperDriver.WhenPressed(new frc2::InstantCommand([this]{m_driveSubsystem.toggleFieldCentricForJoystick();},{&m_driveSubsystem}));
+  
 
   // TurretSubsystem Commands
   // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));

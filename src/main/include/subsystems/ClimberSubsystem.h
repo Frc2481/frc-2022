@@ -18,10 +18,8 @@ class ClimberSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  void extendFloorWheels();
-  void extendTrussWheels();
-  void retractFloorWheels();
-  void retractTrussWheels();
+  void extendFloorTrussWheels();
+  void retractFloorTrussWheels();
   void setFloorWheelsSpeed(double speed);
   void setTrussWheelsSpeed(double speed);
   double getTrussWheelSpeed();
@@ -43,6 +41,6 @@ class ClimberSubsystem : public frc2::SubsystemBase {
   TalonFXMotorController* m_pFloorMotor;
   TalonFXMotorController* m_pTrussMotor;
   frc::DoubleSolenoid m_pFloorSolenoid;
-  frc::DoubleSolenoid m_pTrussSolenoid;
+  // frc::DoubleSolenoid m_pTrussSolenoid;
   frc::Solenoid m_pJavelinSolenoid;
 };

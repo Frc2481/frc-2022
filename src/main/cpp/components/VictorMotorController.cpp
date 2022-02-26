@@ -95,6 +95,9 @@ void VictorMotorController::ConfigFactoryDefault(){
 void VictorMotorController::ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs){
     m_pMotor->ConfigSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);
 }
+void VictorMotorController::ConfigRemoteFeedbackFilter(ctre::phoenix::sensors::CANCoder &canCoderRef, int remoteOrdinal){
+    m_pMotor->ConfigRemoteFeedbackFilter(canCoderRef, remoteOrdinal);
+}
 int VictorMotorController::GetSelectedSensorPosition(int id){
     return m_pMotor->GetSelectedSensorPosition(id);
 }

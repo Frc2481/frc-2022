@@ -136,8 +136,8 @@ void DriveSubsystem::SetModuleStates(
   kDriveKinematics.DesaturateWheelSpeeds(&desiredStates,
                                         AutoConstants::kMaxSpeed);
   m_frontLeft.SetDesiredState(desiredStates[0], percentMode);
-  m_rearLeft.SetDesiredState(desiredStates[1],percentMode);
-  m_frontRight.SetDesiredState(desiredStates[2], percentMode);
+  m_rearLeft.SetDesiredState(desiredStates[2],percentMode);
+  m_frontRight.SetDesiredState(desiredStates[1], percentMode);
   m_rearRight.SetDesiredState(desiredStates[3], percentMode);
   m_rearMiddle.SetDesiredState(desiredStates[4], percentMode);
   

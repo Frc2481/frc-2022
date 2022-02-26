@@ -114,21 +114,21 @@ void stop();
 frc::ChassisSpeeds GetRobotVelocity();
 //TODO: Configure these for Big Bertha
   units::meter_t kTrackWidth =
-      units::meter_t(23.125_in);  // Distance between centers of right and left wheels on robot 
+      units::meter_t(16.8325_in);  // Distance between centers of right and left wheels on robot 
   units::meter_t kWheelBase =
-      units::meter_t(27.125_in);  // Distance between centers of front and back wheels on robot 
+      units::meter_t(21.75_in);  // Distance between centers of front and back wheels on robot 
 
   units::meter_t kTrackWidth2 =
-      units::meter_t(23.125_in);  // Distance between centers of right and left wheels on robot 
+      units::meter_t(39.0_in);  // Distance between centers of right and left wheels on robot 
   units::meter_t kWheelBase2 =
-      units::meter_t(27.125_in);  // Distance between centers of front and back wheels on robot 
+      units::meter_t(3.75_in);  // Distance between centers of front and back wheels on robot 
 
   frc::SwerveDriveKinematics<5> kDriveKinematics{
+      frc::Translation2d(kWheelBase / 2, -kTrackWidth / 2),
       frc::Translation2d(kWheelBase / 2, kTrackWidth / 2),
-      frc::Translation2d(-kWheelBase / 2, kTrackWidth / 2),
       frc::Translation2d(-kWheelBase2 / 2, -kTrackWidth2 / 2),
-      frc::Translation2d( kWheelBase2 * 0, -kTrackWidth / 2),
-      frc::Translation2d(kWheelBase2 / 2, -kTrackWidth2 / 2)};
+      frc::Translation2d(-kWheelBase2 / 2, kTrackWidth / 2),
+      frc::Translation2d(-kWheelBase / 2, 0_in)};
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
