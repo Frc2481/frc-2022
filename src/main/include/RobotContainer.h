@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-#include "subsystems/TurretSubsystem.h"
+// #include "subsystems/TurretSubsystem.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "components/Joystick2481.h"
 #include <frc2/command/button/Button.h>
@@ -15,6 +15,7 @@
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
+// #include <frc/PneumaticsControlModule.h>
 /**
  * This class is where the bulk of the robot should be declared.  Since
  * Command-based is a "declarative" paradigm, very little robot logic should
@@ -35,11 +36,12 @@ class RobotContainer {
   
  public:
   DriveSubsystem m_driveSubsystem;
-  TurretSubsystem m_turretSubsystem;
+  // TurretSubsystem m_turretSubsystem;
   FeederSubsystem m_feederSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   ShooterSubsystem m_shooterSubsystem;
   ClimberSubsystem m_climberSubsystem;
+  // frc::PneumaticsControlModule m_pcm;
   //driver
   frc2::Button m_startDriver{[&] { return m_driverController.GetRawButton(XBOX_START_BUTTON); }};//
   frc2::Button m_backDriver{[&] { return m_driverController.GetRawButton(XBOX_BACK_BUTTON); }};//

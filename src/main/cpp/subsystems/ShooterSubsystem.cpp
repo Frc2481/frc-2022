@@ -94,10 +94,12 @@ ShooterSubsystem::ShooterSubsystem() :
 
    }
    void ShooterSubsystem::topMotorSetSpeed(double speed){
-       m_pTopShooterMotor->Set(CommonModes::Velocity, speed);
+    //    m_pTopShooterMotor->Set(speed);//CommonModes::Velocity, 
+       m_pTopShooterMotor->Set(CommonModes::Velocity, speed);//, 
    }
    void ShooterSubsystem::bottomMotorSetSpeed(double speed){
-       m_pBottomShooterMotor->Set(CommonModes::Velocity, speed);
+    //    m_pBottomShooterMotor->Set(speed);//CommonModes::Velocity, 
+       m_pBottomShooterMotor->Set(CommonModes::Velocity, speed);//, 
    }
 
 

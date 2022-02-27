@@ -45,6 +45,6 @@ class RetractIntakeCommand
   }
 
   bool IsFinished() override{
-    return (int)m_timer.Get() >= 3;
+    return (int)m_timer.Get() >= 1;
   }
 };

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include "components/VictorMotorController.h"
+#include "components/TalonSRXMotorController.h"
 #include <frc/DoubleSolenoid.h>
 #include <frc/PowerDistribution.h>
 
@@ -30,6 +30,6 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   bool m_isIntakeExtended;
   double m_rollerSpeed;
   frc::DoubleSolenoid m_intakeSolenoid;
-  VictorMotorController* m_pRollerMotor;
+  TalonSRXMotorController* m_pRollerMotor;
   frc::PowerDistribution m_PDP;
 };

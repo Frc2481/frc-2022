@@ -42,5 +42,5 @@ class ClimberSubsystem : public frc2::SubsystemBase {
   TalonFXMotorController* m_pTrussMotor;
   frc::DoubleSolenoid m_pFloorSolenoid;
   // frc::DoubleSolenoid m_pTrussSolenoid;
-  frc::Solenoid m_pJavelinSolenoid;
+  frc::DoubleSolenoid m_pJavelinSolenoid;
 };

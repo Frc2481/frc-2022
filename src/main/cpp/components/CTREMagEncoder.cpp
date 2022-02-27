@@ -3,6 +3,8 @@
 #include <ctre/phoenix/motorcontrol/FeedbackDevice.h>
 #include <frc/Preferences.h>
 #include "Utils/NormalizeToRange.h"
+#include "units/constants.h"
+ 
 
 CTREMagEncoder::CTREMagEncoder(CommonMotorController* pTalon, const std::string &name)
 	:
@@ -54,7 +56,7 @@ double CTREMagEncoder::getAngle() const {
 }
 
 double CTREMagEncoder::getWheelDistance(double wheelRadius, double gearRatioEncoderToWheel) const {
-    return getRevs() * gearRatioEncoderToWheel * wheelRadius * 2.0 * 3.14; //TODO: this need more pi
+    return getRevs() * gearRatioEncoderToWheel * wheelRadius * 2.0 * units::constants::pi; 
 }
 
 int CTREMagEncoder::convertRevsToTicks(double revs) const {
@@ -75,7 +77,7 @@ int CTREMagEncoder::convertAngleToTickSetpoint(double angle) const {
 }
 
 double CTREMagEncoder::convertWheelDistanceToRevs(double wheelRadius, double wheelDistance) const {
-    return wheelDistance / (wheelRadius * 2.0 * 3.14); //TODO: also needs more pi
+    return wheelDistance / (wheelRadius * 2.0 * units::constants::pi); 
 }
 
 int CTREMagEncoder::convertWheelDistanceToTicks(double wheelRadius, double wheelDistance) const {

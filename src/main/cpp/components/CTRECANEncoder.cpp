@@ -3,6 +3,7 @@
 #include <ctre/phoenix/motorcontrol/FeedbackDevice.h>
 #include <frc/Preferences.h>
 #include "Utils/NormalizeToRange.h"
+#include <units/constants.h>
 
 CTRECANEncoder::CTRECANEncoder(int CANID, const std::string &name)
 	:
@@ -57,7 +58,7 @@ double CTRECANEncoder::getAngle() const {
 }
 
 double CTRECANEncoder::getWheelDistance(double wheelRadius, double gearRatioEncoderToWheel) const {
-    return getRevs() * gearRatioEncoderToWheel * wheelRadius * 2.0 * 3.14; //TODO: this need more pi
+    return getRevs() * gearRatioEncoderToWheel * wheelRadius * 2.0 * units::constants::pi; 
 }
 
 int CTRECANEncoder::convertRevsToTicks(double revs) const {
@@ -78,7 +79,7 @@ int CTRECANEncoder::convertAngleToTickSetpoint(double angle) const {
 }
 
 double CTRECANEncoder::convertWheelDistanceToRevs(double wheelRadius, double wheelDistance) const {
-    return wheelDistance / (wheelRadius * 2.0 * 3.14); //TODO: also needs more pi
+    return wheelDistance / (wheelRadius * 2.0 * units::constants::pi); 
 }
 
 int CTRECANEncoder::convertWheelDistanceToTicks(double wheelRadius, double wheelDistance) const {

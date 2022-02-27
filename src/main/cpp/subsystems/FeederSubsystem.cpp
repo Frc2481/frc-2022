@@ -31,7 +31,7 @@ FeederSubsystem::FeederSubsystem() :
    }
    void FeederSubsystem::setFeederSpeed(double speed){
         // m_pFeederMotor->Set(speed);
-        m_pFeederMotor->Set(CommonModes::Velocity, speed);
+        m_pFeederMotor->Set(speed);
         m_isFeederRunning = speed;
    }
    void FeederSubsystem::setIndexerSpeed(double speed){
@@ -39,19 +39,22 @@ FeederSubsystem::FeederSubsystem() :
         m_isIndexerRunning = speed;
    }
    bool FeederSubsystem::getFeederBeamBreak(){
-       return frc::SmartDashboard::GetBoolean("Feeder Beam Break", false);
-    //   return m_feederBeamBreak.Get();
+    //    return frc::SmartDashboard::GetBoolean("Feeder Beam Break", false);
+      return !m_feederBeamBreak.Get();
    }
    bool FeederSubsystem::getIndexerBeamBreak(){
-       return frc::SmartDashboard::GetBoolean("Indexer Beam Break", false);
-    //   return m_indexerBeamBreak.Get();
+    //    return frc::SmartDashboard::GetBoolean("Indexer Beam Break", false);
+      return !m_indexerBeamBreak.Get();
    }
 
 
 
 
 // This method will be called once per scheduler run
-void FeederSubsystem::Periodic() {}
+void FeederSubsystem::Periodic() {
+    frc::SmartDashboard::PutBoolean("Feeder Beam Break", m_feederBeamBreak.Get());
+    frc::SmartDashboard::PutBoolean("Indexer Beam Break", m_indexerBeamBreak.Get());
+}
 
 
 

@@ -19,9 +19,13 @@
 #include "commands/ManualStartIntakeFeederCommand.h"
 #include "commands/ManualStopIntakeFeederCommand.h"
 #include "commands/shooter/StartShooterCommand.h"
-#include "commands/turret/MoveTurretWithJoystickCommand.h"
+#include "commands/climber/RetractFloorTrussClimberWheelsCommand.h"
+// #include "commands/turret/MoveTurretWithJoystickCommand.h"
 #include "commands/BarfCommand.h"
+#include "commands/climber/ManualClimbCommand.h"
+#include "commands/climber/RetractJavelinCommand.h"
 #include "components/Joystick2481.h"
+#include "commands/auto/TwoBallAutoCommand.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
  {
@@ -29,21 +33,25 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
     // m_turret.SetDefaultCommand(StayOnTargetCommand(&m_turret));
   // Configure the button bindings
 
-
+  // m_pcm.set
 
   ConfigureButtonBindings();
-  frc::SmartDashboard::PutNumber("test",342);
-  frc::SmartDashboard::PutNumber("TurretP", RobotParameters::k_shooterP);
-  frc::SmartDashboard::PutNumber("TurretI", RobotParameters::k_shooterI);
-  frc::SmartDashboard::PutNumber("TurretD", RobotParameters::k_shooterD);
-  frc::SmartDashboard::PutNumber("TurretF", RobotParameters::k_shooterF);
-  frc::SmartDashboard::PutNumber("Set Target Angle", 0);
+  // frc::SmartDashboard::PutNumber("test",342);
+  // frc::SmartDashboard::PutNumber("TurretP", RobotParameters::k_shooterP);
+  // frc::SmartDashboard::PutNumber("TurretI", RobotParameters::k_shooterI);
+  // frc::SmartDashboard::PutNumber("TurretD", RobotParameters::k_shooterD);
+  // frc::SmartDashboard::PutNumber("TurretF", RobotParameters::k_shooterF);
+  // frc::SmartDashboard::PutNumber("Set Target Angle", 0);
   
   frc::SmartDashboard::PutBoolean("Feeder Beam Break", false);
   frc::SmartDashboard::PutBoolean("Indexer Beam Break", false);
 
-  frc::SmartDashboard::PutNumber("Bottom Motor Speed", 0);
-  frc::SmartDashboard::PutNumber("Top Motor Speed", 0);
+  // frc::SmartDashboard::PutNumber("Bottom Motor Speed", 0);
+  // frc::SmartDashboard::PutNumber("Top Motor Speed", 0);
+
+  frc::SmartDashboard::PutNumber("Drive Train Constant", ClimberConstants::kDriveTrainSpeedConstant);
+  frc::SmartDashboard::PutNumber("Truss Wheel Constant", ClimberConstants::kTrussWheelSpeedConstant);
+  frc::SmartDashboard::PutNumber("Floor Wheel Constant", ClimberConstants::kFloorWheelSpeedConstant);
 
   // m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
@@ -72,6 +80,7 @@ void RobotContainer::ConfigureButtonBindings() {
     //     frc::SmartDashboard::PutBoolean("Button Works", true);
     //     // new ExtendIntakeCommand(&m_intakeSubsystem);
     // }
+
     // else{
     //   frc::SmartDashboard::PutBoolean("Button Works", false);
     // }
@@ -81,23 +90,24 @@ void RobotContainer::ConfigureButtonBindings() {
   m_yButtonAux.WhenPressed(ManualStopIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
   // DriveSubsystem Commands
   m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController));
+  m_lBumperDriver.WhenPressed(new frc2::InstantCommand([this]{m_driveSubsystem.toggleFieldCentricForJoystick();},{&m_driveSubsystem}));
   // frc::SmartDashboard::PutData("Zero Steer Encoders", new InstantDisabledCommand([this](){
   //   m_driveSubsystem.ResetEncoders();
   // }));
 
-  // frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this](){
-  //   m_driveSubsystem.ResetOdometry(frc::Pose2d());
-  // }));
-  // m_startDriver.WhenPressed(new frc2::InstantCommand([this]{
-  //                             m_driveSubsystem.ResetOdometry(frc::Pose2d(
-  //                                                               m_driveSubsystem.GetPose().Translation().X(), 
-  //                                                               m_driveSubsystem.GetPose().Translation().Y(),
-  //                                                               frc::Rotation2d(units::degree_t(0))));
-  //                             },{&m_driveSubsystem}));
+  frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this](){
+    m_driveSubsystem.ResetOdometry(frc::Pose2d());
+  }));
+  m_startDriver.WhenPressed(new frc2::InstantCommand([this]{
+                              m_driveSubsystem.ResetOdometry(frc::Pose2d(
+                                                                m_driveSubsystem.GetPose().Translation().X(), 
+                                                                m_driveSubsystem.GetPose().Translation().Y(),
+                                                                frc::Rotation2d(units::degree_t(0))));
+                              },{&m_driveSubsystem}));
 
   // FeederSubsystem Commands
   m_feederSubsystem.SetDefaultCommand(FeederDefaultCommand(&m_feederSubsystem, &m_intakeSubsystem));
-  m_turretSubsystem.SetDefaultCommand(MoveTurretWithJoystickCommand(&m_turretSubsystem, &m_auxController));
+  // m_turretSubsystem.SetDefaultCommand(MoveTurretWithJoystickCommand(&m_turretSubsystem, &m_auxController));
   
   // IntakeSubsystem Commands
   m_rTriggerDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
@@ -107,13 +117,18 @@ void RobotContainer::ConfigureButtonBindings() {
 
   
   // ShooterSubsystem Commands
-  m_aButtonLeftBumpAux.WhenPressed(StartShooterCommand(&m_shooterSubsystem));
-  m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
-  m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
+  m_aButtonAux.WhenPressed(StartShooterCommand(&m_shooterSubsystem));
+  // m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
+  // m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
   m_rTriggerAux.WhileHeld(ShootCommand(&m_feederSubsystem));
 
   //ClimberSubsystem commands
   m_startBackAux.WhenPressed(AutoClimbCommand(&m_climberSubsystem, &m_driveSubsystem));
+  m_rBumperAux.WhenPressed(ManualClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_auxController));
+  m_rBumperAux.WhenReleased(RetractFloorClimberWheelsCommand(&m_climberSubsystem));
+  m_lBumperAux.WhenPressed(FireJavelinCommand(&m_climberSubsystem));
+  m_lBumperAux.WhenReleased(RetractJavelinCommand(&m_climberSubsystem));
+  
 
   //DriveSubsystem commands
   m_lBumperDriver.WhenPressed(new frc2::InstantCommand([this]{m_driveSubsystem.toggleFieldCentricForJoystick();},{&m_driveSubsystem}));
@@ -130,4 +145,5 @@ void RobotContainer::ConfigureButtonBindings() {
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
   return nullptr;
+  // return new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem, &m_turretSubsystem);
 }

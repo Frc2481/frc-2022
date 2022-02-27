@@ -11,9 +11,9 @@ m_trussWheelsSpeed(0),
 m_areFloorWheelsExtended(false),
 m_areTrussWheelsExtended(false),
 m_isJavelinExtended(false),
-m_pFloorSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kFloorClimberSolenoidPort,SolenoidPorts::kFloorClimberSolenoidReversePort),
-// m_pTrussSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kTrussClimberSolenoidPort,SolenoidPorts::kTrussClimberSolenoidReversePort),
-m_pJavelinSolenoid(frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kJavelinSolenoidPort)
+m_pFloorSolenoid(0,frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kFloorClimberSolenoidPort,SolenoidPorts::kFloorClimberSolenoidReversePort),
+// m_pTrussSolenoid(62, frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kTrussClimberSolenoidPort,SolenoidPorts::kTrussClimberSolenoidReversePort),
+m_pJavelinSolenoid(0,frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kJavelinSolenoidPort, SolenoidPorts::kJavelinReverseSolenoidPort)
 {
     m_pFloorMotor = new TalonFXMotorController(FalconIDs::kFloorClimberMotorID, "floorClimberMotor");
     m_pTrussMotor = new TalonFXMotorController(FalconIDs::kTrussClimberMotorID, "trussClimberMotorMotor");
@@ -42,11 +42,11 @@ double ClimberSubsystem::getFloorWheelSpeed(){
   return m_floorWheelsSpeed;
 }
 void ClimberSubsystem::fireJavelin(){
-  m_pJavelinSolenoid.Set(true);
+  m_pJavelinSolenoid.Set(m_pFloorSolenoid.kForward);
   m_isJavelinExtended = true;
 }
 void ClimberSubsystem::retractJavelin(){
-  m_pJavelinSolenoid.Set(false);
+  m_pJavelinSolenoid.Set(m_pFloorSolenoid.kReverse);
   m_isJavelinExtended = false;
 }
 bool ClimberSubsystem::areFloorWheelsExtended(){

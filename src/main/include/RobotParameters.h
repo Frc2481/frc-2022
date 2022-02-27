@@ -5,7 +5,7 @@
 #include <frc/geometry/Translation2d.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/trajectory/TrapezoidProfile.h>
-//#include <units/units.h>
+// #include <units/units.h>
 #include <units/acceleration.h>
 #include <units/angular_acceleration.h>
 #include <wpi/numbers>
@@ -24,6 +24,10 @@ namespace PDPChannels{
     static constexpr int kIntake = 0; //find
 }
 
+namespace TalonIDs{
+    static constexpr int kIntakeRollerMotorID = 9; //intake roller motor is a talon SRX
+}
+
 namespace VictorIDs{
     
     // static constexpr int kIndexerRollerMotorID = 12;
@@ -32,9 +36,8 @@ namespace VictorIDs{
     static constexpr int kRearRightTurningMotorID = 34;
     static constexpr int kRearLeftTurningMotorID = 32;
     static constexpr int kRearMiddleTurningMotorID = 35;
-    static constexpr int kFeederMotorID = 36;
-    static constexpr int kIndexerMotorID = 37;
-    static constexpr int kIntakeRollerMotorID = 0; //intake roller motor is a talon SRX
+    static constexpr int kFeederMotorID = 11;
+    static constexpr int kIndexerMotorID = 10;
 }
 
 namespace FalconIDs{
@@ -43,12 +46,12 @@ namespace FalconIDs{
     static constexpr int kRearRightDriveMotorID = 4;//7
     static constexpr int kRearLeftDriveMotorID = 2;//8
     static constexpr int kRearMiddleDriveMotorID = 5;//TODO figure me out
-    static constexpr int kTopShooterMotorID = 25; //TODO figure me out
-    static constexpr int kBottomShooterMotorID = 50; //TODO figure me out
+    static constexpr int kTopShooterMotorID = 13; //TODO figure me out
+    static constexpr int kBottomShooterMotorID = 12; //TODO figure me out
     static constexpr int kturretMotorID = 6; 
     static constexpr int kFloorClimberMotorID = 7; //TODO figure out
     static constexpr int kTrussClimberMotorID = 8; //TODO figure out
-    static constexpr int kIntakeRollerMotorID = 9; //intake roller motor is a talon SRX
+    
 } 
 
 namespace CANCoderIDs
@@ -74,8 +77,8 @@ namespace SolenoidPorts{
     static constexpr int kFloorClimberSolenoidReversePort = 3;
     // static constexpr int kTrussClimberSolenoidPort = 10;
     // static constexpr int kTrussClimberSolenoidReversePort = 11;
-    static constexpr int kJavelinSolenoidPort = 6;
-    static constexpr int kJavelinReverseSolenoidPort = 7;
+    static constexpr int kJavelinSolenoidPort = 7;
+    static constexpr int kJavelinReverseSolenoidPort = 6;
 }
 
 namespace DriveConstants {
@@ -197,9 +200,13 @@ namespace LimelightConstants{
 }
 
 namespace ClimberConstants{
-    static constexpr double kLeftWheelSpeed = 100;
-    static constexpr double kRightWheelSpeed = 100;
+    static constexpr double kFloorWheelSpeed = 1;
+    static constexpr double kTrussWheelSpeed = 1;
     static constexpr double kJavelinDeployRoll = 45;
+    static constexpr double kDriveTrainSpeedConstant = 0.4;
+    static constexpr double kTrussWheelSpeedConstant = 1;
+    static constexpr double kFloorWheelSpeedConstant = 1;
+    
 }
 
 //TODO: figure this all out

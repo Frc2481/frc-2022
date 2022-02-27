@@ -33,7 +33,8 @@
  * Command will *not* work!
  */
 class TwoBallAutoCommand
-    : public frc2::CommandHelper<frc2::CommandBase, TwoBallAutoCommand> {
+    : public frc2::CommandHelper<frc2::SequentialCommandGroup, 
+    TwoBallAutoCommand> {
       private: 
       DriveSubsystem* m_pDrive;
       FeederSubsystem* m_pFeeder;
@@ -49,19 +50,18 @@ class TwoBallAutoCommand
     m_pTurret = turret;
 
     AddCommands(
-      frc2::SequentialCommandGroup{
-        frc2::ScheduleCommand(&AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret)),
+      frc2::ParallelCommandGroup{
+        AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret),
 
         //FeederDefaultCommand(m_pFeeder),
         ExtendIntakeCommand(m_pIntake),
         DriveOpenLoopCommand(m_pDrive, DriveConstants::kAutoDriveSpeed, 0_mps, 0_rad_per_s, false), 
           frc2::ParallelCommandGroup{
-              WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
-              DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-              ShootCommand(m_pFeeder).WithTimeout(3_s),
+            WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            ShootCommand(m_pFeeder).WithTimeout(3_s)
           }
-
-  }
-
-  
-};
+        }
+      );
+    }
+  };
