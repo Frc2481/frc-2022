@@ -63,11 +63,6 @@ namespace CANCoderIDs
     static constexpr int kRearMiddleSteerCANCoderID = 5;
 }
 
-namespace SparkMaxIDs{
-    static constexpr int kDumbMotorID = 1;
-    static constexpr int kSteerMotorID = 2;
-}
-
 namespace SolenoidPorts{
  
     static constexpr int kIntakeSolenoidPort = 0;
@@ -187,7 +182,7 @@ namespace ShooterConstants{ //TODO wheel speeds
     static constexpr double kDonutTopWheelSpeed = 0; 
     static constexpr double kDonutBottomWheelSpeed = 0; 
     static constexpr double kTopShooterSpeed = 2500;
-    static constexpr double kBottomShooterSpeed = -1700;
+    static constexpr double kBottomShooterSpeed = 1700;
 
 
 }
@@ -204,8 +199,7 @@ namespace ClimberConstants{
     static constexpr double kTrussWheelSpeed = 1;
     static constexpr double kJavelinDeployRoll = 45;
     static constexpr double kDriveTrainSpeedConstant = 0.4;
-    static constexpr double kTrussWheelSpeedConstant = 1;
-    static constexpr double kFloorWheelSpeedConstant = 1;
+    
     
 }
 
@@ -219,11 +213,11 @@ namespace RobotParameters {
     static constexpr double k_wheelTrack = 1; // in
     static constexpr double k_wheelLeverArm = sqrt(std::pow(k_wheelBase/2,2) + std::pow(k_wheelTrack/2,2));
     static constexpr double k_wheelRad = (3.79/2)*.0254*1.03; // in TODO find actual size
-    static constexpr double k_maxSpeed = 1; //TODO change also in driveWithJoystickCommand
+    static constexpr double k_maxSpeed = 9001; //TODO change also in driveWithJoystickCommand
     static constexpr double k_maxAccel = 1;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; // gear ratio from steer encoder to wheel TODO find
-    static constexpr double k_driveMotorGearRatio = 1;
+    static constexpr double k_driveMotorGearRatio = 90.0/11.0;
     static constexpr double k_ticksPerRev= 2048.0;//ticks per 100ms TODO check
     static constexpr double k_driveMotorEncoderTicksToMPS = (1/k_ticksPerRev)*(1/k_driveMotorGearRatio)*k_wheelRad*3.14159265*2*10;
     static constexpr double k_driveMotorEncoderTicksToMeters = (1/k_ticksPerRev)*(1/k_driveMotorGearRatio)*k_wheelRad*3.14159265*2;
@@ -275,7 +269,7 @@ namespace RobotParameters {
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 
-    static constexpr double k_turretTeeth = 229.0;
+    static constexpr double k_turretTeeth = 154.0;
     static constexpr double k_turretDriveTeeth = 16.0;
     static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
     static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;

@@ -16,7 +16,13 @@ m_pFloorSolenoid(0,frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kFloorClim
 m_pJavelinSolenoid(0,frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kJavelinSolenoidPort, SolenoidPorts::kJavelinReverseSolenoidPort)
 {
     m_pFloorMotor = new TalonFXMotorController(FalconIDs::kFloorClimberMotorID, "floorClimberMotor");
+    m_pFloorMotor->ConfigFactoryDefault();
+    m_pFloorMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+    // m_pFloorMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 200, 0); //TODO check to see if proper delay
     m_pTrussMotor = new TalonFXMotorController(FalconIDs::kTrussClimberMotorID, "trussClimberMotorMotor");
+    m_pTrussMotor->ConfigFactoryDefault();
+    m_pTrussMotor->SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+    // m_pTrussMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 200, 0); //TODO check to see if proper delay
 }
 
 void ClimberSubsystem::extendFloorTrussWheels(){

@@ -15,13 +15,16 @@ FeederSubsystem::FeederSubsystem() :
        m_pFeederMotor = new VictorMotorController(VictorIDs::kFeederMotorID, "feederMotor");
        m_pFeederMotor->ConfigFactoryDefault();
        m_pFeederMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+    //    m_pFeederMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 100, 0); //TODO check to see if proper delay
        m_pIndexerMotor = new VictorMotorController(VictorIDs::kIndexerMotorID, "indexerMotor");
        m_pIndexerMotor->ConfigFactoryDefault();
        m_pIndexerMotor->SetNeutralMode(ctre::phoenix::motorcontrol::Brake);
+    //    m_pIndexerMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 100, 0); //TODO check to see if proper delay
 
        
        
    }
+
 
    bool FeederSubsystem::isFeederRunning(){
        return m_isFeederRunning;

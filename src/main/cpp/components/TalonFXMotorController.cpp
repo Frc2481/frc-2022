@@ -10,9 +10,26 @@
 
 TalonFXMotorController::TalonFXMotorController(int motorID, const std::string &name) : CommonMotorController(motorID, name) {
     m_pMotor = new TalonFX(motorID);
+    m_pMotor->SetStatusFramePeriod(Status_1_General, 100, 10);
+    m_pMotor->SetStatusFramePeriod(Status_2_Feedback0, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_4_AinTempVbat, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_6_Misc, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_7_CommStatus, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_9_MotProfBuffer, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_10_MotionMagic, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_10_Targets, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_12_Feedback1, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_13_Base_PIDF0, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_14_Turn_PIDF1, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_15_FirmareApiStatus, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_17_Targets1, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_3_Quadrature, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_8_PulseWidth, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_11_UartGadgeteer, 255, 10);
+    m_pMotor->SetStatusFramePeriod(Status_Brushless_Current, 255, 10);
 }
 void  TalonFXMotorController::SetStatusFramePeriod(StatusFrameEnhanced frame, uint8_t periodMs, int timeoutMs){
-    m_pMotor->SetStatusFramePeriod(frame, periodMs, timeoutMs);
+    m_pMotor->SetStatusFramePeriod(frame, periodMs, timeoutMs); //1, time between each ping, how long to wait
 }
 void  TalonFXMotorController::ConfigMotionAcceleration(int sensorUnitsPer100ms, int timeoutMs){
     m_pMotor->ConfigMotionAcceleration(sensorUnitsPer100ms, timeoutMs);

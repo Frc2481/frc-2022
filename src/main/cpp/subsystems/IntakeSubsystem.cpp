@@ -11,6 +11,7 @@ m_rollerSpeed(0),
  m_intakeSolenoid(0, frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort)
 {
     m_pRollerMotor = new TalonSRXMotorController(TalonIDs::kIntakeRollerMotorID, "RollerMotor");
+    // m_pRollerMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 200, 0); //TODO check to see if proper delay
 }
 
 void IntakeSubsystem::setRollerSpeed(double speed){

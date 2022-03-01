@@ -24,6 +24,7 @@ ShooterSubsystem::ShooterSubsystem() :
        m_topShooterSpeedsVect.push_back(0.0);
        m_topShooterSpeedsVect.push_back(0.0);
        m_topShooterSpeedsVect.push_back(0.0);
+        
 
        m_pBottomShooterMotor = new TalonFXMotorController(FalconIDs::kBottomShooterMotorID, "bottomShooterMotor");
        m_pBottomShooterMotor->ConfigFactoryDefault();
@@ -32,6 +33,9 @@ ShooterSubsystem::ShooterSubsystem() :
        m_pBottomShooterMotor->Config_kD(0,RobotParameters::k_shooterD);
        m_pBottomShooterMotor->Config_kF(0,RobotParameters::k_shooterF);
        m_pBottomShooterMotor->Config_IntegralZone(0,25); //TODO correct values
+       m_pBottomShooterMotor->SetInverted(true);
+       
+
 
        m_pBottomShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::PutNumber("Bot Shoot Spd", 0));
        m_pTopShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::PutNumber("Top Shoot Spd", 0));

@@ -18,6 +18,8 @@ CTRECANEncoder::CTRECANEncoder(int CANID, const std::string &name)
     printf("\n\n\nEncoder ticks zero %d\n\n\n\n", m_encoderTicksZero);
     m_pCANCoder->ConfigSensorInitializationStrategy(ctre::phoenix::sensors::BootToAbsolutePosition);
     m_pCANCoder->ConfigFeedbackCoefficient(1, "ticks", ctre::phoenix::sensors::Per100Ms_Legacy);
+    m_pCANCoder->SetStatusFramePeriod(ctre::phoenix::sensors::CANCoderStatusFrame::CANCoderStatusFrame_SensorData, 20, 10);
+    m_pCANCoder->SetStatusFramePeriod(ctre::phoenix::sensors::CANCoderStatusFrame::CANCoderStatusFrame_VbatAndFaults, 20, 10);
 
     //m_CANCoder->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
     //m_CANCoder->SetStatusFramePeriod(Status_2_Feedback0, 10, 10);

@@ -27,8 +27,8 @@ class StartShooterCommand
   }
 
   void Initialize() override{
-    m_pShooter->topMotorSetSpeed((frc::SmartDashboard::GetNumber("Top Motor Speed", 0)/60.0/10.0)*2048.0);
-    m_pShooter->bottomMotorSetSpeed((frc::SmartDashboard::GetNumber("Bottom Motor Speed", 0)/60.0/10.0)*2048.0);
+    m_pShooter->topMotorSetSpeed(frc::SmartDashboard::GetNumber("Top Motor Speed", ShooterConstants::kTopShooterSpeed));
+    m_pShooter->bottomMotorSetSpeed(frc::SmartDashboard::GetNumber("Bottom Motor Speed", ShooterConstants::kBottomShooterSpeed));
     frc::SmartDashboard::PutBoolean("We are shooting", true);
   }
 
