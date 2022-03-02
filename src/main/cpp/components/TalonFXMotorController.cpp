@@ -148,6 +148,15 @@ double TalonFXMotorController::GetPos(){
 // void TalonFXMotorController::SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode mode){
 //     m_pMotor->SetNeutralMode(mode);
 // }
+
+void TalonFXMotorController::ConfigSoftLimits(double forwardLimit, double reverseLimit) {
+    m_pMotor->ConfigForwardSoftLimitThreshold(forwardLimit, 10);
+    m_pMotor->ConfigReverseSoftLimitThreshold(reverseLimit, 10);
+    m_pMotor->ConfigForwardSoftLimitEnable(true, 10);
+    m_pMotor->ConfigReverseSoftLimitEnable(true, 10);
+}
+
+
 ControlMode TalonFXMotorController::FalconModeToCommonMode(CommonModes mode){
     switch(mode)
     {

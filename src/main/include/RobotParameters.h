@@ -260,10 +260,11 @@ namespace RobotParameters {
     static constexpr double k_shooterF = 0.0447;
 
     //turret Constants TODO set correct values
-    static constexpr double k_turretP = 0.0;
+    static constexpr double k_turretP = 0.05;
     static constexpr double k_turretI = 0.0;
     static constexpr double k_turretD = 0.0;
-    static constexpr double k_turretF = 0.0;
+    // static constexpr double k_turretF = (0.15 * 1023) / 1500;
+    static constexpr double k_turretF = .16229;
 
     static constexpr double k_maxTurretSpeed = 600.0*360.0;
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio

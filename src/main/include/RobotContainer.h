@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/Command.h>
-// #include "subsystems/TurretSubsystem.h"
+#include "subsystems/TurretSubsystem.h"
 #include "subsystems/ExampleSubsystem.h"
 #include "components/Joystick2481.h"
 #include <frc2/command/button/Button.h>
@@ -36,7 +36,7 @@ class RobotContainer {
   
  public:
   DriveSubsystem m_driveSubsystem;
-  // TurretSubsystem m_turretSubsystem;
+  TurretSubsystem m_turretSubsystem;
   FeederSubsystem m_feederSubsystem;
   IntakeSubsystem m_intakeSubsystem;
   ShooterSubsystem m_shooterSubsystem;

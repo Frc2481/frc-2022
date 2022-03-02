@@ -6,6 +6,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "subsystems/TurretSubsystem.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/InstantCommand.h>
 
 /**
  * An example command.
@@ -16,14 +19,17 @@
  */
 class ZeroTurretCommand
     : public frc2::CommandHelper<frc2::CommandBase, ZeroTurretCommand> {
+      private: 
+      TurretSubsystem* m_pTurret;
  public:
-  ZeroTurretCommand();
+  ZeroTurretCommand(TurretSubsystem* turret){
+    m_pTurret = turret;
+    AddRequirements(m_pTurret);
+    
+  }
 
-  void Initialize() override;
+  void Initialize() override{
+      m_pTurret->zeroTurret();
+  }
 
-  void Execute() override;
-
-  void End(bool interrupted) override;
-
-  bool IsFinished() override;
 };

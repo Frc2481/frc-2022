@@ -44,6 +44,7 @@ class TalonFXMotorController : public CommonMotorController {
   void SetEncoderPosition(double pos);
   void SetVelocityConversionFactor(double factor);
   double GetClosedLoopError();
+  void ConfigSoftLimits(double forwardLimit, double reverseLimit);
   ControlMode FalconModeToCommonMode(CommonModes mode);
   TalonFX* GetBase();
   void Follow(TalonFX* motor);

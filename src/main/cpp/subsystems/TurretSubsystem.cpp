@@ -21,8 +21,10 @@ TurretSubsystem::TurretSubsystem() :
         m_pTurretMotor = new TalonFXMotorController(FalconIDs::kturretMotorID, "turretMotor");
         m_pTurretMotor->ConfigFactoryDefault();
         // m_turretMotor->SetCon
-        m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS, 10);  //Degrees per second
-        m_pTurretMotor->ConfigMotionAcceleration((RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS)*2, 10);
+        // m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS, 10);  //Degrees per second
+        // m_pTurretMotor->ConfigMotionAcceleration((RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS)*2, 10);
+        m_pTurretMotor->ConfigMotionCruiseVelocity(230, 10);  //Ticks per 100ms
+        m_pTurretMotor->ConfigMotionAcceleration(115, 10);
         m_pTurretMotor->Config_kP(0, RobotParameters::k_turretP, 10); //do we need PIDF for turret motor?
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
@@ -30,8 +32,8 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->Config_IntegralZone(0,25, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
        m_pTurretMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
-       m_pTurretMotor->ConfigPeakOutputForward(.05, 10);
-       m_pTurretMotor->ConfigPeakOutputReverse(.05, 10);
+       m_pTurretMotor->ConfigPeakOutputForward(.15, 10);
+       m_pTurretMotor->ConfigPeakOutputReverse(-.15, 10);
        frc::SmartDashboard::PutNumber("Turret ADC", 0);
 
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
@@ -75,7 +77,11 @@ TurretSubsystem::TurretSubsystem() :
         return (m_angle_ticks/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
     }
     void TurretSubsystem::zeroTurret(){
-        m_angleOffsetTicks = ((getTurretRelativeAngle()) - (getTurretAbsoluteAngle())/(RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio))*RobotParameters::k_turretTicksPerRotation;
+        //this is a very impotant line to make the absolute encoder work
+        // m_angleOffsetTicks = ((getTurretRelativeAngle()) - (getTurretAbsoluteAngle())/(RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio))*RobotParameters::k_turretTicksPerRotation;
+        m_angleOffsetTicks = m_angle_ticks;
+        // Rotate turrent to extremes and then determine distance from 0 point to get these numbers. 
+        m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + 6031, m_angle_ticks - 5564); 
     }
     
 
@@ -88,14 +94,4 @@ void TurretSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Turret Absolute Angle",getTurretAbsoluteAngle());
     frc::SmartDashboard::PutNumber("Turret Relative Angle",getTurretRelativeAngle());
     frc::SmartDashboard::PutNumber("Turret Calibrated Angle",getTurretAngle());
-
-
-    
-
-     
-
-    m_pTurretMotor->Config_kP(0,frc::SmartDashboard::GetNumber("TurretP", 0)); 
-    m_pTurretMotor->Config_kI(0,frc::SmartDashboard::GetNumber("TurretI", 0));
-    m_pTurretMotor->Config_kD(0,frc::SmartDashboard::GetNumber("TurretD", 0));
-    m_pTurretMotor->Config_kF(0,frc::SmartDashboard::GetNumber("TurretF", 0));
 }

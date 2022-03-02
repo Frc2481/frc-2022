@@ -13,24 +13,25 @@
 #include "commands/FeederDefaultCommand.h"
 #include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
 #include "commands/shooter/StopShooterCommand.h"
-// #include "commands/turret/StayOnTargetCommand.h"
+#include "commands/turret/StayOnTargetCommand.h"
 #include "commands/climber/AutoClimbCommand.h"
 #include "commands/shooter/ShootCommand.h"
 #include "commands/ManualStartIntakeFeederCommand.h"
 #include "commands/ManualStopIntakeFeederCommand.h"
 #include "commands/shooter/StartShooterCommand.h"
 #include "commands/climber/RetractFloorTrussClimberWheelsCommand.h"
-// #include "commands/turret/MoveTurretWithJoystickCommand.h"
+#include "commands/turret/MoveTurretWithJoystickCommand.h"
 #include "commands/BarfCommand.h"
 #include "commands/climber/ManualClimbCommand.h"
 #include "commands/climber/RetractJavelinCommand.h"
 #include "components/Joystick2481.h"
 #include "commands/auto/TwoBallAutoCommand.h"
+#include "commands/Turret/ZeroTurretCommand.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
  {
   // Initialize all of your commands and subsystems here
-    // m_turret.SetDefaultCommand(StayOnTargetCommand(&m_turret));
+    m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
   // Configure the button bindings
 
   // m_pcm.set
@@ -155,18 +156,22 @@ void RobotContainer::ConfigureButtonBindings() {
   frc::SmartDashboard::PutData("Reset Odometry", new InstantDisabledCommand([this](){
     m_driveSubsystem.ResetOdometry(frc::Pose2d());
   }));
-  
-  // m_turretSubsystem.SetDefaultCommand(MoveTurretWithJoystickCommand(&m_turretSubsystem, &m_auxController));
 
-  // m_lTriggerDriver.WhenPressed(BarfCommand(&m_intakeSubsystem));
-  // m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
-  // m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
+  frc::SmartDashboard::PutData("Zero Turret", new InstantDisabledCommand([this](){
+    m_turretSubsystem.zeroTurret();
+  }));
+  
+  m_turretSubsystem.SetDefaultCommand(MoveTurretWithJoystickCommand(&m_turretSubsystem, &m_auxController));
+
+  m_lTriggerDriver.WhenPressed(BarfCommand(&m_intakeSubsystem, &m_feederSubsystem));
+  m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
+  m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
   
 
   
-  // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
-  // frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
-  // m_aButtonDriver.WhenPressed(m_zeroTurret);
+  m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
+  frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
+  m_aButtonDriver.WhenPressed(m_zeroTurret);
 
   
 }
