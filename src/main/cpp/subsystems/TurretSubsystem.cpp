@@ -34,6 +34,8 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
        m_pTurretMotor->ConfigPeakOutputForward(.15, 10);
        m_pTurretMotor->ConfigPeakOutputReverse(-.15, 10);
+       m_pTurretMotor->ConfigNominalOutputForward(0.02, 10);
+       m_pTurretMotor->ConfigNominalOutputReverse(-0.02, 10);
        frc::SmartDashboard::PutNumber("Turret ADC", 0);
 
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
