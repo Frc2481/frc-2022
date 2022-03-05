@@ -12,7 +12,10 @@ ShooterSubsystem::ShooterSubsystem() :
    m_isShooterOn(false),
    m_isOnTarget(false),
    m_isInManual(false),
-   m_distanceToTarget(0.0)
+   m_distanceToTarget(0.0), 
+   m_bottomShooterSpeedsVect{   0, 136},
+   m_topShooterSpeedsVect   {   0, -2900},
+   m_distancesToTarget      {   0, -2000}
    {
        m_pTopShooterMotor = new TalonFXMotorController(FalconIDs::kTopShooterMotorID, "topShooterMotor");
        m_pTopShooterMotor->ConfigFactoryDefault();
@@ -21,9 +24,6 @@ ShooterSubsystem::ShooterSubsystem() :
        m_pTopShooterMotor->Config_kD(0,RobotParameters::k_shooterD);
        m_pTopShooterMotor->Config_kF(0,RobotParameters::k_shooterF);
        m_pTopShooterMotor->Config_IntegralZone(0,25); //TODO correct values
-       m_topShooterSpeedsVect.push_back(0.0);
-       m_topShooterSpeedsVect.push_back(0.0);
-       m_topShooterSpeedsVect.push_back(0.0);
         
 
        m_pBottomShooterMotor = new TalonFXMotorController(FalconIDs::kBottomShooterMotorID, "bottomShooterMotor");
@@ -64,8 +64,8 @@ ShooterSubsystem::ShooterSubsystem() :
    }
 
    void ShooterSubsystem::startShooter(double distance){ 
-       m_pBottomShooterMotor->Set(CommonModes::Velocity, interpolate::rangedInterp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true, 0, 255));//TODO find min max
-       m_pTopShooterMotor->Set(CommonModes::Velocity, interpolate::rangedInterp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true, 0, 255));//TODO find min max
+       m_pBottomShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
+       m_pTopShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
        m_isShooterOn = true;
    }
    void ShooterSubsystem::toggleManualShooter(){
@@ -99,11 +99,11 @@ ShooterSubsystem::ShooterSubsystem() :
    }
    void ShooterSubsystem::topMotorSetSpeed(double speed){
     //    m_pTopShooterMotor->Set(speed);//CommonModes::Velocity, 
-       m_pTopShooterMotor->Set(CommonModes::Velocity, speed);//, 
+       m_pTopShooterMotor->Set(CommonModes::Velocity, speed/60.0/10.0*2048.0);//, 
    }
    void ShooterSubsystem::bottomMotorSetSpeed(double speed){
     //    m_pBottomShooterMotor->Set(speed);//CommonModes::Velocity, 
-       m_pBottomShooterMotor->Set(CommonModes::Velocity, speed);//, 
+       m_pBottomShooterMotor->Set(CommonModes::Velocity, speed/60.0/10.0*2048.0);//, 
    }
 
 

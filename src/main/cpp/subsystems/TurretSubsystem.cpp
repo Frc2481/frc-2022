@@ -21,10 +21,8 @@ TurretSubsystem::TurretSubsystem() :
         m_pTurretMotor = new TalonFXMotorController(FalconIDs::kturretMotorID, "turretMotor");
         m_pTurretMotor->ConfigFactoryDefault();
         // m_turretMotor->SetCon
-        // m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS, 10);  //Degrees per second
-        // m_pTurretMotor->ConfigMotionAcceleration((RobotParameters::k_maxTurretSpeed/RobotParameters::k_turretEncoderTicksToDPS)*2, 10);
-        m_pTurretMotor->ConfigMotionCruiseVelocity(230, 10);  //Ticks per 100ms
-        m_pTurretMotor->ConfigMotionAcceleration(115, 10);
+        m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed);  //Degrees per second
+        m_pTurretMotor->ConfigMotionAcceleration(RobotParameters::k_turretAcceleration);
         m_pTurretMotor->Config_kP(0, RobotParameters::k_turretP, 10); //do we need PIDF for turret motor?
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
@@ -48,8 +46,10 @@ TurretSubsystem::TurretSubsystem() :
         return m_isOnTarget;
     }
     double TurretSubsystem::getDistance(){
-        m_distance = (LimelightConstants::kTargetHeight-LimelightConstants::kLimelightHeight)/tan((nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty",0.0)+LimelightConstants::kLimelightAngle)*  //LimelightConstants::kLimelightAngle)*
-            (wpi::numbers::pi/180));
+        double target_angle = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty",0.0);
+        double angle_to_target = target_angle + LimelightConstants::kLimelightAngle;
+        double angle_to_target_rad = angle_to_target * (wpi::numbers::pi/180);
+        m_distance = (LimelightConstants::kTargetHeight-LimelightConstants::kLimelightHeight)/tan(angle_to_target_rad);  //LimelightConstants::kLimelightAngle)*);
         return m_distance;
     }
 
@@ -57,6 +57,7 @@ TurretSubsystem::TurretSubsystem() :
         return nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0);
     }
     double TurretSubsystem::getTurretAngle(){
+        
         return m_angle_ticks - m_angleOffsetTicks;
     }
     void TurretSubsystem::rotateTurret(double angle){

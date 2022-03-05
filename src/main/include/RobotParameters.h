@@ -167,10 +167,10 @@ namespace IntakeConstants{
     static constexpr double kIntakeCurrentBallDetectThreshhold = 10; //TODO find out
 }
 namespace FeederConstants{ //TODO figure out
-    static constexpr double kDefaultFeederSpeed = .4;
-    static constexpr double kShootingSpeed = .4;
-    static constexpr double kIndexerSpeed = .4;
-    static constexpr double kShootingIndexerSpeed = .4;
+    static constexpr double kDefaultFeederSpeed = .7;
+    static constexpr double kShootingSpeed = .7;
+    static constexpr double kIndexerSpeed = .7;
+    static constexpr double kShootingIndexerSpeed = .7;
 }
 
 namespace DigitalInputs{
@@ -181,16 +181,16 @@ namespace DigitalInputs{
 namespace ShooterConstants{ //TODO wheel speeds
     static constexpr double kDonutTopWheelSpeed = 0; 
     static constexpr double kDonutBottomWheelSpeed = 0; 
-    static constexpr double kTopShooterSpeed = 2500;
-    static constexpr double kBottomShooterSpeed = 1700;
+    static constexpr double kTopShooterSpeed = -2500;
+    static constexpr double kBottomShooterSpeed = -1700;
 
 
 }
 
 namespace LimelightConstants{
     static constexpr double kTargetHeight = 102; //inches
-    static constexpr double kLimelightHeight = 35; //TODO find actual height
-    static constexpr double kLimelightAngle = 48.5; //TODO find angle
+    static constexpr double kLimelightHeight = 46; //TODO find actual height
+    static constexpr double kLimelightAngle = 90-48.5; //TODO find angle
     
 }
 
@@ -217,7 +217,7 @@ namespace RobotParameters {
     static constexpr double k_maxAccel = 1;
     static constexpr double k_maxDeccel = 1;
     static constexpr double k_steerEncoderToWheelGearRatio = 1; // gear ratio from steer encoder to wheel TODO find
-    static constexpr double k_driveMotorGearRatio = 90.0/11.0;
+    static constexpr double k_driveMotorGearRatio = 90.0/10.0;
     static constexpr double k_ticksPerRev= 2048.0;//ticks per 100ms TODO check
     static constexpr double k_driveMotorEncoderTicksToMPS = (1/k_ticksPerRev)*(1/k_driveMotorGearRatio)*k_wheelRad*3.14159265*2*10;
     static constexpr double k_driveMotorEncoderTicksToMeters = (1/k_ticksPerRev)*(1/k_driveMotorGearRatio)*k_wheelRad*3.14159265*2;
@@ -254,24 +254,25 @@ namespace RobotParameters {
 
 
     //shooter Constants TODO set correct values
-    static constexpr double k_shooterP = 0.15;
-    static constexpr double k_shooterI = 0.001;
+    static constexpr double k_shooterP = 0.2;
+    static constexpr double k_shooterI = 0.0;
     static constexpr double k_shooterD = 0.0;
-    static constexpr double k_shooterF = 0.0447;
+    static constexpr double k_shooterF = 0.0489;
 
     //turret Constants TODO set correct values
-    static constexpr double k_turretP = 0.05;
+    static constexpr double k_turretP = 1;
     static constexpr double k_turretI = 0.0;
     static constexpr double k_turretD = 0.0;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
-    static constexpr double k_turretF = .16229;
+    static constexpr double k_turretF = .0775;
 
-    static constexpr double k_maxTurretSpeed = 600.0*360.0;
+    static constexpr double k_turretAcceleration = 20000;
+    static constexpr double k_maxTurretSpeed = 1980;
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 
     static constexpr double k_turretTeeth = 154.0;
-    static constexpr double k_turretDriveTeeth = 16.0;
+    static constexpr double k_turretDriveTeeth = 10.0;
     static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
     static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;
     static constexpr double k_turretADCPerRotation = 4096/k_turretABSMaxRotations;

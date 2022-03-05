@@ -27,7 +27,8 @@ class RetractIntakeCommand
   RetractIntakeCommand(IntakeSubsystem* intake){
     m_pIntake = intake;
     
-    // AddRequirements(m_pIntake);
+    AddRequirements(m_pIntake);
+    
   }
 
   void Initialize() override{

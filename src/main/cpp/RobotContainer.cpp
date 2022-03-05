@@ -128,8 +128,8 @@ void RobotContainer::ConfigureButtonBindings() {
      m_startBackAux.WhenPressed(AutoClimbCommand(&m_climberSubsystem, &m_driveSubsystem));
      m_rBumperAux.WhenPressed(ManualClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_auxController));
      m_rBumperAux.WhenReleased(RetractFloorClimberWheelsCommand(&m_climberSubsystem));
-     m_lBumperAux.WhenPressed(FireJavelinCommand(&m_climberSubsystem));
-     m_lBumperAux.WhenReleased(RetractJavelinCommand(&m_climberSubsystem));
+    //  m_lBumperAux.WhenPressed(FireJavelinCommand(&m_climberSubsystem));
+    //  m_lBumperAux.WhenReleased(RetractJavelinCommand(&m_climberSubsystem));
 
     // Operator Drive Subsystem
 
@@ -140,7 +140,8 @@ void RobotContainer::ConfigureButtonBindings() {
     m_yButtonAux.WhenPressed(ManualStopIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
 
     // Operator Shooter Subsystem
-     m_aButtonAux.WhenPressed(StartShooterCommand(&m_shooterSubsystem));
+     m_aButtonLeftBumpAux
+     .WhenPressed(StartShooterCommand(&m_shooterSubsystem));
      m_rTriggerAux.WhileHeld(ShootCommand(&m_feederSubsystem));
 
     // Operator Turret Subsystem
@@ -163,7 +164,7 @@ void RobotContainer::ConfigureButtonBindings() {
   
   m_turretSubsystem.SetDefaultCommand(MoveTurretWithJoystickCommand(&m_turretSubsystem, &m_auxController));
 
-  m_lTriggerDriver.WhenPressed(BarfCommand(&m_intakeSubsystem, &m_feederSubsystem));
+  m_lTriggerDriver.WhileHeld(BarfCommand(&m_intakeSubsystem, &m_feederSubsystem));
   m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
   m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
   

@@ -31,4 +31,13 @@ class BarfCommand
     m_pFeeder->setFeederSpeed(-FeederConstants::kDefaultFeederSpeed);
   
   }
+  void End(bool interrupted) override{
+    m_pIntake->retractIntake();
+    m_pIntake->setRollerSpeed(0);
+    m_pFeeder->setIndexerSpeed(0);
+    m_pFeeder->setFeederSpeed(0);
+  }
+  bool IsFinished() override{
+    return false;
+  }
 };
