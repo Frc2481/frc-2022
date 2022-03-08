@@ -21,16 +21,21 @@ class ShootCommand
     : public frc2::CommandHelper<frc2::CommandBase, ShootCommand> {
  private:
  FeederSubsystem* m_pFeeder;
+//  ShooterSubsystem* m_pShooter;
 
  public:
-  ShootCommand(FeederSubsystem* feeder){
+  ShootCommand(FeederSubsystem* feeder){ //, ShooterSubsystem* shooter
     m_pFeeder = feeder;
+    // m_pShooter = shooter;
     AddRequirements(m_pFeeder);
+    // AddRequirements(m_pShooter);
   }
 
   void Initialize() override{
     m_pFeeder->setFeederSpeed(FeederConstants::kShootingSpeed);
     m_pFeeder->setIndexerSpeed(FeederConstants::kShootingIndexerSpeed);
+    // m_pShooter->bottomMotorSetSpeed(ShooterConstants::kBottomShooterSpeed);
+    // m_pShooter->topMotorSetSpeed(ShooterConstants::kTopShooterSpeed);
   }
 
   void Execute() override{}

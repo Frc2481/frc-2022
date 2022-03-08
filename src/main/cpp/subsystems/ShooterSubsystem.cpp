@@ -13,9 +13,9 @@ ShooterSubsystem::ShooterSubsystem() :
    m_isOnTarget(false),
    m_isInManual(false),
    m_distanceToTarget(0.0), 
-   m_bottomShooterSpeedsVect{   2600, 2750, 2900, 3025, 3125, 3225, 3325, 3500, 3600, 3725, 3850, 4000},
-   m_topShooterSpeedsVect   {   800, 800},
-   m_distancesToTarget      {   64.79, 74.2, 84, 94, 105, 116, 126, 138, 151, 161, 173, 184 }
+   m_topShooterSpeedsVect   {   800,   800,  800,  800,  800, 3000,  3000, 3000,  3000},
+   m_bottomShooterSpeedsVect{   2600, 2750, 2900, 3025, 3100, 1300, 2000, 2200, 2400},
+   m_distancesToTarget      {   64.79, 74.2,  84,   94, 99.9,  100,  133.5, 172,  185}
    {
        m_pTopShooterMotor = new TalonFXMotorController(FalconIDs::kTopShooterMotorID, "topShooterMotor");
        m_pTopShooterMotor->ConfigFactoryDefault();
@@ -123,6 +123,6 @@ void ShooterSubsystem::Periodic() {
     //  m_pBottomShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0)/60.0/10.0)*2048.0);
     //    m_pTopShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Top Shoot Spd", 0)/60.0/10.0)*2048.0);
 
-    frc::SmartDashboard::PutNumber("Actual Bot Shoot Spd", (m_pBottomShooterMotor->GetVelocity()/60.0/10.0)*2048.0);
-    frc::SmartDashboard::PutNumber("Actual Top Shoot Spd", (m_pTopShooterMotor->GetVelocity()/60.0/10.0)*2048.0);
+    frc::SmartDashboard::PutNumber("Actual Bot Shoot Spd", m_pBottomShooterMotor->GetVelocity()*(60.0/10.0*2048.0));
+    frc::SmartDashboard::PutNumber("Actual Top Shoot Spd", m_pTopShooterMotor->GetVelocity()*(60.0/10.0*2048.0));
 }

@@ -169,9 +169,9 @@ namespace IntakeConstants{
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
-    static constexpr double kShootingSpeed = .7;
+    static constexpr double kShootingSpeed = .5;
     static constexpr double kIndexerSpeed = .7;
-    static constexpr double kShootingIndexerSpeed = .7;
+    static constexpr double kShootingIndexerSpeed = .5;
 }
 
 namespace DigitalInputs{
