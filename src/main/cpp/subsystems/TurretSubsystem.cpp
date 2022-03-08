@@ -14,7 +14,8 @@ TurretSubsystem::TurretSubsystem() :
     m_isTurretRunning(false),
     m_isOnTarget(false), //true??
     m_angle_ticks(0.0),   //TODO find angle
-    m_distance(0.0) //TODO find distance
+    m_distance(0.0), //TODO find distance
+    m_limitAccel(false)
 
     {
         m_ABSPositionSensor = new frc::AnalogInput(0);
@@ -35,7 +36,7 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->ConfigNominalOutputForward(0.02, 10);
        m_pTurretMotor->ConfigNominalOutputReverse(-0.02, 10);
        frc::SmartDashboard::PutNumber("Turret ADC", 0);
-
+        zeroTurret();
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
     }
 
@@ -56,16 +57,25 @@ TurretSubsystem::TurretSubsystem() :
     double TurretSubsystem::getAngleToTarget(){
         return nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0);
     }
-    double TurretSubsystem::getTurretAngle(){
-        
+    double TurretSubsystem::getTurretAngleTicks(){
+
         return m_angle_ticks - m_angleOffsetTicks;
     }
     void TurretSubsystem::rotateTurret(double angle){
-        double diff = normalizeToRange::RangedDifference(angle/RobotParameters::k_turretEncoderTicksToDegrees-m_angle_ticks, -1024,1024);//frc::SmartDashboard::GetNumber("scale motion error", 1)
-    
-        frc::SmartDashboard::PutNumber("Diff", diff);
+    double targetTicks = (angle / 360) * RobotParameters::k_turretTicksPerRotation;
+    targetTicks = std::min(targetTicks, m_rangeMaxTicks);
+    targetTicks = std::max(targetTicks, m_rangeMinTicks);
+
+    if (abs(getAngleToTarget()) < 2 && !m_limitAccel){
+        m_pTurretMotor->ConfigMotionAcceleration(2000);
+        m_limitAccel = true;
+    }
+    else if(abs(getAngleToTarget()) >= 2 && m_limitAccel){
+        m_pTurretMotor->ConfigMotionAcceleration(20000);
+        m_limitAccel = false;
+    }
      
-      m_pTurretMotor->Set(CommonModes::MotionMagic, angle); //m_angle_ticks + ( diff)/RobotParameters::k_turretEncoderTicksToDegrees);
+      m_pTurretMotor->Set(CommonModes::MotionMagic, (angle / 360) * RobotParameters::k_turretTicksPerRotation);
     }
 
     bool TurretSubsystem::isTargetVisible(){
@@ -76,6 +86,9 @@ TurretSubsystem::TurretSubsystem() :
         // return (frc::SmartDashboard::GetNumber("Turret ADC", 0)/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation-360;
         return (m_ABSPositionSensor->GetValue()/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation-360;
     }
+    double TurretSubsystem::getTurretCalibratedAngle(){
+        return (getTurretAngleTicks()/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
+    }
     double TurretSubsystem::getTurretRelativeAngle(){
         return (m_angle_ticks/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
     }
@@ -85,6 +98,9 @@ TurretSubsystem::TurretSubsystem() :
         m_angleOffsetTicks = m_angle_ticks;
         // Rotate turrent to extremes and then determine distance from 0 point to get these numbers. 
         m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + 6031, m_angle_ticks - 5564); 
+
+        m_rangeMaxTicks = m_angle_ticks + 6031 - 1000;
+        m_rangeMinTicks = m_angle_ticks - 5564 + 1000;
     }
     
 
@@ -96,5 +112,9 @@ void TurretSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Turret Angle Offset", m_angleOffsetTicks);
     frc::SmartDashboard::PutNumber("Turret Absolute Angle",getTurretAbsoluteAngle());
     frc::SmartDashboard::PutNumber("Turret Relative Angle",getTurretRelativeAngle());
-    frc::SmartDashboard::PutNumber("Turret Calibrated Angle",getTurretAngle());
+    frc::SmartDashboard::PutNumber("Turret Calibrated Angle",getTurretCalibratedAngle());
+    frc::SmartDashboard::PutNumber("Distance to Target", getDistance());
+    frc::SmartDashboard::PutNumber("Angle to Target", getAngleToTarget());
+    frc::SmartDashboard::PutNumber("Current Angle", getTurretAngleTicks());
+    frc::SmartDashboard::PutNumber("Turret Setpoint Angle", getAngleToTarget() + getTurretCalibratedAngle());
 }

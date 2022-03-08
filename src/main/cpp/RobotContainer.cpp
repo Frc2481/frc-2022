@@ -27,6 +27,8 @@
 #include "components/Joystick2481.h"
 #include "commands/auto/TwoBallAutoCommand.h"
 #include "commands/Turret/ZeroTurretCommand.h"
+#include "cameraserver/CameraServer.h"
+#include "commands/auto/TwoBallAutoCommand.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
  {
@@ -35,7 +37,7 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
   // Configure the button bindings
 
   // m_pcm.set
-
+  frc::CameraServer::StartAutomaticCapture();
   ConfigureButtonBindings();
   // frc::SmartDashboard::PutNumber("test",342);
   // frc::SmartDashboard::PutNumber("TurretP", RobotParameters::k_shooterP);
@@ -56,6 +58,8 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
 
   frc::SmartDashboard::PutNumber("Top Motor Speed", ShooterConstants::kTopShooterSpeed);
   frc::SmartDashboard::PutNumber("Bottom Motor Speed", ShooterConstants::kBottomShooterSpeed);
+
+  frc::SmartDashboard::PutData("Two Ball Auto", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
 
   // m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
@@ -143,6 +147,7 @@ void RobotContainer::ConfigureButtonBindings() {
      m_aButtonLeftBumpAux
      .WhenPressed(StartShooterCommand(&m_shooterSubsystem));
      m_rTriggerAux.WhileHeld(ShootCommand(&m_feederSubsystem));
+     m_lTriggerAux.WhileHeld(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
 
     // Operator Turret Subsystem
 

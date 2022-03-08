@@ -35,11 +35,7 @@ class StayOnTargetCommand
 
   void Execute() override
   {
-    frc::SmartDashboard::PutNumber("Distance to Target", m_pTurret->getDistance());
-    frc::SmartDashboard::PutNumber("Angle to Target", m_pTurret->getAngleToTarget());
-    frc::SmartDashboard::PutNumber("Current Angle", m_pTurret->getTurretAngle());
-    
-    // m_pTurret->rotateTurret(frc::SmartDashboard::GetNumber("Set Target Angle", 0));//m_pTurret->getAngleToTarget());
+    m_pTurret->rotateTurret(m_pTurret->getTurretCalibratedAngle() - m_pTurret->getAngleToTarget());
   }
 
   void End(bool interrupted) override

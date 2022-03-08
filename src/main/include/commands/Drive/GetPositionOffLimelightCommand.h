@@ -29,7 +29,7 @@ class GetPositionOffLimelightCommand
 
   void Initialize() override{
     double distance = m_pTurret->getDistance();
-    double m_theta = (90 - (m_pTurret->getAngleToTarget() + m_pTurret->getTurretAngle() + m_pDrive->GetHeading()))*(wpi::numbers::pi/180);
+    double m_theta = (90 - (m_pTurret->getAngleToTarget() + m_pTurret->getTurretAngleTicks() + m_pDrive->GetHeading()))*(wpi::numbers::pi/180);
     double m_robotX = distance*cos(m_theta);
     double m_robotY = distance*sin(m_theta);
   }

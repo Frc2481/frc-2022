@@ -93,6 +93,8 @@ void DriveSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("Odometry X", GetPose().Translation().X().to<double>()*39.3701);//
   frc::SmartDashboard::PutNumber("Odometry Y", GetPose().Translation().Y().to<double>()*39.3701);//*39.3701
   frc::SmartDashboard::PutNumber("Odometry Yaw", GetPose().Rotation().Degrees().to<double>());    
+  frc::SmartDashboard::PutNumber("IMU Yaw", GetHeading());
+  
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,

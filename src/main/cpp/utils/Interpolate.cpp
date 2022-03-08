@@ -9,7 +9,7 @@ double interpolate::interp(
 
     // find index of interval for interpolation
     int i = 0;
-    if(x >= xData[xData.size() - 2]) { // check if beyond right limit
+    if(x >= xData[xData.size() - 1]) { // check if beyond right limit
         i = xData.size() - 2;
     }
     else {

@@ -21,7 +21,7 @@
  * they are needed.
  */
 namespace PDPChannels{
-    static constexpr int kIntake = 0; //find
+    static constexpr int kIntake = 10; //find
 }
 
 namespace TalonIDs{
@@ -70,8 +70,8 @@ namespace SolenoidPorts{
    
     static constexpr int kFloorClimberSolenoidPort = 2;
     static constexpr int kFloorClimberSolenoidReversePort = 3;
-    // static constexpr int kTrussClimberSolenoidPort = 10;
-    // static constexpr int kTrussClimberSolenoidReversePort = 11;
+    // static constexpr int kTrussClimberSolenoidPort = 14; //We don't actuallly know if these are the right IDs
+    // static constexpr int kTrussClimberSolenoidReversePort = 15; //We don't actuallly know if these are the right IDs
     static constexpr int kJavelinSolenoidPort = 7;
     static constexpr int kJavelinReverseSolenoidPort = 6;
 }
@@ -84,7 +84,7 @@ constexpr bool kFrontRightTurningEncoderReversed = false;
 constexpr bool kRearRightTurningEncoderReversed = false;
 constexpr bool kRearMiddleTurningEncoderReversed = false;
 
-static constexpr units::meters_per_second_t  kAutoDriveSpeed = 1.0_mps; //TODO fix
+static constexpr units::meters_per_second_t  kAutoDriveSpeed = 0.5_mps; //TODO fix
 
 constexpr bool kFrontLeftDriveEncoderReversed = true;
 constexpr bool kRearLeftDriveEncoderReversed = true;
@@ -92,7 +92,8 @@ constexpr bool kFrontRightDriveEncoderReversed = true;
 constexpr bool kRearRightDriveEncoderReversed = true;
 constexpr bool kRearMiddleDriveEncoderReversed = true;
 
-constexpr bool kGyroReversed = true;
+constexpr bool kGyroReversed = false;
+
 constexpr units::meters_per_second_t kDriveClimbSpeed = 0.5_mps;
 
 }  // namespace DriveConstants
@@ -164,7 +165,7 @@ namespace FieldConstants{
     }
 namespace IntakeConstants{
     static constexpr double kDefaultIntakeRollerSpeed = 10; //TODO: Find out
-    static constexpr double kIntakeCurrentBallDetectThreshhold = 10; //TODO find out
+    static constexpr double kIntakeCurrentBallDetectThreshhold = 7.5; //TODO find out
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
@@ -181,8 +182,8 @@ namespace DigitalInputs{
 namespace ShooterConstants{ //TODO wheel speeds
     static constexpr double kDonutTopWheelSpeed = 0; 
     static constexpr double kDonutBottomWheelSpeed = 0; 
-    static constexpr double kTopShooterSpeed = -2500;
-    static constexpr double kBottomShooterSpeed = -1700;
+    static constexpr double kTopShooterSpeed = -2500; //-2500
+    static constexpr double kBottomShooterSpeed = -1700; // -1700
 
 
 }

@@ -17,11 +17,12 @@ class TurretSubsystem : public frc2::SubsystemBase {
   bool isTurretRunning();
   bool isOnTarget();
   double getAngleToTarget();
-  double getTurretAngle();
+  double getTurretAngleTicks();
   double getDistance();
   void rotateTurret(double angle); //degrees
   bool isTargetVisible();
   double getTurretAbsoluteAngle();
+  double getTurretCalibratedAngle();
   double getTurretRelativeAngle();
   void zeroTurret();
   
@@ -38,6 +39,9 @@ class TurretSubsystem : public frc2::SubsystemBase {
   double m_angle_ticks;
   double m_angleOffsetTicks;
   double m_distance;
+  double m_rangeMaxTicks;
+  double m_rangeMinTicks;
+  bool m_limitAccel;
   
 
   frc::AnalogInput* m_ABSPositionSensor;

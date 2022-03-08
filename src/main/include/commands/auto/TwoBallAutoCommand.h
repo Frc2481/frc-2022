@@ -18,12 +18,16 @@
 #include <frc2/command/ScheduleCommand.h>
 #include "commands/intake/WaitForBallAtIntakeRollerCommand.h"
 #include "commands/shooter/ShootCommand.h"
+#include "commands/WaitForTwoBallsInFeeder.h"
+#include "commands/FeederDefaultCommand.h"
 
 #include "commands/drive/DriveOpenLoopCommand.h"
 #include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
+#include "commands/shooter/StartShooterCommand.h"
 #include "commands/intake/ExtendIntakeCommand.h"
 #include "commands/Drive/WaitForRoll.h"
 #include "RobotParameters.h"
+
 
 /**
  * An example command.
@@ -51,14 +55,21 @@ class TwoBallAutoCommand
 
     AddCommands(
       frc2::ParallelCommandGroup{
-        AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret),
+        // AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret),
+
+        // Temporarily use the dashboard speed.
+        StartShooterCommand(m_pShooter),
+        // FeederDefaultCommand(m_pFeeder, m_pIntake),
 
         //FeederDefaultCommand(m_pFeeder),
         ExtendIntakeCommand(m_pIntake),
-        DriveOpenLoopCommand(m_pDrive, DriveConstants::kAutoDriveSpeed, 0_mps, 0_rad_per_s, false), 
-          frc2::ParallelCommandGroup{
+     
+          frc2::SequentialCommandGroup{
+            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
+            frc2::WaitCommand(0.5_s), //give intake roller time to start before checking for ball
             WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            WaitForTwoBallsInFeederCommand(m_pFeeder),
             ShootCommand(m_pFeeder).WithTimeout(3_s)
           }
         }

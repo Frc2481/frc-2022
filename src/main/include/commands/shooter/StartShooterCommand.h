@@ -26,10 +26,13 @@ class StartShooterCommand
       AddRequirements(m_pShooter);
   }
 
-  void Initialize() override{
+  void Execute() override{
     m_pShooter->topMotorSetSpeed(frc::SmartDashboard::GetNumber("Top Motor Speed", ShooterConstants::kTopShooterSpeed));
     m_pShooter->bottomMotorSetSpeed(frc::SmartDashboard::GetNumber("Bottom Motor Speed", ShooterConstants::kBottomShooterSpeed));
     frc::SmartDashboard::PutBoolean("We are shooting", true);
+  }
+  bool IsFinished(){
+    return false;
   }
 
   
