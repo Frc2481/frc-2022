@@ -20,6 +20,7 @@
 #include "commands/ManualStopIntakeFeederCommand.h"
 #include "commands/shooter/StartShooterCommand.h"
 #include "commands/climber/RetractFloorTrussClimberWheelsCommand.h"
+#include "commands/climber/ToggleJavelinCommand.h"
 #include "commands/turret/MoveTurretWithJoystickCommand.h"
 #include "commands/BarfCommand.h"
 #include "commands/climber/ManualClimbCommand.h"
@@ -29,11 +30,12 @@
 #include "commands/Turret/ZeroTurretCommand.h"
 #include "cameraserver/CameraServer.h"
 #include "commands/auto/TwoBallAutoCommand.h"
+#include "commands/auto/FourBallAutoCommand.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
  {
   // Initialize all of your commands and subsystems here
-    m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
+    // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
   // Configure the button bindings
 
   // m_pcm.set
@@ -60,6 +62,7 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
   frc::SmartDashboard::PutNumber("Bottom Motor Speed", ShooterConstants::kBottomShooterSpeed);
 
   frc::SmartDashboard::PutData("Two Ball Auto", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
+  frc::SmartDashboard::PutData("Four Ball Auto", new FourBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
 
   // m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
@@ -132,6 +135,7 @@ void RobotContainer::ConfigureButtonBindings() {
      m_startBackAux.WhenPressed(AutoClimbCommand(&m_climberSubsystem, &m_driveSubsystem));
      m_rBumperAux.WhenPressed(ManualClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_auxController));
      m_rBumperAux.WhenReleased(RetractFloorClimberWheelsCommand(&m_climberSubsystem));
+     m_xButtonAux.WhenPressed(ToggleJavelinCommand(&m_climberSubsystem));
     //  m_lBumperAux.WhenPressed(FireJavelinCommand(&m_climberSubsystem));
     //  m_lBumperAux.WhenReleased(RetractJavelinCommand(&m_climberSubsystem));
 
@@ -140,13 +144,13 @@ void RobotContainer::ConfigureButtonBindings() {
     // Operator Feeder Subsystem
 
     // Operator Intake Subsystem
-    m_xButtonAux.WhenPressed(ManualStartIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
-    m_yButtonAux.WhenPressed(ManualStopIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
+    // m_xButtonAux.WhenPressed(ManualStartIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
+    // m_yButtonAux.WhenPressed(ManualStopIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
 
     // Operator Shooter Subsystem
      m_aButtonLeftBumpAux
      .WhenPressed(StartShooterCommand(&m_shooterSubsystem));
-     m_rTriggerAux.WhileHeld(ShootCommand(&m_feederSubsystem));
+     m_rTriggerAux.WhileHeld(ShootCommand(&m_feederSubsystem, &m_shooterSubsystem));
      m_lTriggerAux.WhileHeld(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
 
     // Operator Turret Subsystem
@@ -167,8 +171,6 @@ void RobotContainer::ConfigureButtonBindings() {
     m_turretSubsystem.zeroTurret();
   }));
   
-  m_turretSubsystem.SetDefaultCommand(MoveTurretWithJoystickCommand(&m_turretSubsystem, &m_auxController));
-
   m_lTriggerDriver.WhileHeld(BarfCommand(&m_intakeSubsystem, &m_feederSubsystem));
   m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
   m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));

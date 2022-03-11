@@ -73,6 +73,8 @@ DriveSubsystem::DriveSubsystem()
 
 
 void DriveSubsystem::Periodic() {
+  frc::SmartDashboard::PutNumber("IMU Yaw", GetHeading());
+  return;
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
                     m_frontLeft.GetState(), m_rearLeft.GetState(),
@@ -92,9 +94,7 @@ void DriveSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("bc state speed", m_rearMiddle.GetState().speed.to<double>());
   frc::SmartDashboard::PutNumber("Odometry X", GetPose().Translation().X().to<double>()*39.3701);//
   frc::SmartDashboard::PutNumber("Odometry Y", GetPose().Translation().Y().to<double>()*39.3701);//*39.3701
-  frc::SmartDashboard::PutNumber("Odometry Yaw", GetPose().Rotation().Degrees().to<double>());    
-  frc::SmartDashboard::PutNumber("IMU Yaw", GetHeading());
-  
+  frc::SmartDashboard::PutNumber("Odometry Yaw", GetPose().Rotation().Degrees().to<double>());      
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
@@ -105,7 +105,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
-                          frc::Rotation2d(GetPose().Rotation().Degrees()))
+                          frc::Rotation2d(units::degree_t(GetHeading())))
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 frc::SmartDashboard::PutNumber("driveMotorVelpreNormSpeed",states[0].speed.to<double>());
 frc::SmartDashboard::PutNumber("driveMotorVelpreNormAngle",states[0].angle.Degrees().to<double>());
@@ -172,6 +172,7 @@ double DriveSubsystem::GetTurnRate() {
 frc::Pose2d DriveSubsystem::GetPose() { return m_odometry.GetPose(); }
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
+  ZeroHeading();
   m_odometry.ResetPosition(pose,
                            frc::Rotation2d(units::degree_t(GetHeading())));
   

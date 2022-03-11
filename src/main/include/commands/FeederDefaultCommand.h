@@ -37,14 +37,13 @@ class FeederDefaultCommand
   }
 
   void Initialize() override{
-    frc::SmartDashboard::PutBoolean("I exist my boi", true);
-
+  
   }
 
   void Execute() override{
     if (m_isIntakeOn){
       m_pFeeder->setIndexerSpeed(FeederConstants::kIndexerSpeed);
-      frc::SmartDashboard::PutBoolean("Indexer Running", true);
+      // frc::SmartDashboard::PutBoolean("Indexer Running", true);
       if (m_ballInIndexer){
         if (m_pFeeder->getFeederBeamBreak()){
          m_pFeeder->setIndexerSpeed(0.0);
@@ -52,12 +51,12 @@ class FeederDefaultCommand
          m_isIntakeOn = false;
          m_timeout.Stop();
          m_ballInIndexer = false;
-         frc::SmartDashboard::PutBoolean("Feeder Running", false);
-         frc::SmartDashboard::PutBoolean("Indexer Running", false);
+        //  frc::SmartDashboard::PutBoolean("Feeder Running", false);
+        //  frc::SmartDashboard::PutBoolean("Indexer Running", false);
         }
         else {
           m_pFeeder->setFeederSpeed(FeederConstants::kDefaultFeederSpeed);
-          frc::SmartDashboard::PutBoolean("Feeder Running", true);
+          // frc::SmartDashboard::PutBoolean("Feeder Running", true);
         }
       }
       else if ((int)m_timeout.Get() >= 3){//in seconds
@@ -65,8 +64,8 @@ class FeederDefaultCommand
           m_pFeeder->setFeederSpeed(0.0);
           m_isIntakeOn = false;
           m_timeout.Stop();
-          frc::SmartDashboard::PutBoolean("Feeder Running", false);
-          frc::SmartDashboard::PutBoolean("Indexer Running", false);
+          // frc::SmartDashboard::PutBoolean("Feeder Running", false);
+          // frc::SmartDashboard::PutBoolean("Indexer Running", false);
       }
      else {
        m_ballInIndexer = m_pFeeder->getIndexerBeamBreak();

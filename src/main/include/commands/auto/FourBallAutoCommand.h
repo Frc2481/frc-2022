@@ -4,8 +4,9 @@
 
 #pragma once
 
+#include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include <frc2/command/InstantCommand.h>
+#include <frc2/command/ScheduleCommand.h>
 #include "subsystems/FeederSubsystem.h"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
@@ -18,10 +19,15 @@
 #include <frc2/command/ScheduleCommand.h>
 #include "commands/intake/WaitForBallAtIntakeRollerCommand.h"
 #include "commands/shooter/ShootCommand.h"
+#include "commands/WaitForTwoBallsInFeeder.h"
+#include "commands/WaitForBallInFeeder.h"
+#include "commands/FeederDefaultCommand.h"
 
 #include "commands/drive/DriveOpenLoopCommand.h"
 #include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
+#include "commands/shooter/StartShooterCommand.h"
 #include "commands/intake/ExtendIntakeCommand.h"
+#include "commands/intake/RetractIntakeCommand.h"
 #include "commands/Drive/WaitForRoll.h"
 #include "RobotParameters.h"
 
@@ -43,31 +49,38 @@ class FourBallAutoCommand
     m_pTurret = turret;
   
     AddCommands(
-      frc2::SequentialCommandGroup{
-        frc2::ScheduleCommand(&AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret)),
+      frc2::ParallelCommandGroup{
+        AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret),
+
+        frc2::ScheduleCommand(new FeederDefaultCommand(m_pFeeder, m_pIntake)),
 
         //FeederDefaultCommand(m_pFeeder),
-        ExtendIntakeCommand(m_pIntake),
-        DriveOpenLoopCommand(m_pDrive, DriveConstants::kAutoDriveSpeed, 0_mps, 0_rad_per_s, false), 
-          frc2::ParallelCommandGroup{
-              WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
-              DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-              ShootCommand(m_pFeeder).WithTimeout(3_s),
-          },
+        
+          frc2::SequentialCommandGroup{
 
+            //acquire ball 2
+            ExtendIntakeCommand(m_pIntake),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
+            frc2::WaitCommand(1_s), //give intake roller time to start before checking for ball
+            WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(1_s),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            WaitForTwoBallsInFeederCommand(m_pFeeder),
 
-      //Rachel's part - don't judge
-        // RotateWithMotionMagic(m_pDrive, 97, 1, true)
-        DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-        WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
-        // RotateWithMotionMagic(m_pDrive, 97, 1, true)
-          frc2::ParallelCommandGroup{
-              DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
-              WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(3_s),
-              ShootCommand(m_pFeeder).WithTimeout(3_s),
-          },
+            //shoot balls 1 and 2
+            ShootCommand(m_pFeeder, m_pShooter).WithTimeout(1.5_s), 
 
-      }
+            //acquire ball 3
+            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
+            WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(2_s),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            WaitForTwoBallsInFeederCommand(m_pFeeder).WithTimeout(3_s),
+            WaitForBallInFeederCommand(m_pFeeder),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, -DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
+            frc2::WaitCommand(2_s),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            ShootCommand(m_pFeeder, m_pShooter).WithTimeout(1.5_s), 
+          }
+        }
     );
         
   }

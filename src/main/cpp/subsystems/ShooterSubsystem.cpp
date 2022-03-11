@@ -11,6 +11,7 @@
 ShooterSubsystem::ShooterSubsystem() :
    m_isShooterOn(false),
    m_isOnTarget(false),
+   m_autoSpeed(true),
    m_isInManual(false),
    m_distanceToTarget(0.0), 
    m_topShooterSpeedsVect   {   800,   800,  800,  800,  800, 3000,  3000, 3000,  3000},
@@ -65,11 +66,13 @@ ShooterSubsystem::ShooterSubsystem() :
    }
 
    void ShooterSubsystem::startShooter(double distance){ 
-       m_pBottomShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
-       m_pTopShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
-       m_isShooterOn = true;
-       frc::SmartDashboard::PutNumber("Bottom Interpolate", interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);
-       frc::SmartDashboard::PutNumber("Top Interpolate", interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);
+        if(m_autoSpeed){
+            m_pBottomShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
+            m_pTopShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
+        }
+        m_isShooterOn = true;
+    //    frc::SmartDashboard::PutNumber("Bottom Interpolate", interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);
+    //    frc::SmartDashboard::PutNumber("Top Interpolate", interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);
    } 
    void ShooterSubsystem::toggleManualShooter(){
        m_isInManual = !m_isInManual;
@@ -115,8 +118,12 @@ ShooterSubsystem::ShooterSubsystem() :
    
    
 
-
-
+void ShooterSubsystem::enableAutoSpeed(){
+    m_autoSpeed = true;
+}
+void ShooterSubsystem::disableAutoSpeed(){
+    m_autoSpeed = false;
+}
 
 // This method will be called once per scheduler run
 void ShooterSubsystem::Periodic() {

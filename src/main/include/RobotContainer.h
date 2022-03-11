@@ -64,8 +64,9 @@ class RobotContainer {
 
   frc2::Button m_aButtonLeftBumpAux{[&] { return m_auxController.GetRawButton(XBOX_A_BUTTON) && m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
   frc2::Button m_aButtonAux{[&] { return m_auxController.GetRawButton(XBOX_A_BUTTON) && !m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
+  frc2::Button m_bButtonLeftBumpAux{[&] { return m_auxController.GetRawButton(XBOX_B_BUTTON) && m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
+  frc2::Button m_bButtonAux{[&] { return m_auxController.GetRawButton(XBOX_B_BUTTON) && !m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
 
-  frc2::Button m_bButtonAux{[&] { return m_auxController.GetRawButton(XBOX_B_BUTTON); }};//
   frc2::Button m_yButtonAux{[&] { return m_auxController.GetRawButton(XBOX_Y_BUTTON); }};//
   frc2::Button m_xButtonAux{[&] { return m_auxController.GetRawButton(XBOX_X_BUTTON); }};//
   

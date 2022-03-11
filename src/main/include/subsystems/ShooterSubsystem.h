@@ -30,6 +30,8 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void decrementManualSpeed();
   void topMotorSetSpeed(double speed);
   void bottomMotorSetSpeed(double speed);
+  void enableAutoSpeed();
+  void disableAutoSpeed();
 
  void Periodic() override;
 
@@ -46,14 +48,15 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double m_setSpeedBottomWheel;
   bool m_isShooterOn;
   bool m_isOnTarget;
+  bool m_autoSpeed;
   double m_manualOffsetSpeed;
   bool m_isInManual;
    double m_distanceToTarget;
   TalonFXMotorController* m_pTopShooterMotor;
   TalonFXMotorController* m_pBottomShooterMotor;
   
-  std::vector<double> m_bottomShooterSpeedsVect;
   std::vector<double> m_topShooterSpeedsVect;
+  std::vector<double> m_bottomShooterSpeedsVect;
   std::vector<double> m_distancesToTarget;
 
 

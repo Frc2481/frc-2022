@@ -42,6 +42,9 @@ class TurretSubsystem : public frc2::SubsystemBase {
   double m_rangeMaxTicks;
   double m_rangeMinTicks;
   bool m_limitAccel;
+  double m_angle_to_target;
+  double m_vert_angle_to_target;
+  bool m_target_visible;
   
 
   frc::AnalogInput* m_ABSPositionSensor;

@@ -48,11 +48,11 @@ double ClimberSubsystem::getFloorWheelSpeed(){
   return m_floorWheelsSpeed;
 }
 void ClimberSubsystem::fireJavelin(){
-  m_pJavelinSolenoid.Set(m_pFloorSolenoid.kForward);
+  m_pJavelinSolenoid.Set(m_pJavelinSolenoid.kForward);
   m_isJavelinExtended = true;
 }
 void ClimberSubsystem::retractJavelin(){
-  m_pJavelinSolenoid.Set(m_pFloorSolenoid.kReverse);
+  m_pJavelinSolenoid.Set(m_pJavelinSolenoid.kReverse);
   m_isJavelinExtended = false;
 }
 bool ClimberSubsystem::areFloorWheelsExtended(){
