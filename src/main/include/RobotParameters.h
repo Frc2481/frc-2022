@@ -70,8 +70,8 @@ namespace SolenoidPorts{
    
     static constexpr int kFloorClimberSolenoidPort = 2;
     static constexpr int kFloorClimberSolenoidReversePort = 3;
-    // static constexpr int kTrussClimberSolenoidPort = 14; //We don't actuallly know if these are the right IDs
-    // static constexpr int kTrussClimberSolenoidReversePort = 15; //We don't actuallly know if these are the right IDs
+    static constexpr int kTrussClimberSolenoidPort = 5; //We don't actuallly know if these are the right IDs
+    static constexpr int kTrussClimberSolenoidReversePort = 4; //We don't actuallly know if these are the right IDs
     static constexpr int kJavelinSolenoidPort = 7;
     static constexpr int kJavelinReverseSolenoidPort = 6;
 }
@@ -191,7 +191,7 @@ namespace ShooterConstants{ //TODO wheel speeds
 namespace LimelightConstants{
     static constexpr double kTargetHeight = 102; //inches
     static constexpr double kLimelightHeight = 46; //TODO find actual height
-    static constexpr double kLimelightAngle = 90-48.5; //TODO find angle
+    static constexpr double kLimelightAngle = 90-21; //TODO find angle
     
 }
 
@@ -231,7 +231,7 @@ namespace RobotParameters {
     static constexpr double k_maxYawAccel = k_maxAccel / k_wheelLeverArm*180/MATH_CONSTANTS_PI;
     static constexpr double k_maxYawDeccel = k_maxDeccel / k_wheelLeverArm*180/MATH_CONSTANTS_PI;
     static constexpr double k_minYawRate = k_minRobotVelocity / k_wheelLeverArm *180 / MATH_CONSTANTS_PI;
-    // static constexpr double k_driveMotorEncoderMPSToRPM  = (RobotParameters::k_driveMo\[]\torGearRatio/(RobotParameters::k_wheelRad*3.14159265*2))*60;
+    // static constexpr double k_driveMotorEncoderMPSToRPM  = (RobotParameters::k_driveMotorGearRatio/(RobotParameters::k_wheelRad*3.14159265*2))*60;
 
     // TODO check rest
 
@@ -261,24 +261,30 @@ namespace RobotParameters {
     static constexpr double k_shooterF = 0.0489;
 
     //turret Constants TODO set correct values
-    static constexpr double k_turretP = 1;
-    static constexpr double k_turretI = 0.0;
+    // static constexpr double k_turretP = 1;
+    // static constexpr double k_turretI = 0.0;
+    // static constexpr double k_turretD = 0.0;
+    // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
+    // static constexpr double k_turretF = .0775;
+    static constexpr double k_turretP = .2;
+    static constexpr double k_turretI = 0.01;
     static constexpr double k_turretD = 0.0;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
-    static constexpr double k_turretF = .0775;
+    static constexpr double k_turretF = .075;
 
     static constexpr double k_turretAcceleration = 20000;
     static constexpr double k_maxTurretSpeed = 1980;
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 
-    static constexpr double k_turretTeeth = 154.0;
+    static constexpr double k_turretTeeth = 152.0;
     static constexpr double k_turretDriveTeeth = 10.0;
     static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
     static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;
     static constexpr double k_turretADCPerRotation = 4096/k_turretABSMaxRotations;
     static constexpr double k_turretABSDegreesPerShaftRotation = 720.0/k_turretABSMaxRotations;
     static constexpr double k_turretTicksPerRotation = 2048*k_turretGearRatio;
+    static constexpr double k_turretTicksPerNinetyDegrees = k_turretTicksPerRotation/4;
     
 
 

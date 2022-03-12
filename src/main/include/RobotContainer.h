@@ -9,6 +9,7 @@
 #include "subsystems/ExampleSubsystem.h"
 #include "components/Joystick2481.h"
 #include <frc2/command/button/Button.h>
+#include <frc2/command/button/POVButton.h>
 #include "components/XboxController2481.h"
 #include "subsystems/FeederSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
@@ -74,6 +75,11 @@ class RobotContainer {
   frc2::Button m_lBumperAux{[&] { return m_auxController.GetRawButton(XBOX_LEFT_BUMPER); }};//
   frc2::Button m_rTriggerAux{[&] { return m_auxController.GetAxis(XBOX_RIGHT_TRIGGER, .5); }};//
   frc2::Button m_lTriggerAux{[&] { return m_auxController.GetAxis(XBOX_LEFT_TRIGGER, .5); }};//
+  
+  frc2::POVButton m_tDpadAux;
+  frc2::POVButton m_bDpadAux;
+  frc2::POVButton m_lDpadAux;
+  frc2::POVButton m_rDpadAux;
   // TurretSubsystem m_turret;
   
 

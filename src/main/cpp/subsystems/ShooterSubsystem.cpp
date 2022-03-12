@@ -14,9 +14,9 @@ ShooterSubsystem::ShooterSubsystem() :
    m_autoSpeed(true),
    m_isInManual(false),
    m_distanceToTarget(0.0), 
-   m_topShooterSpeedsVect   {   800,   800,  800,  800,  800, 3000,  3000, 3000,  3000},
-   m_bottomShooterSpeedsVect{   2600, 2750, 2900, 3025, 3100, 1300, 2000, 2200, 2400},
-   m_distancesToTarget      {   64.79, 74.2,  84,   94, 99.9,  100,  133.5, 172,  185}
+   m_topShooterSpeedsVect   {   2500, 2900,  3300, 3300},
+   m_bottomShooterSpeedsVect{   1700, 2000, 2400, 3400},
+   m_distancesToTarget      {   138,  173,  224, 300}
    {
        m_pTopShooterMotor = new TalonFXMotorController(FalconIDs::kTopShooterMotorID, "topShooterMotor");
        m_pTopShooterMotor->ConfigFactoryDefault();
@@ -106,12 +106,12 @@ ShooterSubsystem::ShooterSubsystem() :
    void ShooterSubsystem::topMotorSetSpeed(double speed){
     //    m_pTopShooterMotor->Set(speed);//CommonModes::Velocity, 
     //    m_pTopShooterMotor->Set(CommonModes::Velocity, speed);//, 
-        m_pTopShooterMotor->Set(CommonModes::Velocity, speed/60.0/10.0*2048.0);//, 
+        m_pTopShooterMotor->Set(CommonModes::Velocity, speed/60.0/10.0*2048.0);// /60.0/10.0*2048.0
    }
    void ShooterSubsystem::bottomMotorSetSpeed(double speed){
     //    m_pBottomShooterMotor->Set(speed);//CommonModes::Velocity, 
     //    m_pBottomShooterMotor->Set(CommonModes::Velocity, speed);//, 
-       m_pBottomShooterMotor->Set(CommonModes::Velocity, speed/60.0/10.0*2048.0);
+       m_pBottomShooterMotor->Set(CommonModes::Velocity, speed/60.0/10.0*2048.0);// /60.0/10.0*2048.0
    }
 
 
@@ -130,6 +130,6 @@ void ShooterSubsystem::Periodic() {
     //  m_pBottomShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0)/60.0/10.0)*2048.0);
     //    m_pTopShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Top Shoot Spd", 0)/60.0/10.0)*2048.0);
 
-    frc::SmartDashboard::PutNumber("Actual Bot Shoot Spd", m_pBottomShooterMotor->GetVelocity()*(60.0/10.0*2048.0));
-    frc::SmartDashboard::PutNumber("Actual Top Shoot Spd", m_pTopShooterMotor->GetVelocity()*(60.0/10.0*2048.0));
+    frc::SmartDashboard::PutNumber("Actual Bot Shoot Spd", m_pBottomShooterMotor->GetVelocity()*600.0/2048.0);// /60.0/10.0*2048.0
+    frc::SmartDashboard::PutNumber("Actual Top Shoot Spd", m_pTopShooterMotor->GetVelocity()*600.0/2048.0);// /60.0/10.0*2048.0
 }

@@ -8,10 +8,8 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/ClimberSubsystem.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/TurretSubsystem.h"
 #include "components/Joystick2481.h"
-#include <frc/smartdashboard/Smartdashboard.h>
-#include "components/XboxController2481.h"
-#include <units/velocity.h>
 
 /**
  * An example command.
@@ -20,38 +18,44 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ManualClimbCommand
-    : public frc2::CommandHelper<frc2::CommandBase, ManualClimbCommand> {
-      private: 
-        ClimberSubsystem* m_pClimber;
-        DriveSubsystem* m_pDriveTrain;
-        Joystick2481* m_pController;
- public:
- 
+class ClimbCommand
+    : public frc2::CommandHelper<frc2::CommandBase, ClimbCommand> {
+ private:
+  ClimberSubsystem* m_pClimber;
+  DriveSubsystem* m_pDriveTrain;
+  TurretSubsystem* m_pTurret;
+  Joystick2481* m_pController;
 
-  ManualClimbCommand(ClimberSubsystem* climber, DriveSubsystem* driveTrain, Joystick2481* controller){
+ public:
+  ClimbCommand(ClimberSubsystem* climber, DriveSubsystem* drive, TurretSubsystem* turret, Joystick2481* controller){
     m_pClimber = climber;
-    m_pDriveTrain = driveTrain;
+    m_pDriveTrain = drive;
+    m_pTurret = turret;
     m_pController = controller;
     AddRequirements(m_pClimber);
     AddRequirements(m_pDriveTrain);
+    AddRequirements(m_pTurret);
   }
-
+  
   void Initialize() override{
-    m_pClimber->extendTrussWheels();
+    m_pClimber->extendFloorWheels();
+    m_pTurret->rotateTurret(0);
   }
 
   void Execute() override{
     double joystickValue = m_pController->GetRawAxis(XBOX_LEFT_Y_AXIS);
     m_pClimber->setFloorWheelsSpeed(joystickValue*frc::SmartDashboard::GetNumber("Floor Wheel Constant", ClimberConstants::kFloorWheelSpeed));
     m_pClimber->setTrussWheelsSpeed(joystickValue*frc::SmartDashboard::GetNumber("Truss Wheel Constant", ClimberConstants::kTrussWheelSpeed));
-     m_pDriveTrain->Drive(0_mps, -units::meters_per_second_t (joystickValue*frc::SmartDashboard::GetNumber("Drive Train Constant", ClimberConstants::kDriveTrainSpeedConstant)), 0_rpm, false);                  
+    m_pDriveTrain->Drive(units::meters_per_second_t(-m_pController->GetRawAxis(XBOX_LEFT_X_AXIS)),
+     -units::meters_per_second_t (joystickValue*frc::SmartDashboard::GetNumber("Drive Train Constant", ClimberConstants::kDriveTrainSpeedConstant)),
+      units::radians_per_second_t(m_pController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2), false);   
   }
 
   void End(bool interrupted) override{
     m_pClimber->setFloorWheelsSpeed(0);
     m_pClimber->setTrussWheelsSpeed(0);
     m_pDriveTrain->stop();
+    m_pClimber->retractFloorWheels();
   }
 
   bool IsFinished() override{

@@ -35,7 +35,7 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->ConfigPeakOutputReverse(-.15, 10);
        m_pTurretMotor->ConfigNominalOutputForward(0.02, 10);
        m_pTurretMotor->ConfigNominalOutputReverse(-0.02, 10);
-        zeroTurret();
+        // zeroTurret();
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
     }
 
@@ -94,14 +94,19 @@ TurretSubsystem::TurretSubsystem() :
         return (m_angle_ticks/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
     }
     void TurretSubsystem::zeroTurret(){
+        m_angle_ticks = m_pTurretMotor->GetSelectedSensorPosition(0);
         //this is a very impotant line to make the absolute encoder work
         // m_angleOffsetTicks = ((getTurretRelativeAngle()) - (getTurretAbsoluteAngle())/(RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio))*RobotParameters::k_turretTicksPerRotation;
         m_angleOffsetTicks = m_angle_ticks;
         // Rotate turrent to extremes and then determine distance from 0 point to get these numbers. 
-        m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + 6031, m_angle_ticks - 5564); 
+        // m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + 6031, m_angle_ticks - 5564); 
 
-        m_rangeMaxTicks = m_angle_ticks + 6031 - 1000;
-        m_rangeMinTicks = m_angle_ticks - 5564 + 1000;
+        // m_rangeMaxTicks = m_angle_ticks + 6031 - 1000;
+        // m_rangeMinTicks = m_angle_ticks - 5564 + 1000;
+        m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + RobotParameters::k_turretTicksPerNinetyDegrees, m_angle_ticks - RobotParameters::k_turretTicksPerNinetyDegrees); 
+
+        m_rangeMaxTicks = m_angle_ticks + RobotParameters::k_turretTicksPerNinetyDegrees - 100;
+        m_rangeMinTicks = m_angle_ticks - RobotParameters::k_turretTicksPerNinetyDegrees + 100;
     }
     
 

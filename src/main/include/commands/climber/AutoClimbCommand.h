@@ -13,8 +13,10 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 
-#include "commands/climber/ExtendFloorTrussClimberWheelsCommand.h"
-#include "commands/climber/RetractFloorTrussClimberWheelsCommand.h"
+#include "commands/climber/ExtendFloorClimberWheelsCommand.h"
+#include "commands/climber/ExtendTrussClimberWheelsCommand.h"
+#include "commands/climber/RetractFloorClimberWheelsCommand.h"
+#include "commands/climber/RetractTrussClimberWheelsCommand.h"
 #include "commands/climber/FireJavelinCommand.h"
 #include "commands/climber/StartClimberWheelsCommand.h"
 #include "commands/climber/StartClimberWheelsReverseCommand.h"
@@ -37,7 +39,8 @@ class AutoClimbCommand
  
     AddCommands(
       frc2::SequentialCommandGroup{
-        ExtendClimberWheelsCommand(m_pClimber),
+        ExtendTrussClimberWheelsCommand(m_pClimber),
+        ExtendFloorClimberWheelsCommand(m_pClimber),
         frc2::ParallelRaceGroup{
           StartClimberWheelsCommand(m_pClimber),
           DriveOpenLoopCommand(m_pDrive, DriveConstants::kDriveClimbSpeed, 0_mps, 0_rad_per_s, false),

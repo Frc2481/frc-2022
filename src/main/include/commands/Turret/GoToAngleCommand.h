@@ -6,20 +6,22 @@
 
 #include <frc2/command/CommandHelper.h>
 #include <frc2/command/InstantCommand.h>
-#include "subsystems/ClimberSubsystem.h"
+#include "subsystems/TurretSubsystem.h"
 
-class RetractFloorClimberWheelsCommand
+class GoToAngleCommand
     : public frc2::CommandHelper<frc2::InstantCommand,
-                                 RetractFloorClimberWheelsCommand> {
-  private:
-   ClimberSubsystem* m_pClimber;                     
+                                 GoToAngleCommand> {
+      private: 
+      TurretSubsystem* m_pTurret;
+      double m_angle;
  public:
-  RetractFloorClimberWheelsCommand(ClimberSubsystem* climber){
-    m_pClimber = climber;
-    AddRequirements(m_pClimber);
+  GoToAngleCommand(TurretSubsystem* turret, double angle){
+    m_pTurret = turret;
+    m_angle = angle;
+    AddRequirements(m_pTurret);
   }
 
   void Initialize() override{
-    m_pClimber->retractFloorTrussWheels();
+    m_pTurret->rotateTurret(m_angle);
   }
 };

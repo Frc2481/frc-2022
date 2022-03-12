@@ -7,32 +7,49 @@
 #include "RobotParameters.h"
 #include "commands/ControlMotorWithJoystickCommand.h"
 #include <frc2/command/InstantCommand.h>
-#include "commands/Drive/DriveWithJoystickCommand.h"
-#include "commands/intake/ExtendIntakeCommand.h"
-#include "commands/intake/RetractIntakeCommand.h"
-#include "commands/FeederDefaultCommand.h"
+#include "commands/BarfCommand.h"
+#include "cameraserver/CameraServer.h"
+
+//Auto
+#include "commands/auto/TwoBallAutoCommand.h"
+#include "commands/auto/FourBallAutoCommand.h"
+#include "commands/auto/TwoBallAutoCommand.h"
+
+//Turret
+#include "commands/Turret/ZeroTurretCommand.h"
+#include "commands/Turret/GoToAngleCommand.h"
+#include "commands/turret/MoveTurretWithJoystickCommand.h"
+
+//Shooter
 #include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
 #include "commands/shooter/StopShooterCommand.h"
 #include "commands/turret/StayOnTargetCommand.h"
-#include "commands/climber/AutoClimbCommand.h"
 #include "commands/shooter/ShootCommand.h"
+#include "commands/shooter/StartShooterCommand.h"
+
+//Feeder
 #include "commands/ManualStartIntakeFeederCommand.h"
 #include "commands/ManualStopIntakeFeederCommand.h"
-#include "commands/shooter/StartShooterCommand.h"
-#include "commands/climber/RetractFloorTrussClimberWheelsCommand.h"
-#include "commands/climber/ToggleJavelinCommand.h"
-#include "commands/turret/MoveTurretWithJoystickCommand.h"
-#include "commands/BarfCommand.h"
-#include "commands/climber/ManualClimbCommand.h"
-#include "commands/climber/RetractJavelinCommand.h"
-#include "components/Joystick2481.h"
-#include "commands/auto/TwoBallAutoCommand.h"
-#include "commands/Turret/ZeroTurretCommand.h"
-#include "cameraserver/CameraServer.h"
-#include "commands/auto/TwoBallAutoCommand.h"
-#include "commands/auto/FourBallAutoCommand.h"
+#include "commands/FeederDefaultCommand.h"
 
-RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1)
+//Intake
+#include "commands/intake/ExtendIntakeCommand.h"
+#include "commands/intake/RetractIntakeCommand.h"
+
+//Drive
+#include "commands/Drive/DriveWithJoystickCommand.h"
+#include "components/Joystick2481.h"
+
+//Climber
+#include "commands/climber/ExtendTrussClimberWheelsCommand.h"
+#include "commands/climber/ClimbCommand.h"
+#include "commands/climber/ToggleJavelinCommand.h"
+
+RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
+                                  m_tDpadAux(&m_auxController, XBOX_DPAD_TOP),
+                                  m_bDpadAux(&m_auxController, XBOX_DPAD_BOTTOM),
+                                  m_lDpadAux(&m_auxController, XBOX_DPAD_LEFT),
+                                  m_rDpadAux(&m_auxController, XBOX_DPAD_RIGHT)
  {
   // Initialize all of your commands and subsystems here
     // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
@@ -108,7 +125,9 @@ void RobotContainer::ConfigureButtonBindings() {
     // DRIVER BUTTONS
 
     // Driver Climber Subsystem
-    
+    m_backDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem, &m_turretSubsystem));
+    m_rBumperDriver.WhileHeld(ClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_turretSubsystem, &m_driverController));
+
     // Driver Drive Subsystem
     m_lBumperDriver.WhenPressed(new frc2::InstantCommand([this]{m_driveSubsystem.toggleFieldCentricForJoystick();},{&m_driveSubsystem}));
     m_startDriver.WhenPressed(new frc2::InstantCommand([this]{
@@ -132,12 +151,7 @@ void RobotContainer::ConfigureButtonBindings() {
     // OPERATOR BUTTONS
 
     // Operator Climber Subsystem
-     m_startBackAux.WhenPressed(AutoClimbCommand(&m_climberSubsystem, &m_driveSubsystem));
-     m_rBumperAux.WhenPressed(ManualClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_auxController));
-     m_rBumperAux.WhenReleased(RetractFloorClimberWheelsCommand(&m_climberSubsystem));
-     m_xButtonAux.WhenPressed(ToggleJavelinCommand(&m_climberSubsystem));
-    //  m_lBumperAux.WhenPressed(FireJavelinCommand(&m_climberSubsystem));
-    //  m_lBumperAux.WhenReleased(RetractJavelinCommand(&m_climberSubsystem));
+     m_backAux.WhenPressed(ToggleJavelinCommand(&m_climberSubsystem));
 
     // Operator Drive Subsystem
 
@@ -154,7 +168,10 @@ void RobotContainer::ConfigureButtonBindings() {
      m_lTriggerAux.WhileHeld(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
 
     // Operator Turret Subsystem
-
+    m_tDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, 0));
+    m_rDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, -90));
+    m_lDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, 90));
+    m_bDpadAux.WhenPressed(new StayOnTargetCommand(&m_turretSubsystem));
 
     //=================================================================================================================
 
@@ -177,9 +194,9 @@ void RobotContainer::ConfigureButtonBindings() {
   
 
   
-  m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
+  // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
   frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
-  m_aButtonDriver.WhenPressed(m_zeroTurret);
+  // m_aButtonDriver.WhenPressed(m_zeroTurret);
 
   
 }

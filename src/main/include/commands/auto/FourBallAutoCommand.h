@@ -60,25 +60,27 @@ class FourBallAutoCommand
 
             //acquire ball 2
             ExtendIntakeCommand(m_pIntake),
-            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, true), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             frc2::WaitCommand(1_s), //give intake roller time to start before checking for ball
             WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(1_s),
-            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, true), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             WaitForTwoBallsInFeederCommand(m_pFeeder),
-
+            // RetractIntakeCommand(m_pIntake),
             //shoot balls 1 and 2
-            ShootCommand(m_pFeeder, m_pShooter).WithTimeout(1.5_s), 
+            ShootCommand(m_pFeeder, m_pShooter).WithTimeout(3_s), 
 
             //acquire ball 3
-            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
+
+            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, true), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(2_s),
-            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, true), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             WaitForTwoBallsInFeederCommand(m_pFeeder).WithTimeout(3_s),
             WaitForBallInFeederCommand(m_pFeeder),
-            DriveOpenLoopCommand(m_pDrive, 0_mps, -DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, -DriveConstants::kAutoDriveSpeed, 0_rad_per_s, true), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             frc2::WaitCommand(2_s),
-            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, true), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             ShootCommand(m_pFeeder, m_pShooter).WithTimeout(1.5_s), 
+             
           }
         }
     );

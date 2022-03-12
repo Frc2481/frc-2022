@@ -20,6 +20,8 @@ class StayOnTargetCommand
     : public frc2::CommandHelper<frc2::CommandBase, StayOnTargetCommand> {
  private:
   TurretSubsystem* m_pTurret;
+  double angle;
+  bool forward = false;
  public:
 
   StayOnTargetCommand(TurretSubsystem* turret)
@@ -35,7 +37,19 @@ class StayOnTargetCommand
 
   void Execute() override
   {
-    m_pTurret->rotateTurret(m_pTurret->getTurretCalibratedAngle() - m_pTurret->getAngleToTarget());
+    if(m_pTurret->isTargetVisible()){
+      m_pTurret->rotateTurret(m_pTurret->getTurretCalibratedAngle() - m_pTurret->getAngleToTarget());
+      angle = m_pTurret->getTurretCalibratedAngle();
+    }else{
+      angle = forward ? angle + 1.5 : angle - 1.5;
+      m_pTurret->rotateTurret(angle);
+      if(angle >= 90){
+        forward = false;
+      }else if(angle <= -90){
+        forward = true;
+      }
+    }
+    frc::SmartDashboard::PutNumber("Turret Setpoint", angle);
   }
 
   void End(bool interrupted) override

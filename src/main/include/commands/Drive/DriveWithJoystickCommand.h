@@ -14,6 +14,8 @@
 #include "components/XboxController2481.h"
 #include <units/angular_velocity.h>
 #include <units/velocity.h>
+#include "RobotContainer.h"
+
 /**
  * An example command.
  *
@@ -36,20 +38,22 @@ class DriveWithJoystickCommand
 
   void Execute() override{
     m_fieldCentric = m_pDrivetrain->getFiedCentricForJoystick();
-    if(m_fieldCentric){
-      m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
-                         units::meters_per_second_t(-m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
-                         units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2),//*6.65
-                         m_fieldCentric
-                         );
-    }else{
-      m_pDrivetrain->Drive(units::meters_per_second_t(-m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
-                         units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
-                         units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2),//*6.65
-                         m_fieldCentric
-                         );
-    }
+    //if (!m_rBumperDriver.GetRawButton(XBOX_RIGHT_BUMPER)) {
+            if(m_fieldCentric){
+              m_pDrivetrain->Drive(units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
+                                units::meters_per_second_t(-m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
+                                units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2),//*6.65
+                                m_fieldCentric
+                                );
+            }else{
+              m_pDrivetrain->Drive(units::meters_per_second_t(-m_pDriverController->GetRawAxis(XBOX_LEFT_Y_AXIS)),
+                                units::meters_per_second_t(m_pDriverController->GetRawAxis(XBOX_LEFT_X_AXIS)),
+                                units::radians_per_second_t(m_pDriverController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2),//*6.65
+                                m_fieldCentric
+                                );
+            }
     
+    //}
   }
 
   void End(bool interrupted) override{
