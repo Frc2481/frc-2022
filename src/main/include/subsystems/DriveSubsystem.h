@@ -101,6 +101,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
   void toggleFieldCentricForJoystick();
   bool getFiedCentricForJoystick();
+  void setGyroLock(bool enable);
 void setCoast();
 void setBrake();
 frc::SwerveModuleState getFrontRightMotor();
@@ -147,6 +148,7 @@ frc::ChassisSpeeds GetRobotVelocity();
   frc::SwerveDriveOdometry<5> m_odometry;
   AHRS m_pChassisIMU;
   bool m_fieldCentricForJoystick = false;
+  bool m_gyroLock;
 
   	std::ofstream m_File;
 };

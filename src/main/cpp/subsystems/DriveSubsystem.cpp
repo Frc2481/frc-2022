@@ -66,14 +66,18 @@ DriveSubsystem::DriveSubsystem()
                  frc::Rotation2d(units::degree_t(0)),
                  frc::Pose2d()},
 
-      m_pChassisIMU{frc::SPI::kMXP}{
+      m_pChassisIMU{frc::SPI::kMXP},
+      m_gyroLock(false){
     //     std::remove("home/lvuser/ActualPath.csv");
     // m_File.open("home/lvuser/ActualPath.csv");
+
+      frc::SmartDashboard::PutNumber("GyroLock P", 0.001);
       }
 
 
 void DriveSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("IMU Yaw", GetHeading());
+  frc::SmartDashboard::PutNumber("bc state angle", m_rearMiddle.GetState().angle.Degrees().to<double>());
   return;
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
@@ -90,7 +94,7 @@ void DriveSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("br state speed", m_rearRight.GetState().speed.to<double>());
   frc::SmartDashboard::PutNumber("bl state angle", m_rearLeft.GetState().angle.Degrees().to<double>());
   frc::SmartDashboard::PutNumber("bl state speed", m_rearLeft.GetState().speed.to<double>());
-  frc::SmartDashboard::PutNumber("bc state angle", m_rearMiddle.GetState().angle.Degrees().to<double>());
+  
   frc::SmartDashboard::PutNumber("bc state speed", m_rearMiddle.GetState().speed.to<double>());
   frc::SmartDashboard::PutNumber("Odometry X", GetPose().Translation().X().to<double>()*39.3701);//
   frc::SmartDashboard::PutNumber("Odometry Y", GetPose().Translation().Y().to<double>()*39.3701);//*39.3701
@@ -101,6 +105,14 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative, bool percentMode) {
+
+  // Gyro Lock
+  if (m_gyroLock) {
+    rot = units::radians_per_second_t(GetHeading() * -frc::SmartDashboard::GetNumber("GyroLock P", 0.001));
+  }
+  // / Gyro Lock
+
+
   frc::SmartDashboard::PutNumber("passed in value",ySpeed.to<double>());                        
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
@@ -256,4 +268,9 @@ void DriveSubsystem::setBrake(){
   m_rearRight.setBrake();
   m_rearLeft.setBrake();
    m_rearMiddle.setBrake();
+}
+
+void DriveSubsystem::setGyroLock(bool enable)
+{
+  m_gyroLock = enable;
 }

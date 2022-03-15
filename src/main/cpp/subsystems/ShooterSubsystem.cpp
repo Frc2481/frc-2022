@@ -14,9 +14,9 @@ ShooterSubsystem::ShooterSubsystem() :
    m_autoSpeed(true),
    m_isInManual(false),
    m_distanceToTarget(0.0), 
-   m_topShooterSpeedsVect   {   2500, 2900,  3300, 3300},
-   m_bottomShooterSpeedsVect{   1700, 2000, 2400, 3400},
-   m_distancesToTarget      {   138,  173,  224, 300}
+   m_topShooterSpeedsVect   {   3300, 3300}, // 2500, 2900, 3300, 3300
+   m_bottomShooterSpeedsVect{   1100, 3800}, // 1100, 1700, 2000, 3400
+   m_distancesToTarget      {   70, 300-24} // 70, 138-24,  173-24, 300-24
    {
        m_pTopShooterMotor = new TalonFXMotorController(FalconIDs::kTopShooterMotorID, "topShooterMotor");
        m_pTopShooterMotor->ConfigFactoryDefault();
@@ -66,13 +66,14 @@ ShooterSubsystem::ShooterSubsystem() :
    }
 
    void ShooterSubsystem::startShooter(double distance){ 
-        if(m_autoSpeed){
-            m_pBottomShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
-            m_pTopShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);//TODO find min max
+        // if(m_autoSpeed){
+            if(distance){
+            m_pBottomShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, false)/60.0/10.0*2048.0);//TODO find min max
+            m_pTopShooterMotor->Set(CommonModes::Velocity, interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, false)/60.0/10.0*2048.0);//TODO find min max
         }
         m_isShooterOn = true;
-    //    frc::SmartDashboard::PutNumber("Bottom Interpolate", interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);
-    //    frc::SmartDashboard::PutNumber("Top Interpolate", interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true)/60.0/10.0*2048.0);
+       frc::SmartDashboard::PutNumber("Bottom Interpolate", interpolate::interp(m_distancesToTarget, m_bottomShooterSpeedsVect, distance, true));
+       frc::SmartDashboard::PutNumber("Top Interpolate", interpolate::interp(m_distancesToTarget, m_topShooterSpeedsVect, distance, true));
    } 
    void ShooterSubsystem::toggleManualShooter(){
        m_isInManual = !m_isInManual;

@@ -189,9 +189,9 @@ namespace ShooterConstants{ //TODO wheel speeds
 }
 
 namespace LimelightConstants{
-    static constexpr double kTargetHeight = 102; //inches
-    static constexpr double kLimelightHeight = 46; //TODO find actual height
-    static constexpr double kLimelightAngle = 90-21; //TODO find angle
+    static constexpr double kTargetHeight = 102.5; //inches
+    static constexpr double kLimelightHeight = 45; //TODO find actual height
+    static constexpr double kLimelightAngle = 19.5; //TODO find angle 21
     
 }
 
@@ -266,18 +266,18 @@ namespace RobotParameters {
     // static constexpr double k_turretD = 0.0;
     // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     // static constexpr double k_turretF = .0775;
-    static constexpr double k_turretP = .2;
-    static constexpr double k_turretI = 0.01;
+    static constexpr double k_turretP = .15; //.2
+    static constexpr double k_turretI = 0.02; //.01
     static constexpr double k_turretD = 0.0;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
-    static constexpr double k_turretF = .075;
+    static constexpr double k_turretF = .02; //0.75
 
     static constexpr double k_turretAcceleration = 20000;
     static constexpr double k_maxTurretSpeed = 1980;
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 
-    static constexpr double k_turretTeeth = 152.0;
+    static constexpr double k_turretTeeth = 152; // 152.0;  This isn't right, but othere things are wrong so this makes it better.
     static constexpr double k_turretDriveTeeth = 10.0;
     static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
     static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;

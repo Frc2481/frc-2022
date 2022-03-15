@@ -17,10 +17,12 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 #include <frc2/command/ScheduleCommand.h>
+#include <frc2/command/InstantCommand.h>
 #include "commands/intake/WaitForBallAtIntakeRollerCommand.h"
 #include "commands/shooter/ShootCommand.h"
 #include "commands/WaitForTwoBallsInFeeder.h"
 #include "commands/FeederDefaultCommand.h"
+#include "commands/Turret/StayOnTargetCommand.h"
 
 #include "commands/drive/DriveOpenLoopCommand.h"
 #include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
@@ -56,14 +58,18 @@ class TwoBallAutoCommand
     m_pTurret = turret;
 
     AddCommands(
+
       frc2::ParallelCommandGroup{
         AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret),
+        StayOnTargetCommand(m_pTurret),
 
         frc2::ScheduleCommand(new FeederDefaultCommand(m_pFeeder, m_pIntake)),
 
         //FeederDefaultCommand(m_pFeeder),
         
           frc2::SequentialCommandGroup{
+            frc2::InstantCommand([this]{m_pTurret->zeroTurret();},{}),
+            frc2::InstantCommand([this]{m_pDrive->setGyroLock(true);},{m_pDrive}),
             ExtendIntakeCommand(m_pIntake),
             DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
             frc2::WaitCommand(1_s), //give intake roller time to start before checking for ball

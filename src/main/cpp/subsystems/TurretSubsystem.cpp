@@ -35,7 +35,7 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->ConfigPeakOutputReverse(-.15, 10);
        m_pTurretMotor->ConfigNominalOutputForward(0.02, 10);
        m_pTurretMotor->ConfigNominalOutputReverse(-0.02, 10);
-        // zeroTurret();
+        zeroTurret();
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
     }
 
@@ -46,6 +46,9 @@ TurretSubsystem::TurretSubsystem() :
         return m_isOnTarget;
     }
     double TurretSubsystem::getDistance(){
+        // m_distance = (LimelightConstants::kTargetHeight-LimelightConstants::kLimelightHeight)/tan((nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty",0.0)+LimelightConstants::kLimelightAngle)*  //LimelightConstants::kLimelightAngle)*
+        //     (wpi::numbers::pi/180));
+        // return m_distance;
         if(isTargetVisible()){
             double target_angle = m_vert_angle_to_target;
             double angle_to_target = target_angle + LimelightConstants::kLimelightAngle;
