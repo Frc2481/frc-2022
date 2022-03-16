@@ -70,6 +70,12 @@ class TwoBallAutoCommand
           frc2::SequentialCommandGroup{
             frc2::InstantCommand([this]{m_pTurret->zeroTurret();},{}),
             frc2::InstantCommand([this]{m_pDrive->setGyroLock(true);},{m_pDrive}),
+              frc2::InstantCommand([this]{
+                              m_pDrive->ResetOdometry(frc::Pose2d(
+                                                                m_pDrive->GetPose().Translation().X(), 
+                                                                m_pDrive->GetPose().Translation().Y(),
+                                                                frc::Rotation2d(units::degree_t(0))));
+                              },{}),
             ExtendIntakeCommand(m_pIntake),
             DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
             frc2::WaitCommand(1_s), //give intake roller time to start before checking for ball

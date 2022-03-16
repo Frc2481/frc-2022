@@ -32,7 +32,9 @@ class AutoAdjustShooterSpeedCommand
   void Initialize() override{}
 
   void Execute() override{
+      if (m_pTurret->isTargetVisible()) {
         m_pShooter->startShooter(m_pTurret->getDistance());
+      }
   }
 
   void End(bool interrupted) override{}

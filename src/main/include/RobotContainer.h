@@ -16,6 +16,7 @@
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
+#include <frc/smartdashboard/SendableChooser.h>
 // #include <frc/PneumaticsControlModule.h>
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -36,6 +37,7 @@ class RobotContainer {
   Joystick2481 m_auxController;
   
  public:
+  frc::SendableChooser<frc2::Command*> m_chooser;
   DriveSubsystem m_driveSubsystem;
   TurretSubsystem m_turretSubsystem;
   FeederSubsystem m_feederSubsystem;

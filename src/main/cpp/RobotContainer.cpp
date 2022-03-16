@@ -58,6 +58,9 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
   // m_pcm.set
   frc::CameraServer::StartAutomaticCapture();
   ConfigureButtonBindings();
+  m_chooser.AddDefault("Two Ball", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
+  m_chooser.AddOption("Four Ball", new FourBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
+  frc::SmartDashboard::PutData(&m_chooser);
   // frc::SmartDashboard::PutNumber("test",342);
   // frc::SmartDashboard::PutNumber("TurretP", RobotParameters::k_shooterP);
   // frc::SmartDashboard::PutNumber("TurretI", RobotParameters::k_shooterI);
@@ -126,7 +129,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
     // Driver Climber Subsystem
     m_backDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem, &m_turretSubsystem));
-    m_rBumperDriver.WhileHeld(ClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_turretSubsystem, &m_driverController));
+    m_rBumperDriver.ToggleWhenPressed(ClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_turretSubsystem, &m_driverController));
 
     // Driver Drive Subsystem
     m_lBumperDriver.WhenPressed(new frc2::InstantCommand([this]{m_driveSubsystem.toggleFieldCentricForJoystick();},{&m_driveSubsystem}));
@@ -204,6 +207,6 @@ void RobotContainer::ConfigureButtonBindings() {
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // An example command will be run in autonomous
-  return nullptr;
+  return m_chooser.GetSelected();
   // return new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem, &m_turretSubsystem);
 }

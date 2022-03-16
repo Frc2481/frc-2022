@@ -165,7 +165,7 @@ namespace FieldConstants{
     }
 namespace IntakeConstants{
     static constexpr double kDefaultIntakeRollerSpeed = 10; //TODO: Find out
-    static constexpr double kIntakeCurrentBallDetectThreshhold = 7.5; //TODO find out
+    static constexpr double kIntakeCurrentBallDetectThreshhold = 12; //TODO find out previous 7.5
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
@@ -266,8 +266,8 @@ namespace RobotParameters {
     // static constexpr double k_turretD = 0.0;
     // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     // static constexpr double k_turretF = .0775;
-    static constexpr double k_turretP = .15; //.2
-    static constexpr double k_turretI = 0.02; //.01
+    static constexpr double k_turretP = .1; //.2
+    static constexpr double k_turretI = 0.0005; //.01
     static constexpr double k_turretD = 0.0;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     static constexpr double k_turretF = .02; //0.75
@@ -285,7 +285,7 @@ namespace RobotParameters {
     static constexpr double k_turretABSDegreesPerShaftRotation = 720.0/k_turretABSMaxRotations;
     static constexpr double k_turretTicksPerRotation = 2048*k_turretGearRatio;
     static constexpr double k_turretTicksPerNinetyDegrees = k_turretTicksPerRotation/4;
-    
+    static constexpr double k_turretTicksPerDegree = k_turretTicksPerRotation / 360;
 
 
     //limelight TODO find corret values

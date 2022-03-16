@@ -71,13 +71,18 @@ DriveSubsystem::DriveSubsystem()
     //     std::remove("home/lvuser/ActualPath.csv");
     // m_File.open("home/lvuser/ActualPath.csv");
 
-      frc::SmartDashboard::PutNumber("GyroLock P", 0.001);
+      frc::SmartDashboard::PutNumber("GyroLock P", 0.05);
       }
 
 
 void DriveSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("IMU Yaw", GetHeading());
   frc::SmartDashboard::PutNumber("bc state angle", m_rearMiddle.GetState().angle.Degrees().to<double>());
+
+  if (m_gyroLock) {
+    Drive(m_xSpeed, m_ySpeed,units::radians_per_second_t(0), false);
+  }
+
   return;
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
@@ -108,8 +113,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 
   // Gyro Lock
   if (m_gyroLock) {
-    rot = units::radians_per_second_t(GetHeading() * -frc::SmartDashboard::GetNumber("GyroLock P", 0.001));
+    rot = units::radians_per_second_t(GetHeading() * -frc::SmartDashboard::GetNumber("GyroLock P", 0.05));
   }
+
+  m_xSpeed = xSpeed;
+  m_ySpeed = ySpeed;
   // / Gyro Lock
 
 

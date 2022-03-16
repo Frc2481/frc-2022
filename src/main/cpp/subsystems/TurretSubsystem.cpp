@@ -28,7 +28,7 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
        m_pTurretMotor->Config_kF(0,RobotParameters::k_turretF, 10);
-       m_pTurretMotor->Config_IntegralZone(0,25, 10); //TODO correct values
+       m_pTurretMotor->Config_IntegralZone(0,500, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
        m_pTurretMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
        m_pTurretMotor->ConfigPeakOutputForward(.15, 10);
@@ -66,7 +66,8 @@ TurretSubsystem::TurretSubsystem() :
         return m_angle_ticks - m_angleOffsetTicks;
     }
     void TurretSubsystem::rotateTurret(double angle){
-    double targetTicks = (angle / 360) * RobotParameters::k_turretTicksPerRotation;
+    // double targetTicks = (angle / 360) * RobotParameters::k_turretTicksPerRotation;
+    double targetTicks = (angle * RobotParameters::k_turretTicksPerDegree);
     targetTicks = std::min(targetTicks, m_rangeMaxTicks);
     targetTicks = std::max(targetTicks, m_rangeMinTicks);
 
@@ -79,7 +80,7 @@ TurretSubsystem::TurretSubsystem() :
         m_limitAccel = false;
     }
      
-      m_pTurretMotor->Set(CommonModes::MotionMagic, (angle / 360) * RobotParameters::k_turretTicksPerRotation);
+      m_pTurretMotor->Set(CommonModes::MotionMagic, targetTicks + m_angleOffsetTicks);
     }
 
     bool TurretSubsystem::isTargetVisible(){
@@ -91,10 +92,11 @@ TurretSubsystem::TurretSubsystem() :
         return (m_ABSPositionSensor->GetValue()/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation-360;
     }
     double TurretSubsystem::getTurretCalibratedAngle(){
-        return (getTurretAngleTicks()/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
+        return getTurretAngleTicks()/RobotParameters::k_turretTicksPerDegree;
+    //return (getTurretAngleTicks()/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
     }
     double TurretSubsystem::getTurretRelativeAngle(){
-        return (m_angle_ticks/RobotParameters::k_turretTicksPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation*RobotParameters::k_turretGearRatio;
+        return m_angle_ticks/RobotParameters::k_turretTicksPerDegree;
     }
     void TurretSubsystem::zeroTurret(){
         m_angle_ticks = m_pTurretMotor->GetSelectedSensorPosition(0);

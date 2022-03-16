@@ -150,5 +150,7 @@ frc::ChassisSpeeds GetRobotVelocity();
   bool m_fieldCentricForJoystick = false;
   bool m_gyroLock;
 
+  units::meters_per_second_t m_xSpeed;
+    units::meters_per_second_t m_ySpeed;
   	std::ofstream m_File;
 };

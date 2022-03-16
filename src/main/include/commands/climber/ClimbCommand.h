@@ -52,7 +52,7 @@ class ClimbCommand
   }
 
   void End(bool interrupted) override{
-    m_pClimber->setFloorWheelsSpeed(0);
+    m_pClimber->setFloorWheelsSpeed(0.2);
     m_pClimber->setTrussWheelsSpeed(0);
     m_pDriveTrain->stop();
     m_pClimber->retractFloorWheels();
