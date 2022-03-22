@@ -21,8 +21,10 @@
 
 using namespace DriveConstants;
 
-DriveSubsystem::DriveSubsystem()
-    : m_frontLeft{FalconIDs::kFrontLeftDriveMotorID,
+DriveSubsystem::DriveSubsystem():
+    // : m_floorLineSensor(DigitalInputs::kLineSensor),
+
+      m_frontLeft{FalconIDs::kFrontLeftDriveMotorID,
                   VictorIDs::kFrontLeftTurningMotorID,
                   CANCoderIDs::kFrontLeftSteerCANCoderID,
                   kFrontLeftDriveEncoderReversed,
@@ -277,6 +279,10 @@ void DriveSubsystem::setBrake(){
   m_rearLeft.setBrake();
    m_rearMiddle.setBrake();
 }
+// bool DriveSubsystem::isLineDetected(){
+//   // return m_floorLineSensor;
+//   return false;
+// }
 
 void DriveSubsystem::setGyroLock(bool enable)
 {

@@ -165,7 +165,7 @@ namespace FieldConstants{
     }
 namespace IntakeConstants{
     static constexpr double kDefaultIntakeRollerSpeed = 10; //TODO: Find out
-    static constexpr double kIntakeCurrentBallDetectThreshhold = 12; //TODO find out previous 7.5
+    static constexpr double kIntakeCurrentBallDetectThreshhold = 25; //12; //TODO find out previous 7.5
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
@@ -177,6 +177,7 @@ namespace FeederConstants{ //TODO figure out
 namespace DigitalInputs{
     static constexpr int kFeederBeamBreakPort = 0;
     static constexpr int kIndexerBeamBreakPort = 1;
+    static constexpr int kLineSensor = 2;
 }
 
 namespace ShooterConstants{ //TODO wheel speeds

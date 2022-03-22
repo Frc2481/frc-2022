@@ -14,6 +14,7 @@ m_isJavelinExtended(false),
 m_pFloorSolenoid(0,frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kFloorClimberSolenoidPort,SolenoidPorts::kFloorClimberSolenoidReversePort),
 m_pTrussSolenoid(0, frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kTrussClimberSolenoidPort,SolenoidPorts::kTrussClimberSolenoidReversePort),
 m_pJavelinSolenoid(0,frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kJavelinSolenoidPort, SolenoidPorts::kJavelinReverseSolenoidPort)
+
 {
     m_pFloorMotor = new TalonFXMotorController(FalconIDs::kFloorClimberMotorID, "floorClimberMotor");
     m_pFloorMotor->ConfigFactoryDefault();
@@ -72,6 +73,7 @@ bool ClimberSubsystem::areTrussWheelsExtended(){
 bool ClimberSubsystem::isJavelinExtended(){
   return m_isJavelinExtended;
 }
+
 
 // This method will be called once per scheduler run
 void ClimberSubsystem::Periodic() {}

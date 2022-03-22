@@ -85,16 +85,24 @@ class FourBallAutoCommand
             ExtendIntakeCommand(m_pIntake),
             DriveOpenLoopCommand(m_pDrive, 0.0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             frc2::WaitCommand(2_s),
-            DriveOpenLoopCommand(m_pDrive, 0.0_mps, DriveConstants::kAutoDriveSpeed / 2.0, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
-            WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(2_s),
+            DriveOpenLoopCommand(m_pDrive, 0.0_mps, DriveConstants::kAutoDriveSpeed / 2, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
+            WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(1.75_s),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
-            WaitForTwoBallsInFeederCommand(m_pFeeder).WithTimeout(3_s),
+            
+            //backup to allow 4th ball to roll down ramp
+            frc2::WaitCommand(0.5_s),
+            DriveOpenLoopCommand(m_pDrive, 0.0_mps, -DriveConstants::kAutoDriveSpeed / 2, 0_rad_per_s, false),
+            frc2::WaitCommand(1_s),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
+
+            WaitForTwoBallsInFeederCommand(m_pFeeder).WithTimeout(1.5_s),
             WaitForBallInFeederCommand(m_pFeeder),
             DriveOpenLoopCommand(m_pDrive, 0_mps, -DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             frc2::WaitCommand(2_s),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             
             RetractIntakeCommand(m_pIntake),
+
             //shoot balls 3 and 4
             ShootCommand(m_pFeeder, m_pShooter).WithTimeout(1.5_s), 
              

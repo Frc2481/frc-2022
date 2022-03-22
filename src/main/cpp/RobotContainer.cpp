@@ -58,7 +58,7 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
   // m_pcm.set
   frc::CameraServer::StartAutomaticCapture();
   ConfigureButtonBindings();
-  m_chooser.AddDefault("Two Ball", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
+  m_chooser.SetDefaultOption("Two Ball", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
   m_chooser.AddOption("Four Ball", new FourBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
   frc::SmartDashboard::PutData(&m_chooser);
   // frc::SmartDashboard::PutNumber("test",342);

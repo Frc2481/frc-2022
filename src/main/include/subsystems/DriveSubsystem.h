@@ -19,6 +19,7 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc2/command/SubsystemBase.h>
+#include <frc/DigitalInput.h>
 
 #include "RobotParameters.h"
 #include "SwerveModule.h"
@@ -131,6 +132,8 @@ frc::ChassisSpeeds GetRobotVelocity();
       frc::Translation2d(-kWheelBase2 / 2, kTrackWidth / 2),
       frc::Translation2d(-kWheelBase / 2, 0_in)};
 
+    //    bool isLineDetected();
+
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
@@ -153,4 +156,6 @@ frc::ChassisSpeeds GetRobotVelocity();
   units::meters_per_second_t m_xSpeed;
     units::meters_per_second_t m_ySpeed;
   	std::ofstream m_File;
+    // frc::DigitalInput m_floorLineSensor;
+    // frc::DigitalInput m_trussLineSensor;
 };

@@ -9,6 +9,7 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc/Solenoid.h>
 
+
 class ClimberSubsystem : public frc2::SubsystemBase {
  public:
   ClimberSubsystem();
@@ -31,6 +32,7 @@ class ClimberSubsystem : public frc2::SubsystemBase {
   bool areFloorWheelsExtended();
   bool areTrussWheelsExtended();
   bool isJavelinExtended();
+ 
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
