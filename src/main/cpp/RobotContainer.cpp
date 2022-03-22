@@ -44,6 +44,7 @@
 #include "commands/climber/ExtendTrussClimberWheelsCommand.h"
 #include "commands/climber/ClimbCommand.h"
 #include "commands/climber/ToggleJavelinCommand.h"
+#include "commands/drive/AlignToTrussCommandGroup.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
                                   m_tDpadAux(&m_auxController, XBOX_DPAD_TOP),
@@ -83,6 +84,8 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
 
   frc::SmartDashboard::PutData("Two Ball Auto", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
   frc::SmartDashboard::PutData("Four Ball Auto", new FourBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
+
+  frc::SmartDashboard::PutData("Auto Line Up", new AlignToTrussCommandGroup(&m_driveSubsystem));
 
   // m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
@@ -130,6 +133,7 @@ void RobotContainer::ConfigureButtonBindings() {
     // Driver Climber Subsystem
     m_backDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem, &m_turretSubsystem));
     m_rBumperDriver.ToggleWhenPressed(ClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_turretSubsystem, &m_driverController));
+    m_xButtonDriver.WhileHeld(AlignToTrussCommandGroup(&m_driveSubsystem));
 
     // Driver Drive Subsystem
     m_lBumperDriver.WhenPressed(new frc2::InstantCommand([this]{m_driveSubsystem.toggleFieldCentricForJoystick();},{&m_driveSubsystem}));

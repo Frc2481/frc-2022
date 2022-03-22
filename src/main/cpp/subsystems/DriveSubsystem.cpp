@@ -22,8 +22,6 @@
 using namespace DriveConstants;
 
 DriveSubsystem::DriveSubsystem():
-    // : m_floorLineSensor(DigitalInputs::kLineSensor),
-
       m_frontLeft{FalconIDs::kFrontLeftDriveMotorID,
                   VictorIDs::kFrontLeftTurningMotorID,
                   CANCoderIDs::kFrontLeftSteerCANCoderID,
@@ -62,6 +60,8 @@ DriveSubsystem::DriveSubsystem():
                   kRearMiddleDriveEncoderReversed, 
                   kRearMiddleTurningEncoderReversed,
                   "BC_STEER_MOTOR_ENCODER"},
+
+    
         //1097Setting 
 
       m_odometry{kDriveKinematics,
@@ -69,7 +69,15 @@ DriveSubsystem::DriveSubsystem():
                  frc::Pose2d()},
 
       m_pChassisIMU{frc::SPI::kMXP},
-      m_gyroLock(false){
+      m_gyroLock(false),
+      m_floorLineSensor(DigitalInputs::kFloorLineSensor),
+      m_trussLineSensor(DigitalInputs::kTrussLineSensor),
+      m_rotateAroundFloorSensor(false),
+      m_rotateAroundTrussSensor(false),
+      m_middle(0_m, 0_m),
+      m_floorSensor(7_in, -16.5_in + 2_in),
+      m_trussSensor(7_in, 16_in - 2_in)
+     {
     //     std::remove("home/lvuser/ActualPath.csv");
     // m_File.open("home/lvuser/ActualPath.csv");
 
@@ -80,7 +88,8 @@ DriveSubsystem::DriveSubsystem():
 void DriveSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("IMU Yaw", GetHeading());
   frc::SmartDashboard::PutNumber("bc state angle", m_rearMiddle.GetState().angle.Degrees().to<double>());
-
+  frc::SmartDashboard::PutBoolean("Floor Line Sensor", m_floorLineSensor.Get());
+  frc::SmartDashboard::PutBoolean("Truss Line Sensor", m_trussLineSensor.Get());
   if (m_gyroLock) {
     Drive(m_xSpeed, m_ySpeed,units::radians_per_second_t(0), false);
   }
@@ -128,11 +137,9 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot,
                           frc::Rotation2d(units::degree_t(GetHeading())))
-                    : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
-frc::SmartDashboard::PutNumber("driveMotorVelpreNormSpeed",states[0].speed.to<double>());
-frc::SmartDashboard::PutNumber("driveMotorVelpreNormAngle",states[0].angle.Degrees().to<double>());
+                    : frc::ChassisSpeeds{xSpeed, ySpeed, rot}, getPointOfRotation());
   kDriveKinematics.DesaturateWheelSpeeds(&states, units::meters_per_second_t(RobotParameters::k_maxSpeed));
-  frc::SmartDashboard::PutNumber("driveMotorVelNorm",states[0].speed.to<double>());
+
   auto [fl, fr, bl, br, bc] = states;
   m_frontLeft.SetDesiredState(fl, percentMode);
   m_frontRight.SetDesiredState(fr, percentMode);
@@ -279,11 +286,33 @@ void DriveSubsystem::setBrake(){
   m_rearLeft.setBrake();
    m_rearMiddle.setBrake();
 }
-// bool DriveSubsystem::isLineDetected(){
-//   // return m_floorLineSensor;
-//   return false;
-// }
-
+bool DriveSubsystem::isFloorLineDetected(){
+  return m_floorLineSensor.Get();
+}
+bool DriveSubsystem::isTrussLineDetected(){
+  return m_trussLineSensor.Get();
+}
+void DriveSubsystem::rotateAroundFloorSensor(){
+  m_rotateAroundTrussSensor = false;
+  m_rotateAroundFloorSensor = true;
+}
+void DriveSubsystem::rotateAroundTrussSensor(){
+  m_rotateAroundTrussSensor = true;
+  m_rotateAroundFloorSensor = false;
+}
+void DriveSubsystem::rotateAroundMidpoint(){
+  m_rotateAroundTrussSensor = false;
+  m_rotateAroundFloorSensor = false;
+}
+frc::Translation2d& DriveSubsystem::getPointOfRotation(){
+  if(m_rotateAroundTrussSensor){
+    return m_trussSensor;
+  }else if(m_rotateAroundFloorSensor){
+    return m_floorSensor;
+  }else{
+    return m_middle;
+  }
+}
 void DriveSubsystem::setGyroLock(bool enable)
 {
   m_gyroLock = enable;

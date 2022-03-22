@@ -132,7 +132,12 @@ frc::ChassisSpeeds GetRobotVelocity();
       frc::Translation2d(-kWheelBase2 / 2, kTrackWidth / 2),
       frc::Translation2d(-kWheelBase / 2, 0_in)};
 
-    //    bool isLineDetected();
+       bool isFloorLineDetected();
+       bool isTrussLineDetected();
+       void rotateAroundFloorSensor();
+       void rotateAroundTrussSensor();
+       void rotateAroundMidpoint();
+       frc::Translation2d& getPointOfRotation();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -156,6 +161,14 @@ frc::ChassisSpeeds GetRobotVelocity();
   units::meters_per_second_t m_xSpeed;
     units::meters_per_second_t m_ySpeed;
   	std::ofstream m_File;
-    // frc::DigitalInput m_floorLineSensor;
-    // frc::DigitalInput m_trussLineSensor;
+    frc::DigitalInput m_floorLineSensor;
+    frc::DigitalInput m_trussLineSensor;
+
+    frc::Translation2d m_middle;
+    frc::Translation2d m_trussSensor;
+    frc::Translation2d m_floorSensor;
+    bool m_rotateAroundTrussSensor;
+    bool m_rotateAroundFloorSensor;
+
+
 };
