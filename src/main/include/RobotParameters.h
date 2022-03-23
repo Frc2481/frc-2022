@@ -164,7 +164,7 @@ namespace FieldConstants{
     // static constexpr double kBlueAllianceOrigin = ;
     }
 namespace IntakeConstants{
-    static constexpr double kDefaultIntakeRollerSpeed = 10; //TODO: Find out
+    static constexpr double kDefaultIntakeRollerSpeed = 1; //TODO: Find out
     static constexpr double kIntakeCurrentBallDetectThreshhold = 25; //12; //TODO find out previous 7.5
 }
 namespace FeederConstants{ //TODO figure out

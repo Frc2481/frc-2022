@@ -46,9 +46,9 @@ class ClimbCommand
     double joystickValue = m_pController->GetRawAxis(XBOX_LEFT_Y_AXIS);
     m_pClimber->setFloorWheelsSpeed(joystickValue*frc::SmartDashboard::GetNumber("Floor Wheel Constant", ClimberConstants::kFloorWheelSpeed));
     m_pClimber->setTrussWheelsSpeed(joystickValue*frc::SmartDashboard::GetNumber("Truss Wheel Constant", ClimberConstants::kTrussWheelSpeed));
-    m_pDriveTrain->Drive(units::meters_per_second_t(-m_pController->GetRawAxis(XBOX_LEFT_X_AXIS)),
+    m_pDriveTrain->Drive(0_mps,
      -units::meters_per_second_t (joystickValue*frc::SmartDashboard::GetNumber("Drive Train Constant", ClimberConstants::kDriveTrainSpeedConstant)),
-      units::radians_per_second_t(m_pController->GetRawAxis(XBOX_RIGHT_X_AXIS)*2), false);   
+      0_rad_per_s, false);   
   }
 
   void End(bool interrupted) override{

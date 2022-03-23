@@ -131,6 +131,10 @@ void ShooterSubsystem::Periodic() {
     //  m_pBottomShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Bot Shoot Spd", 0)/60.0/10.0)*2048.0);
     //    m_pTopShooterMotor->Set(CommonModes::Velocity, (frc::SmartDashboard::GetNumber("Top Shoot Spd", 0)/60.0/10.0)*2048.0);
 
-    frc::SmartDashboard::PutNumber("Actual Bot Shoot Spd", m_pBottomShooterMotor->GetVelocity()*600.0/2048.0);// /60.0/10.0*2048.0
-    frc::SmartDashboard::PutNumber("Actual Top Shoot Spd", m_pTopShooterMotor->GetVelocity()*600.0/2048.0);// /60.0/10.0*2048.0
+    static int counter = 0;
+    if (counter++ == 10) {
+        frc::SmartDashboard::PutNumber("Actual Bot Shoot Spd", m_pBottomShooterMotor->GetVelocity()*600.0/2048.0);// /60.0/10.0*2048.0
+        frc::SmartDashboard::PutNumber("Actual Top Shoot Spd", m_pTopShooterMotor->GetVelocity()*600.0/2048.0);// /60.0/10.0*2048.0
+        counter = 0;
+    }
 }

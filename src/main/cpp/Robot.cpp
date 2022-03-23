@@ -4,6 +4,9 @@
 
 #include "Robot.h"
 
+#include <chrono>
+#include <iostream>
+
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
@@ -20,9 +23,13 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  frc2::CommandScheduler::GetInstance().Run();
-  // m_container.m_turretSubsystem.getTurretAbsoluteAngle();//TODO uncomment
   
+  auto start = std::chrono::high_resolution_clock::now();
+  frc2::CommandScheduler::GetInstance().Run();
+  auto end = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+  std::cout << duration.count() << std::endl;
+  // m_container.m_turretSubsystem.getTurretAbsoluteAngle();//TODO uncomment
 }
 
 /**

@@ -22,11 +22,13 @@ class StayOnTargetCommand
   TurretSubsystem* m_pTurret;
   double angle;
   bool forward = false;
+  bool m_prevVisible;
  public:
 
   StayOnTargetCommand(TurretSubsystem* turret)
   {
     m_pTurret = turret;
+    m_prevVisible = true;
     AddRequirements(m_pTurret);
   }
 
@@ -37,18 +39,26 @@ class StayOnTargetCommand
 
   void Execute() override
   {
-    if(m_pTurret->isTargetVisible()){
+    bool visible = m_pTurret->isTargetVisible();
+    if(visible){
       m_pTurret->rotateTurret(m_pTurret->getTurretCalibratedAngle() - m_pTurret->getAngleToTarget());
       angle = m_pTurret->getTurretCalibratedAngle();
     }else{
-      angle = forward ? angle + 1.5 : angle - 1.5;
-      m_pTurret->rotateTurret(angle);
-      if(angle >= 90){
-        forward = false;
-      }else if(angle <= -90){
-        forward = true;
+      angle = m_pTurret->getTurretCalibratedAngle();
+      // angle = forward ? angle + 4.5 : angle - 4.5;
+      // m_pTurret->rotateTurret(angle);
+      if(angle >= 85){
+        // forward = false;
+        m_pTurret->rotateTurret(-90);
+      }else if(angle <= -85){
+        // forward = true;
+        m_pTurret->rotateTurret(90);
+      } else if (m_prevVisible != visible){
+        m_pTurret->rotateTurret(90);
       }
     }
+    m_prevVisible = visible;
+
     frc::SmartDashboard::PutNumber("Turret Setpoint", angle);
   }
 

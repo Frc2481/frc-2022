@@ -94,6 +94,15 @@ void DriveSubsystem::Periodic() {
     Drive(m_xSpeed, m_ySpeed,units::radians_per_second_t(0), false);
   }
 
+  frc::SmartDashboard::PutNumber("fr state angle", m_frontRight.GetState().angle.Degrees().to<double>());
+frc::SmartDashboard::PutNumber("fr state speed", m_frontRight.GetState().speed.to<double>());
+frc::SmartDashboard::PutNumber("fl state angle", m_frontLeft.GetState().angle.Degrees().to<double>());
+frc::SmartDashboard::PutNumber("fl state speed", m_frontLeft.GetState().speed.to<double>());
+frc::SmartDashboard::PutNumber("br state angle", m_rearRight.GetState().angle.Degrees().to<double>());
+frc::SmartDashboard::PutNumber("br state speed", m_rearRight.GetState().speed.to<double>());
+frc::SmartDashboard::PutNumber("bl state angle", m_rearLeft.GetState().angle.Degrees().to<double>());
+frc::SmartDashboard::PutNumber("bl state speed", m_rearLeft.GetState().speed.to<double>());
+
   return;
   // Implementation of subsystem periodic method goes here.
   m_odometry.Update(frc::Rotation2d(units::degree_t(GetHeading())),
@@ -146,11 +155,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   m_rearLeft.SetDesiredState(bl, percentMode);
   m_rearRight.SetDesiredState(br, percentMode);
    m_rearMiddle.SetDesiredState(bc, percentMode);
-  frc::SmartDashboard::PutNumber("fr", fr.speed.to<double>());
-  frc::SmartDashboard::PutNumber("fl", fl.speed.to<double>());
-  frc::SmartDashboard::PutNumber("br", br.speed.to<double>());
-  frc::SmartDashboard::PutNumber("bl", bl.speed.to<double>());
-  frc::SmartDashboard::PutNumber("bc", bc.speed.to<double>());
+
   // frc::SmartDashboard::PutNumber("RobotVelocityX",GetRobotVelocity().vy.to<double>());
   // frc::SmartDashboard::PutNumber("RobotVelocityY",GetRobotVelocity().vx.to<double>());
   // printf("fr angle: %3f, fl angle: %3f, br angle: %3f, bl angle: %3f\n", 

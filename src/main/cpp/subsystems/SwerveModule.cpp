@@ -113,9 +113,7 @@ void SwerveModule::SetDesiredState(frc::SwerveModuleState& state, bool percentMo
       //     state.angle.Radians().to<double>());
   // printf("\nC A: %f\n", currentAngle); //TODO: Remove these printfs once turn issue fixed
   // printf("\nD A: %f\n", desiredAngle);
-frc::SmartDashboard::PutNumber("driveMotorVelpreLogic",driveMotorRPM);
-frc::SmartDashboard::PutNumber(m_name, m_pTurningEncoder->getAngle());
-frc::SmartDashboard::PutNumber(m_name + " drive", m_pDriveMotor->GetVelocity());
+
   if(fabs(normalizeToRange::RangedDifference(currentAngle - desiredAngle, -180, 180)) > 90){//used to be 90
     desiredAngle = normalizeToRange::NormalizeToRange(desiredAngle+180, -180, 180, true);
     driveMotorRPM = driveMotorRPM * -1;
@@ -125,7 +123,7 @@ frc::SmartDashboard::PutNumber(m_name + " drive", m_pDriveMotor->GetVelocity());
     // driveMotorRPM= 0;
     // printf("\nD%f\n", driveMotorRPM);
   }
-frc::SmartDashboard::PutNumber(m_name + " desiredAngle", desiredAngle);
+
   // printf("\nUpdated Current Angle: %f\n", currentAngle);
   // printf("\nUpdated Desired Angle: %f\n", desiredAngle);
   // printf("\nUpdated Desired Speed: %f\n", driveMotorRPM);
@@ -136,7 +134,6 @@ frc::SmartDashboard::PutNumber(m_name + " desiredAngle", desiredAngle);
   }else{
     m_pDriveMotor->Set(CommonModes::Velocity, driveMotorRPM);
   }
-  frc::SmartDashboard::PutNumber("driveMotorVelfinal",driveMotorRPM);
   // m_turningMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, turnOutput);
 
   m_pTurningMotorController->updateAngular(desiredAngle, 0, 0);
