@@ -50,7 +50,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
-             bool feildRelative, bool percentMode = true);
+             bool fieldRelative, bool percentMode = true);
 
 
 
@@ -77,7 +77,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   /**
    * Zeroes the heading of the robot.
    */
-  void ZeroHeading();
+  void ZeroHeading(double offset = 0);
 
   /**
    * Returns the turn rate of the robot.
@@ -157,6 +157,7 @@ frc::ChassisSpeeds GetRobotVelocity();
   AHRS m_pChassisIMU;
   bool m_fieldCentricForJoystick = false;
   bool m_gyroLock;
+  double m_yawOffset;
 
   units::meters_per_second_t m_xSpeed;
     units::meters_per_second_t m_ySpeed;

@@ -63,16 +63,13 @@ class FourBallAutoCommand
             frc2::InstantCommand([this]{m_pTurret->zeroTurret();},{}),
             frc2::InstantCommand([this]{m_pDrive->setGyroLock(true);},{m_pDrive}),
             frc2::InstantCommand([this]{
-                              m_pDrive->ResetOdometry(frc::Pose2d(
-                                                                m_pDrive->GetPose().Translation().X(), 
-                                                                m_pDrive->GetPose().Translation().Y(),
-                                                                frc::Rotation2d(units::degree_t(0))));
+                              m_pDrive->ZeroHeading(0);
                               },{}),
 
 
             //acquire ball 2
             ExtendIntakeCommand(m_pIntake),
-            DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
+            DriveOpenLoopCommand(m_pDrive, 0_mps, 0.75_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             frc2::WaitCommand(1_s), //give intake roller time to start before checking for ball
             WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(1_s),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
@@ -97,10 +94,13 @@ class FourBallAutoCommand
 
             WaitForTwoBallsInFeederCommand(m_pFeeder).WithTimeout(1.5_s),
             WaitForBallInFeederCommand(m_pFeeder),
-            DriveOpenLoopCommand(m_pDrive, 0_mps, -DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
-            frc2::WaitCommand(2_s),
+            DriveOpenLoopCommand(m_pDrive, 0_mps, -1.0_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
+            frc2::WaitCommand(1.2_s),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             
+            frc2::InstantCommand([this]{m_pDrive->setGyroLock(false);},{m_pDrive}),
+            frc2::InstantCommand([this]{m_pDrive->ZeroHeading(13.2);},{}),
+
             RetractIntakeCommand(m_pIntake),
 
             //shoot balls 3 and 4

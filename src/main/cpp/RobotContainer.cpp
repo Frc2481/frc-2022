@@ -9,6 +9,8 @@
 #include <frc2/command/InstantCommand.h>
 #include "commands/BarfCommand.h"
 #include "cameraserver/CameraServer.h"
+#include <frc2/command/FunctionalCommand.h>
+#include <frc/livewindow/LiveWindow.h>
 
 //Auto
 #include "commands/auto/TwoBallAutoCommand.h"
@@ -53,13 +55,14 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
                                   m_rDpadAux(&m_auxController, XBOX_DPAD_RIGHT)
  {
   // Initialize all of your commands and subsystems here
-    // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
+  
   // Configure the button bindings
 
   // m_pcm.set
   auto cam = frc::CameraServer::StartAutomaticCapture();
   cam.SetFPS(12);
   cam.SetResolution(160, 90);
+  frc::LiveWindow::DisableAllTelemetry();
 
   ConfigureButtonBindings();
   m_chooser.SetDefaultOption("Two Ball", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
@@ -85,12 +88,6 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
   frc::SmartDashboard::PutNumber("Top Motor Speed", ShooterConstants::kTopShooterSpeed);
   frc::SmartDashboard::PutNumber("Bottom Motor Speed", ShooterConstants::kBottomShooterSpeed);
 
-  frc::SmartDashboard::PutData("Two Ball Auto", new TwoBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
-  frc::SmartDashboard::PutData("Four Ball Auto", new FourBallAutoCommand(&m_driveSubsystem, &m_feederSubsystem, &m_intakeSubsystem, &m_shooterSubsystem,  &m_turretSubsystem));
-
-  frc::SmartDashboard::PutData("Auto Line Up", new AlignToTrussCommandGroup(&m_driveSubsystem));
-
-  // m_driveSubsystem.SetDefaultCommand(DriveWithJoystickCommand(&m_driveSubsystem, &m_driverController)); 
 }
 
 class InstantDisabledCommand : public frc2::InstantCommand {
@@ -169,7 +166,11 @@ void RobotContainer::ConfigureButtonBindings() {
 
     // Operator Intake Subsystem
     // m_xButtonAux.WhenPressed(ManualStartIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
-    // m_yButtonAux.WhenPressed(ManualStopIntakeFeederCommand(&m_feederSubsystem, &m_intakeSubsystem));
+    m_yButtonAux.WhenPressed(frc2::InstantCommand(
+        [this]{
+          m_turretSubsystem.rotateTurret(0);
+          m_shooterSubsystem.startShooter(84);
+        },{&m_shooterSubsystem, &m_turretSubsystem}));
 
     // Operator Shooter Subsystem
      m_aButtonLeftBumpAux
@@ -205,7 +206,7 @@ void RobotContainer::ConfigureButtonBindings() {
   
 
   
-  // m_turretSubsystem.SetDefaultCommand(StayOnTargetCommand(&m_turretSubsystem));
+
   frc2::InstantCommand m_zeroTurret{[this] {m_turretSubsystem.zeroTurret(); }, {&m_turretSubsystem}};
   // m_aButtonDriver.WhenPressed(m_zeroTurret);
 

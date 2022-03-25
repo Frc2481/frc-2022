@@ -68,15 +68,18 @@ DriveSubsystem::DriveSubsystem():
                  frc::Rotation2d(units::degree_t(0)),
                  frc::Pose2d()},
 
+
       m_pChassisIMU{frc::SPI::kMXP},
       m_gyroLock(false),
+      m_xSpeed(0_mps),
+      m_ySpeed(0_mps),
       m_floorLineSensor(DigitalInputs::kFloorLineSensor),
       m_trussLineSensor(DigitalInputs::kTrussLineSensor),
-      m_rotateAroundFloorSensor(false),
-      m_rotateAroundTrussSensor(false),
       m_middle(0_m, 0_m),
+      m_trussSensor(7_in, 16_in - 2_in),
       m_floorSensor(7_in, -16.5_in + 2_in),
-      m_trussSensor(7_in, 16_in - 2_in)
+      m_rotateAroundTrussSensor(false),
+      m_rotateAroundFloorSensor(false)
      {
     //     std::remove("home/lvuser/ActualPath.csv");
     // m_File.open("home/lvuser/ActualPath.csv");
@@ -188,16 +191,17 @@ void DriveSubsystem::ResetEncoders() {
 }
 
 double DriveSubsystem::GetHeading() {
-  return normalizeToRange::NormalizeToRange(m_pChassisIMU.GetYaw() , -180, 180, true) * (kGyroReversed ? -1: 1);
+  return normalizeToRange::NormalizeToRange(m_pChassisIMU.GetYaw() -m_yawOffset, -180, 180, true) * (kGyroReversed ? -1: 1);
 }
 
 double DriveSubsystem::GetRoll() {
   return normalizeToRange::NormalizeToRange(m_pChassisIMU.GetRoll(), -180, 180, true);
 }
 
-void DriveSubsystem::ZeroHeading() { 
-  m_pChassisIMU.Reset(); 
-  }
+void DriveSubsystem::ZeroHeading(double offset) { 
+  m_pChassisIMU.Reset();
+  m_yawOffset = offset; 
+}
 
 double DriveSubsystem::GetTurnRate() {
   return m_pChassisIMU.GetRate() * (kGyroReversed ? -1. : 1.);
