@@ -13,17 +13,9 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/WaitCommand.h>
 
-#include "commands/climber/ExtendFloorClimberWheelsCommand.h"
 #include "commands/climber/ExtendTrussClimberWheelsCommand.h"
-#include "commands/climber/RetractFloorClimberWheelsCommand.h"
-#include "commands/climber/RetractTrussClimberWheelsCommand.h"
-#include "commands/climber/FireJavelinCommand.h"
-#include "commands/climber/StartClimberWheelsCommand.h"
-#include "commands/climber/StartClimberWheelsReverseCommand.h"
-#include "commands/climber/StopClimberWheelsCommand.h"
 #include "commands/drive/DriveOpenLoopCommand.h"
 #include "commands/Drive/WaitForRoll.h"
-#include "commands/climber/FireJavelinCommand.h"
 #include "RobotParameters.h"
 
 class AutoClimbCommand
@@ -40,23 +32,26 @@ class AutoClimbCommand
     AddCommands(
       frc2::SequentialCommandGroup{
         ExtendTrussClimberWheelsCommand(m_pClimber),
-        ExtendFloorClimberWheelsCommand(m_pClimber),
+        frc2::InstantCommand([this]{m_pClimber->extendFloorWheels();},{m_pClimber}),
         frc2::ParallelRaceGroup{
-          StartClimberWheelsCommand(m_pClimber),
+          frc2::InstantCommand([this]{m_pClimber->setFloorWheelsSpeed(ClimberConstants::kFloorWheelSpeed); 
+          m_pClimber->setTrussWheelsSpeed(ClimberConstants::kTrussWheelSpeed);},{m_pClimber}),
           DriveOpenLoopCommand(m_pDrive, DriveConstants::kDriveClimbSpeed, 0_mps, 0_rad_per_s, false),
         },
         WaitForRoll(m_pDrive, ClimberConstants::kJavelinDeployRoll),
-        FireJavelinCommand(m_pClimber),
+        frc2::InstantCommand([this]{m_pClimber->fireJavelin();},{m_pClimber}),
         frc2::ParallelRaceGroup{
-          StartClimberWheelsReverseCommand(m_pClimber),
+          frc2::InstantCommand([this]{m_pClimber->setFloorWheelsSpeed(-ClimberConstants::kFloorWheelSpeed);
+          m_pClimber->setTrussWheelsSpeed(-ClimberConstants::kTrussWheelSpeed);},{m_pClimber}),
           DriveOpenLoopCommand(m_pDrive, -DriveConstants::kDriveClimbSpeed, 0_mps, 0_rad_per_s, false),
         },
         frc2::WaitCommand(2_s),
         frc2::ParallelRaceGroup{
-          StopClimberWheelsCommand(m_pClimber),
+          frc2::InstantCommand([this]{m_pClimber->setFloorWheelsSpeed(0.0);
+          m_pClimber->setTrussWheelsSpeed(0.0);},{m_pClimber}),
           DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
         },
-        RetractFloorClimberWheelsCommand(m_pClimber)
+        frc2::InstantCommand([this]{m_pClimber->retractFloorWheels();},{m_pClimber})
       }
     );
   }

@@ -7,7 +7,6 @@
 #include "RobotParameters.h"
 #include "commands/ControlMotorWithJoystickCommand.h"
 #include <frc2/command/InstantCommand.h>
-#include "commands/BarfCommand.h"
 #include "cameraserver/CameraServer.h"
 #include <frc2/command/FunctionalCommand.h>
 #include <frc/livewindow/LiveWindow.h>
@@ -18,20 +17,16 @@
 #include "commands/auto/TwoBallAutoCommand.h"
 
 //Turret
-#include "commands/Turret/ZeroTurretCommand.h"
-#include "commands/Turret/GoToAngleCommand.h"
-#include "commands/turret/MoveTurretWithJoystickCommand.h"
+#include "commands/turret/GoToAngleCommand.h"
 
 //Shooter
 #include "commands/shooter/AutoAdjustShooterSpeedCommand.h"
-#include "commands/shooter/StopShooterCommand.h"
 #include "commands/turret/StayOnTargetCommand.h"
 #include "commands/shooter/ShootCommand.h"
 #include "commands/shooter/StartShooterCommand.h"
 
 //Feeder
 #include "commands/ManualStartIntakeFeederCommand.h"
-#include "commands/ManualStopIntakeFeederCommand.h"
 #include "commands/FeederDefaultCommand.h"
 
 //Intake
@@ -47,6 +42,7 @@
 #include "commands/climber/ClimbCommand.h"
 #include "commands/climber/ToggleJavelinCommand.h"
 #include "commands/drive/AlignToTrussCommandGroup.h"
+#include "commands/climber/AutoClimbCommand.h"
 
 RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
                                   m_tDpadAux(&m_auxController, XBOX_DPAD_TOP),
@@ -131,7 +127,7 @@ void RobotContainer::ConfigureButtonBindings() {
     // DRIVER BUTTONS
 
     // Driver Climber Subsystem
-    m_backDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem, &m_turretSubsystem));
+    m_backDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem));
     m_rBumperDriver.ToggleWhenPressed(ClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_turretSubsystem, &m_driverController));
     m_xButtonDriver.WhenHeld(AlignToTrussCommandGroup(&m_driveSubsystem));
 
@@ -145,6 +141,17 @@ void RobotContainer::ConfigureButtonBindings() {
                               },{&m_driveSubsystem}));
 
     // Driver Feeder Subsystem
+    m_lTriggerDriver.WhenPressed(new frc2::InstantCommand([this]{
+    m_intakeSubsystem.extendIntake();
+    m_intakeSubsystem.setRollerSpeed(-IntakeConstants::kDefaultIntakeRollerSpeed);
+    m_feederSubsystem.setIndexerSpeed(-FeederConstants::kIndexerSpeed);
+    m_feederSubsystem.setFeederSpeed(-FeederConstants::kDefaultFeederSpeed);},{&m_intakeSubsystem, &m_feederSubsystem}));
+
+    m_lTriggerDriver.WhenReleased(new frc2::InstantCommand([this]{  
+    m_intakeSubsystem.retractIntake();
+    m_intakeSubsystem.setRollerSpeed(0);
+    m_feederSubsystem.setIndexerSpeed(0);
+    m_feederSubsystem.setFeederSpeed(0);},{&m_intakeSubsystem, &m_feederSubsystem}));
 
     // Driver Intake Subsystem
     m_rTriggerDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
@@ -200,9 +207,8 @@ void RobotContainer::ConfigureButtonBindings() {
     m_turretSubsystem.zeroTurret();
   }));
   
-  m_lTriggerDriver.WhileHeld(BarfCommand(&m_intakeSubsystem, &m_feederSubsystem));
   m_aButtonAux.WhenPressed(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
-  m_bButtonAux.WhenPressed(StopShooterCommand(&m_shooterSubsystem));
+  m_bButtonAux.WhenPressed(new frc2::InstantCommand([this]{m_shooterSubsystem.stopShooter();},{&m_shooterSubsystem}));
   
 
   

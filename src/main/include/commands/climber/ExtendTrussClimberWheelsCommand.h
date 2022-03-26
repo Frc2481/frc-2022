@@ -11,27 +11,20 @@
 #include "subsystems/TurretSubsystem.h"
 #include "RobotParameters.h"
 #include <frc2/command/InstantCommand.h>
-#include "commands/climber/ExtendTrussCommand.h"
-#include "commands/climber/RetractTrussClimberWheelsCommand.h"
-#include "commands/climber/SetTrussWheelsCommand.h"
-#include "commands/Turret/GoToAngleCommand.h"
 
 class ExtendTrussClimberWheelsCommand
     : public frc2::CommandHelper<frc2::SequentialCommandGroup,
                                  ExtendTrussClimberWheelsCommand> {
   private:
-  ClimberSubsystem* m_pClimber;  
-  TurretSubsystem* m_pTurret;
+  ClimberSubsystem* m_pClimber;
  public:
-  ExtendTrussClimberWheelsCommand(ClimberSubsystem* climber, TurretSubsystem* turret){
+  ExtendTrussClimberWheelsCommand(ClimberSubsystem* climber){
     m_pClimber = climber;
-    m_pTurret = turret;
     AddCommands(
-      ExtendTrussCommand(m_pClimber),
-      GoToAngleCommand(m_pTurret, 0),
-      SetTrussWheelsCommand(m_pClimber, -ClimberConstants::kTrussWheelSpeed),
+      frc2::InstantCommand([this]{m_pClimber->extendTrussWheels();}, {m_pClimber}),
+      frc2::InstantCommand([this]{m_pClimber->setTrussWheelsSpeed(-ClimberConstants::kTrussWheelSpeed);},{m_pClimber}),
       frc2::WaitCommand(1_s),
-      SetTrussWheelsCommand(m_pClimber, 0)
+      frc2::InstantCommand([this]{m_pClimber->setTrussWheelsSpeed(0);},{m_pClimber})
     );
   }
 };
