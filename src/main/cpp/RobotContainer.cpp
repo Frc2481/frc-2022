@@ -10,6 +10,7 @@
 #include "cameraserver/CameraServer.h"
 #include <frc2/command/FunctionalCommand.h>
 #include <frc/livewindow/LiveWindow.h>
+#include <frc/DataLogManager.h>
 
 //Auto
 #include "commands/auto/TwoBallAutoCommand.h"
@@ -58,6 +59,7 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
   auto cam = frc::CameraServer::StartAutomaticCapture();
   cam.SetFPS(12);
   cam.SetResolution(160, 90);
+  frc::DataLogManager::Start();
   frc::LiveWindow::DisableAllTelemetry();
 
   ConfigureButtonBindings();
