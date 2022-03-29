@@ -21,10 +21,10 @@ class ExtendTrussClimberWheelsCommand
   ExtendTrussClimberWheelsCommand(ClimberSubsystem* climber){
     m_pClimber = climber;
     AddCommands(
-      frc2::InstantCommand([this]{m_pClimber->extendTrussWheels();}, {m_pClimber}),
-      frc2::InstantCommand([this]{m_pClimber->setTrussWheelsSpeed(-ClimberConstants::kTrussWheelSpeed);},{m_pClimber}),
+      frc2::InstantCommand([climber]{climber->extendTrussWheels();}, {climber}),
+      frc2::InstantCommand([climber]{climber->setTrussWheelsSpeed(ClimberConstants::kTrussWheelSpeed);},{climber}),
       frc2::WaitCommand(1_s),
-      frc2::InstantCommand([this]{m_pClimber->setTrussWheelsSpeed(0);},{m_pClimber})
+      frc2::InstantCommand([climber]{climber->setTrussWheelsSpeed(0);},{climber})
     );
   }
 };

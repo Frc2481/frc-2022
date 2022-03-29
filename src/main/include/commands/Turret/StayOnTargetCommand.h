@@ -47,14 +47,14 @@ class StayOnTargetCommand
       angle = m_pTurret->getTurretCalibratedAngle();
       // angle = forward ? angle + 4.5 : angle - 4.5;
       // m_pTurret->rotateTurret(angle);
-      if(angle >= 85){
+      if(angle >= RobotParameters::k_maxTurretDegrees - 5){
         // forward = false;
-        m_pTurret->rotateTurret(-90);
-      }else if(angle <= -85){
+        m_pTurret->rotateTurret(RobotParameters::k_minTurretDegrees);
+      }else if(angle <= RobotParameters::k_minTurretDegrees + 5){
         // forward = true;
-        m_pTurret->rotateTurret(90);
+        m_pTurret->rotateTurret(RobotParameters::k_maxTurretDegrees);
       } else if (m_prevVisible != visible){
-        m_pTurret->rotateTurret(90);
+        m_pTurret->rotateTurret(RobotParameters::k_minTurretDegrees);
       }
     }
     m_prevVisible = visible;

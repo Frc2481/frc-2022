@@ -66,21 +66,28 @@ TurretSubsystem::TurretSubsystem() :
         return m_angle_ticks - m_angleOffsetTicks;
     }
     void TurretSubsystem::rotateTurret(double angle){
-    // double targetTicks = (angle / 360) * RobotParameters::k_turretTicksPerRotation;
-    double targetTicks = (angle * RobotParameters::k_turretTicksPerDegree) + m_angleOffsetTicks;
-    targetTicks = std::min(targetTicks, m_rangeMaxTicks);
-    targetTicks = std::max(targetTicks, m_rangeMinTicks);
 
-    if (abs(getAngleToTarget()) < 2 && !m_limitAccel){
-        m_pTurretMotor->ConfigMotionAcceleration(2000);
-        m_limitAccel = true;
-    }
-    else if(abs(getAngleToTarget()) >= 2 && m_limitAccel){
-        m_pTurretMotor->ConfigMotionAcceleration(20000);
-        m_limitAccel = false;
-    }
-     
-      m_pTurretMotor->Set(CommonModes::MotionMagic, targetTicks);
+        if(angle > RobotParameters::k_maxTurretDegrees){
+            angle -= 360;
+        }else if(angle < RobotParameters::k_minTurretDegrees){
+            angle += 360;
+        }
+
+        // double targetTicks = (angle / 360) * RobotParameters::k_turretTicksPerRotation;
+        double targetTicks = (angle * RobotParameters::k_turretTicksPerDegree) + m_angleOffsetTicks;
+        targetTicks = std::min(targetTicks, m_rangeMaxTicks);
+        targetTicks = std::max(targetTicks, m_rangeMinTicks);
+
+        if (abs(getAngleToTarget()) < 2 && !m_limitAccel){
+            m_pTurretMotor->ConfigMotionAcceleration(2000);
+            m_limitAccel = true;
+        }
+        else if(abs(getAngleToTarget()) >= 2 && m_limitAccel){
+            m_pTurretMotor->ConfigMotionAcceleration(20000);
+            m_limitAccel = false;
+        }
+        
+        m_pTurretMotor->Set(CommonModes::MotionMagic, targetTicks);
     }
 
     bool TurretSubsystem::isTargetVisible(){
@@ -108,10 +115,17 @@ TurretSubsystem::TurretSubsystem() :
 
         // m_rangeMaxTicks = m_angle_ticks + 6031 - 1000;
         // m_rangeMinTicks = m_angle_ticks - 5564 + 1000;
-        m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + RobotParameters::k_turretTicksPerNinetyDegrees, m_angle_ticks - RobotParameters::k_turretTicksPerNinetyDegrees); 
 
-        m_rangeMaxTicks = m_angle_ticks + RobotParameters::k_turretTicksPerNinetyDegrees - 100;
-        m_rangeMinTicks = m_angle_ticks - RobotParameters::k_turretTicksPerNinetyDegrees + 100;
+        // 225 deg
+        // 135 deg
+
+        double maxTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_maxTurretDegrees);
+        double minTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_minTurretDegrees);
+
+        m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + maxTicks, m_angle_ticks + minTicks); 
+
+        m_rangeMaxTicks = m_angle_ticks + (maxTicks - 100);
+        m_rangeMinTicks = m_angle_ticks + (minTicks + 100);
     }
     
 

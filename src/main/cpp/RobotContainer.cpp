@@ -129,7 +129,8 @@ void RobotContainer::ConfigureButtonBindings() {
     // DRIVER BUTTONS
 
     // Driver Climber Subsystem
-    m_backDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem));
+    // m_backDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem));
+    m_yButtonDriver.WhenPressed(ExtendTrussClimberWheelsCommand(&m_climberSubsystem));
     m_rBumperDriver.ToggleWhenPressed(ClimbCommand(&m_climberSubsystem, &m_driveSubsystem, &m_turretSubsystem, &m_driverController));
     m_xButtonDriver.WhenHeld(AlignToTrussCommandGroup(&m_driveSubsystem));
 

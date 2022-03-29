@@ -289,6 +289,9 @@ namespace RobotParameters {
     static constexpr double k_turretTicksPerNinetyDegrees = k_turretTicksPerRotation/4;
     static constexpr double k_turretTicksPerDegree = k_turretTicksPerRotation / 360;
 
+    static constexpr double k_minTurretDegrees = -125;
+    static constexpr double k_maxTurretDegrees = 225;
+
 
     //limelight TODO find corret values
     static constexpr double k_limeLightP = 4.9;
