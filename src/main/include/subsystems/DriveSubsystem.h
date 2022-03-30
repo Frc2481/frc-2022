@@ -60,6 +60,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   void ResetEncoders();
 
+  void SyncCANcoders();
+
   /**
    * Sets the drive SpeedControllers to a power from -1 to 1.
    */

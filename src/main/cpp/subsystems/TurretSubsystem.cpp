@@ -24,6 +24,7 @@ TurretSubsystem::TurretSubsystem() :
         // m_turretMotor->SetCon
         m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed);  //Degrees per second
         m_pTurretMotor->ConfigMotionAcceleration(RobotParameters::k_turretAcceleration);
+        m_pTurretMotor->ConfigMotionSCurveStrength(3);
         m_pTurretMotor->Config_kP(0, RobotParameters::k_turretP, 10); //do we need PIDF for turret motor?
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
@@ -31,8 +32,8 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->Config_IntegralZone(0,500, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
        m_pTurretMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
-       m_pTurretMotor->ConfigPeakOutputForward(.15, 10);
-       m_pTurretMotor->ConfigPeakOutputReverse(-.15, 10);
+       m_pTurretMotor->ConfigPeakOutputForward(.2, 10);
+       m_pTurretMotor->ConfigPeakOutputReverse(-.2, 10);
        m_pTurretMotor->ConfigNominalOutputForward(0.02, 10);
        m_pTurretMotor->ConfigNominalOutputReverse(-0.02, 10);
         zeroTurret();

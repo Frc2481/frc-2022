@@ -190,6 +190,14 @@ void DriveSubsystem::ResetEncoders() {
   m_rearMiddle.ResetEncoders();
 }
 
+void DriveSubsystem::SyncCANcoders(){
+  m_frontLeft.SyncCANcoders();
+  m_rearLeft.SyncCANcoders();
+  m_frontRight.SyncCANcoders();
+  m_rearRight.SyncCANcoders();
+  m_rearMiddle.SyncCANcoders();
+}
+
 double DriveSubsystem::GetHeading() {
   return normalizeToRange::NormalizeToRange(m_pChassisIMU.GetYaw() -m_yawOffset, -180, 180, true) * (kGyroReversed ? -1: 1);
 }

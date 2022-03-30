@@ -52,7 +52,7 @@ class AlignToTrussCommandGroup
         {drive}
       ),
       frc2::FunctionalCommand(
-        [drive]{drive->Drive(-.075_mps, 0_mps, 0_rad_per_s, false);},
+        [drive]{drive->Drive(-.1_mps, 0_mps, 0_rad_per_s, false);},
         [drive]{},
         [drive](bool interrupted){drive->stop();
         std::cout << "both lines not found " << drive->isTrussLineDetected() << " " << drive->isFloorLineDetected() << "\n";

@@ -11,6 +11,7 @@
 #include <frc2/command/FunctionalCommand.h>
 #include <frc/livewindow/LiveWindow.h>
 #include <frc/DataLogManager.h>
+#include <frc2/command/StartEndCommand.h>
 
 //Auto
 #include "commands/auto/TwoBallAutoCommand.h"
@@ -144,17 +145,20 @@ void RobotContainer::ConfigureButtonBindings() {
                               },{&m_driveSubsystem}));
 
     // Driver Feeder Subsystem
-    m_lTriggerDriver.WhenPressed(new frc2::InstantCommand([this]{
-    m_intakeSubsystem.extendIntake();
-    m_intakeSubsystem.setRollerSpeed(-IntakeConstants::kDefaultIntakeRollerSpeed);
-    m_feederSubsystem.setIndexerSpeed(-FeederConstants::kIndexerSpeed);
-    m_feederSubsystem.setFeederSpeed(-FeederConstants::kDefaultFeederSpeed);},{&m_intakeSubsystem, &m_feederSubsystem}));
-
-    m_lTriggerDriver.WhenReleased(new frc2::InstantCommand([this]{  
-    m_intakeSubsystem.retractIntake();
-    m_intakeSubsystem.setRollerSpeed(0);
-    m_feederSubsystem.setIndexerSpeed(0);
-    m_feederSubsystem.setFeederSpeed(0);},{&m_intakeSubsystem, &m_feederSubsystem}));
+    m_lTriggerDriver.WhileHeld(new frc2::StartEndCommand( //barf command
+      [this](){
+        m_intakeSubsystem.extendIntake();
+        m_intakeSubsystem.setRollerSpeed(-IntakeConstants::kDefaultIntakeRollerSpeed);
+        m_feederSubsystem.setIndexerSpeed(-FeederConstants::kIndexerSpeed);
+        m_feederSubsystem.setFeederSpeed(-FeederConstants::kDefaultFeederSpeed);
+      },
+      [this](){
+        m_intakeSubsystem.retractIntake();
+        m_intakeSubsystem.setRollerSpeed(0);
+        m_feederSubsystem.setIndexerSpeed(0);
+        m_feederSubsystem.setFeederSpeed(0);
+      },
+      {&m_intakeSubsystem, &m_feederSubsystem}));
 
     // Driver Intake Subsystem
     m_rTriggerDriver.WhenPressed(ExtendIntakeCommand(&m_intakeSubsystem));
@@ -171,7 +175,9 @@ void RobotContainer::ConfigureButtonBindings() {
      m_backAux.WhenPressed(ToggleJavelinCommand(&m_climberSubsystem));
 
     // Operator Drive Subsystem
-
+    m_startAux.WhenPressed(frc2::InstantCommand([this]{
+      m_driveSubsystem.SyncCANcoders();
+    }));
     // Operator Feeder Subsystem
 
     // Operator Intake Subsystem

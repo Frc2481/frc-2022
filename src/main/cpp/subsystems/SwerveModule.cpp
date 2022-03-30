@@ -174,4 +174,9 @@ void SwerveModule::DriveArc(double arcLength, double wheelAngle){
   m_pDriveMotor->ConfigMotionCruiseVelocity((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS);
   m_pDriveMotor->ConfigMotionAcceleration(((RobotParameters::k_maxSpeed)/RobotParameters::k_driveMotorEncoderTicksToMPS)*2);
   m_pDriveMotor->Set(CommonModes::MotionMagic, m_pDriveMotor->GetPos() + arcLength/RobotParameters::k_driveMotorEncoderTicksToMeters);
+
+}
+
+void SwerveModule::SyncCANcoders(){
+  m_pTurningEncoder->getCANCoder()->SetPositionToAbsolute();
 }

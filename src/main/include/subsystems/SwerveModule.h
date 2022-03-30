@@ -45,6 +45,7 @@ class SwerveModule {
     void setCoast();
     void setBrake();
     void DriveArc(double arcLength, double wheelAngle);
+    void SyncCANcoders();
  private:
   // We have to use meters here instead of radians due to the fact that
   // ProfiledPIDController's constraints only take in meters per second and
