@@ -53,7 +53,7 @@ class FourBallAutoCommand
     AddCommands(
       frc2::ParallelCommandGroup{
         AutoAdjustShooterSpeedCommand(m_pShooter, m_pTurret),
-        StayOnTargetCommand(m_pTurret),
+        // StayOnTargetCommand(m_pTurret),
 
         frc2::ScheduleCommand(new FeederDefaultCommand(m_pFeeder, m_pIntake)),
 
@@ -71,10 +71,11 @@ class FourBallAutoCommand
             ExtendIntakeCommand(m_pIntake),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0.5_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
             frc2::WaitCommand(0.5_s), //give intake roller time to start before checking for ball
-            WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(1_s),
+            WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(1_s),            
             frc2::InstantCommand([this]{m_pDrive->setGyroLock(false);},{m_pDrive}),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false), //TODO ajust speeds off of robot starting angle sence it was once in robot frame
-            WaitForTwoBallsInFeederCommand(m_pFeeder),
+            frc2::ScheduleCommand(new StayOnTargetCommand(m_pTurret)),
+            WaitForTwoBallsInFeederCommand(m_pFeeder).WithTimeout(2_s),
             RetractIntakeCommand(m_pIntake),
             //shoot balls 1 and 2
             ShootCommand(m_pFeeder, m_pShooter).WithTimeout(1.5_s), 

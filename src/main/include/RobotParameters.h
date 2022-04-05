@@ -165,7 +165,7 @@ namespace FieldConstants{
     }
 namespace IntakeConstants{
     static constexpr double kDefaultIntakeRollerSpeed = 1; //TODO: Find out
-    static constexpr double kIntakeCurrentBallDetectThreshhold = 15; //12; //TODO find out previous 7.5
+    static constexpr double kIntakeCurrentBallDetectThreshhold = 23; //12; //TODO find out previous 7.5
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
@@ -269,7 +269,7 @@ namespace RobotParameters {
     // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     // static constexpr double k_turretF = .0775;
     static constexpr double k_turretP = .1; //.2
-    static constexpr double k_turretI = 0.001; //.01
+    static constexpr double k_turretI = 0.0005; //.01
     static constexpr double k_turretD = 0.0;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     static constexpr double k_turretF = .02; //0.75
@@ -291,6 +291,9 @@ namespace RobotParameters {
 
     static constexpr double k_minTurretDegrees = -125;
     static constexpr double k_maxTurretDegrees = 225;
+
+    static constexpr double k_minTurretSearchDegrees = -90;
+    static constexpr double k_maxTurretSearchDegrees = 90;
 
 
     //limelight TODO find corret values
