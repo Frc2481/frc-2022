@@ -4,6 +4,7 @@
 
 #include "subsystems/IntakeSubsystem.h"
 #include "RobotParameters.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 IntakeSubsystem::IntakeSubsystem() :
 m_isIntakeExtended(false),
@@ -44,4 +45,6 @@ bool IntakeSubsystem::getIntakeBeamBreak(){
    }
 
 // This method will be called once per scheduler run
-void IntakeSubsystem::Periodic() {}
+void IntakeSubsystem::Periodic() {
+    frc::SmartDashboard::PutBoolean("Intake Beam Break", m_intakeBeamBreak.Get());
+}
