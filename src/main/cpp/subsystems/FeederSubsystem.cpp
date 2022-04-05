@@ -10,7 +10,7 @@ FeederSubsystem::FeederSubsystem() :
     m_isFeederRunning (false),
     m_isIndexerRunning (false),
     m_feederBeamBreak(DigitalInputs::kFeederBeamBreakPort),
-   m_indexerBeamBreak(DigitalInputs::kIndexerBeamBreakPort)
+    m_indexerBeamBreak(DigitalInputs::kIndexerBeamBreakPort)
    {
        m_pFeederMotor = new VictorMotorController(VictorIDs::kFeederMotorID, "feederMotor");
        m_pFeederMotor->ConfigFactoryDefault();

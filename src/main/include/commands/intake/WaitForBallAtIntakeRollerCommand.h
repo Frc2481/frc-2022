@@ -25,6 +25,6 @@ class WaitForBallAtIntakeRollerCommand
   }
 
   bool IsFinished() override {
-    return m_pIntake->getCurrent() > IntakeConstants::kIntakeCurrentBallDetectThreshhold;
+    return m_pIntake->getIntakeBeamBreak();
   }
 };

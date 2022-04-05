@@ -8,7 +8,8 @@
 IntakeSubsystem::IntakeSubsystem() :
 m_isIntakeExtended(false),
 m_rollerSpeed(0),
- m_intakeSolenoid(0, frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort)
+m_intakeSolenoid(0, frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort),
+m_intakeBeamBreak(DigitalInputs::kIntakeBeamBreakPort)
 {
     m_pRollerMotor = new TalonSRXMotorController(TalonIDs::kIntakeRollerMotorID, "RollerMotor");
     // m_pRollerMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 200, 0); //TODO check to see if proper delay
@@ -38,6 +39,9 @@ double IntakeSubsystem::getCurrent(){
 bool IntakeSubsystem::isIntakeExtended(){
     return m_isIntakeExtended;
 }
+bool IntakeSubsystem::getIntakeBeamBreak(){
+      return !m_intakeBeamBreak.Get();
+   }
 
 // This method will be called once per scheduler run
 void IntakeSubsystem::Periodic() {}

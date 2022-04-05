@@ -8,6 +8,7 @@
 #include "components/TalonSRXMotorController.h"
 #include <frc/DoubleSolenoid.h>
 #include <frc/PowerDistribution.h>
+#include <frc/DigitalInput.h>
 
 class IntakeSubsystem : public frc2::SubsystemBase {
  public:
@@ -23,6 +24,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   double getRollerSpeed();
   double getCurrent();
   bool isIntakeExtended();
+  bool getIntakeBeamBreak ();
 
  private:
   // Components (e.g. motor controllers and sensors) should generally be
@@ -32,4 +34,5 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   frc::DoubleSolenoid m_intakeSolenoid;
   TalonSRXMotorController* m_pRollerMotor;
   frc::PowerDistribution m_PDP;
+  frc::DigitalInput m_intakeBeamBreak;
 };
