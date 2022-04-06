@@ -177,7 +177,7 @@ namespace FeederConstants{ //TODO figure out
 namespace DigitalInputs{
     static constexpr int kFeederBeamBreakPort = 0;
     static constexpr int kIndexerBeamBreakPort = 1;
-    static constexpr int kIntakeBeamBreakPort = 6;
+    static constexpr int kIntakeBeamBreakPort = 7;
     static constexpr int kFloorLineSensor = 5;
     static constexpr int kTrussLineSensor = 4;
 }

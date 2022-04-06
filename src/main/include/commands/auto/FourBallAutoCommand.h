@@ -92,7 +92,7 @@ class FourBallAutoCommand
             //backup to allow 4th ball to roll down ramp
             frc2::WaitCommand(0.5_s),
             DriveOpenLoopCommand(m_pDrive, 0.0_mps, -DriveConstants::kAutoDriveSpeed / 2, 0_rad_per_s, false),
-            frc2::WaitCommand(1_s),
+            frc2::WaitCommand(0.75_s),
             DriveOpenLoopCommand(m_pDrive, 0_mps, 0_mps, 0_rad_per_s, false),
 
             WaitForTwoBallsInFeederCommand(m_pFeeder).WithTimeout(1.5_s),
