@@ -275,7 +275,7 @@ namespace RobotParameters {
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     static constexpr double k_turretF = .02; //0.75
 
-    static constexpr double k_turretAcceleration = 20000;
+    static constexpr double k_turretAcceleration = 80000;
     static constexpr double k_maxTurretSpeed = 2400;
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
@@ -293,8 +293,8 @@ namespace RobotParameters {
     static constexpr double k_minTurretDegrees = -125;
     static constexpr double k_maxTurretDegrees = 225;
 
-    static constexpr double k_minTurretSearchDegrees = -90;
-    static constexpr double k_maxTurretSearchDegrees = 90;
+    static constexpr double k_minTurretSearchDegrees = -125;
+    static constexpr double k_maxTurretSearchDegrees = 225;
 
 
     //limelight TODO find corret values

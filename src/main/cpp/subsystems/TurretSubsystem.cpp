@@ -29,11 +29,11 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
        m_pTurretMotor->Config_kF(0,RobotParameters::k_turretF, 10);
-       m_pTurretMotor->Config_IntegralZone(0,500, 10); //TODO correct values
+       m_pTurretMotor->Config_IntegralZone(0, 400, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
        m_pTurretMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
-       m_pTurretMotor->ConfigPeakOutputForward(.2, 10);
-       m_pTurretMotor->ConfigPeakOutputReverse(-.2, 10);
+       m_pTurretMotor->ConfigPeakOutputForward(.5, 10);
+       m_pTurretMotor->ConfigPeakOutputReverse(-.5, 10);
        m_pTurretMotor->ConfigNominalOutputForward(0.02, 10);
        m_pTurretMotor->ConfigNominalOutputReverse(-0.02, 10);
         zeroTurret();
@@ -79,21 +79,27 @@ TurretSubsystem::TurretSubsystem() :
         targetTicks = std::min(targetTicks, m_rangeMaxTicks);
         targetTicks = std::max(targetTicks, m_rangeMinTicks);
 
-        if (abs(getAngleToTarget()) < 2 && !m_limitAccel){
-            m_pTurretMotor->ConfigMotionAcceleration(2000);
+         m_setpointTicks = targetTicks;
+
+        if (isTargetVisible() && !m_limitAccel){
+            // m_pTurretMotor->ConfigMotionAcceleration(2000);
+            m_pTurretMotor->ConfigMotionCruiseVelocity(1500);
             m_limitAccel = true;
         }
-        else if(abs(getAngleToTarget()) >= 2 && m_limitAccel){
-            m_pTurretMotor->ConfigMotionAcceleration(20000);
+        else if(!isTargetVisible() && m_limitAccel){
+            // m_pTurretMotor->ConfigMotionAcceleration(80000);
+            m_pTurretMotor->ConfigMotionCruiseVelocity(4000);
             m_limitAccel = false;
         }
         
         m_pTurretMotor->Set(CommonModes::MotionMagic, targetTicks);
     }
-
+    double TurretSubsystem::getError(){
+       return (m_setpointTicks - m_angle_ticks)/RobotParameters::k_turretTicksPerDegree;
+    }
     bool TurretSubsystem::isTargetVisible(){
         
-        return m_target_visible;
+        return m_target_visible > 0;
     }
     double TurretSubsystem::getTurretAbsoluteAngle(){
         // return (frc::SmartDashboard::GetNumber("Turret ADC", 0)/RobotParameters::k_turretADCPerRotation)*RobotParameters::k_turretABSDegreesPerShaftRotation-360;
@@ -134,15 +140,22 @@ TurretSubsystem::TurretSubsystem() :
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
     m_angle_ticks = m_pTurretMotor->GetSelectedSensorPosition(0);
-    m_angle_to_target = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0);
     m_vert_angle_to_target = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty",0.0);
-    m_target_visible = (bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0);
+    if((bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0)){
+        m_target_visible = 150;
+        m_angle_to_target = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0);
+    }
+    else{
+        m_target_visible--;
+        m_target_visible = std::max(0, m_target_visible);
+    }
     
     static int counter = 0;
     counter++;
     if (counter == 2) {
         frc::SmartDashboard::PutNumber("Turret Position Ticks", m_angle_ticks);
         frc::SmartDashboard::PutNumber("Turret Angle Offset", m_angleOffsetTicks);
+        frc::SmartDashboard::PutNumber("Turret Error", getError());
     } else if (counter == 4) {
         frc::SmartDashboard::PutNumber("Turret Absolute Angle",getTurretAbsoluteAngle());
         frc::SmartDashboard::PutNumber("Turret Relative Angle",getTurretRelativeAngle());
