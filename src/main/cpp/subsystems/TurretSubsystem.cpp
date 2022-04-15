@@ -30,7 +30,7 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
        m_pTurretMotor->Config_kF(0,RobotParameters::k_turretF, 10);
        m_pTurretMotor->GetBase()->ConfigAllowableClosedloopError(0, 135);
-       m_pTurretMotor->GetBase()->SetNeutralMode(Brake);
+       m_pTurretMotor->GetBase()->SetNeutralMode(Coast);
        m_pTurretMotor->Config_IntegralZone(0, 400, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
        m_pTurretMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);

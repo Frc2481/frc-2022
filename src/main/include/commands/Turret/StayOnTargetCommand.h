@@ -53,7 +53,7 @@ class StayOnTargetCommand
       }else if(angle <= RobotParameters::k_minTurretSearchDegrees + 5){
         // forward = true;
         m_pTurret->rotateTurret(RobotParameters::k_maxTurretSearchDegrees);
-      } else if (m_prevVisible != visible){
+      }else if (m_prevVisible != visible){
         m_pTurret->rotateTurret(RobotParameters::k_minTurretSearchDegrees);
       }
     }

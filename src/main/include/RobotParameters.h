@@ -294,8 +294,8 @@ namespace RobotParameters {
     static constexpr double k_minTurretDegrees = -125;
     static constexpr double k_maxTurretDegrees = 225;
 
-    static constexpr double k_minTurretSearchDegrees = -125;
-    static constexpr double k_maxTurretSearchDegrees = 225;
+    static constexpr double k_minTurretSearchDegrees = -90; //-125
+    static constexpr double k_maxTurretSearchDegrees = 90; //225
 
 
     //limelight TODO find corret values
