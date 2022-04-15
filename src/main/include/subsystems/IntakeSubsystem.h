@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include "components/TalonSRXMotorController.h"
+#include "components/TalonFXMotorController.h"
 #include <frc/DoubleSolenoid.h>
 #include <frc/PowerDistribution.h>
 #include <frc/DigitalInput.h>
@@ -32,7 +32,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
   bool m_isIntakeExtended;
   double m_rollerSpeed;
   frc::DoubleSolenoid m_intakeSolenoid;
-  TalonSRXMotorController* m_pRollerMotor;
+  TalonFXMotorController* m_pRollerMotor;
   frc::PowerDistribution m_PDP;
   frc::DigitalInput m_intakeBeamBreak;
 };

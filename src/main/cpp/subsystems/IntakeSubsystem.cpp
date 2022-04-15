@@ -12,7 +12,7 @@ m_rollerSpeed(0),
 m_intakeSolenoid(0, frc::PneumaticsModuleType::CTREPCM, SolenoidPorts::kIntakeSolenoidPort, SolenoidPorts::kIntakeSolenoidReversePort),
 m_intakeBeamBreak(DigitalInputs::kIntakeBeamBreakPort)
 {
-    m_pRollerMotor = new TalonSRXMotorController(TalonIDs::kIntakeRollerMotorID, "RollerMotor");
+    m_pRollerMotor = new TalonFXMotorController(FalconIDs::kIntakeRollerMotorID, "RollerMotor");
     // m_pRollerMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_1_General, 200, 0); //TODO check to see if proper delay
 }
 

@@ -29,13 +29,15 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
        m_pTurretMotor->Config_kF(0,RobotParameters::k_turretF, 10);
+       m_pTurretMotor->GetBase()->ConfigAllowableClosedloopError(0, 135);
+       m_pTurretMotor->GetBase()->SetNeutralMode(Brake);
        m_pTurretMotor->Config_IntegralZone(0, 400, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
        m_pTurretMotor->SetStatusFramePeriod(ctre::phoenix::motorcontrol::StatusFrameEnhanced::Status_2_Feedback0, 20, 0);
-       m_pTurretMotor->ConfigPeakOutputForward(.5, 10);
-       m_pTurretMotor->ConfigPeakOutputReverse(-.5, 10);
-       m_pTurretMotor->ConfigNominalOutputForward(0.02, 10);
-       m_pTurretMotor->ConfigNominalOutputReverse(-0.02, 10);
+       m_pTurretMotor->ConfigPeakOutputForward(1, 10);
+       m_pTurretMotor->ConfigPeakOutputReverse(-1, 10);
+       m_pTurretMotor->ConfigNominalOutputForward(0, 10);
+       m_pTurretMotor->ConfigNominalOutputReverse(0, 10);
         zeroTurret();
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
     }
@@ -60,6 +62,9 @@ TurretSubsystem::TurretSubsystem() :
     }
 
     double TurretSubsystem::getAngleToTarget(){
+        if (abs(m_angle_to_target) < 0.25) {
+            return 0;
+        }
         return m_angle_to_target;
     }
     double TurretSubsystem::getTurretAngleTicks(){
@@ -81,16 +86,16 @@ TurretSubsystem::TurretSubsystem() :
 
          m_setpointTicks = targetTicks;
 
-        if (isTargetVisible() && !m_limitAccel){
-            // m_pTurretMotor->ConfigMotionAcceleration(2000);
-            m_pTurretMotor->ConfigMotionCruiseVelocity(1500);
-            m_limitAccel = true;
-        }
-        else if(!isTargetVisible() && m_limitAccel){
-            // m_pTurretMotor->ConfigMotionAcceleration(80000);
-            m_pTurretMotor->ConfigMotionCruiseVelocity(4000);
-            m_limitAccel = false;
-        }
+        // if (isTargetVisible() && !m_limitAccel){
+        //    // m_pTurretMotor->ConfigMotionAcceleration(2000);
+        //    m_pTurretMotor->ConfigMotionCruiseVelocity(1500);
+        //    m_limitAccel = true;
+        //}
+        //else if(!isTargetVisible() && m_limitAccel){
+        //    // m_pTurretMotor->ConfigMotionAcceleration(80000);
+        //    m_pTurretMotor->ConfigMotionCruiseVelocity(4000);
+        //    m_limitAccel = false;
+        //}
         
         m_pTurretMotor->Set(CommonModes::MotionMagic, targetTicks);
     }
@@ -142,12 +147,16 @@ void TurretSubsystem::Periodic() {
     m_angle_ticks = m_pTurretMotor->GetSelectedSensorPosition(0);
     m_vert_angle_to_target = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty",0.0);
     if((bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0)){
-        m_target_visible = 150;
+        m_target_visible = 50;
         m_angle_to_target = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0);
     }
     else{
         m_target_visible--;
         m_target_visible = std::max(0, m_target_visible);
+
+        if (m_target_visible == 0) {
+            m_angle_to_target = 0;
+        }
     }
     
     static int counter = 0;
@@ -159,6 +168,7 @@ void TurretSubsystem::Periodic() {
     } else if (counter == 4) {
         frc::SmartDashboard::PutNumber("Turret Absolute Angle",getTurretAbsoluteAngle());
         frc::SmartDashboard::PutNumber("Turret Relative Angle",getTurretRelativeAngle());
+        frc::SmartDashboard::PutNumber("Turret Setpoint", m_setpointTicks / RobotParameters::k_turretTicksPerDegree);
     } else if (counter == 6) {
         frc::SmartDashboard::PutNumber("Turret Calibrated Angle",getTurretCalibratedAngle());
         frc::SmartDashboard::PutNumber("Distance to Target", getDistance());

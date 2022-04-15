@@ -12,6 +12,7 @@
 #include <frc/livewindow/LiveWindow.h>
 #include <frc/DataLogManager.h>
 #include <frc2/command/StartEndCommand.h>
+#include "frc/DriverStation.h"
 
 //Auto
 #include "commands/auto/TwoBallAutoCommand.h"
@@ -61,6 +62,7 @@ RobotContainer::RobotContainer(): m_driverController(0), m_auxController(1),
   cam.SetFPS(12);
   cam.SetResolution(160, 90);
   frc::DataLogManager::Start();
+  frc::DriverStation::StartDataLog(frc::DataLogManager::GetLog());
   frc::LiveWindow::DisableAllTelemetry();
 
   ConfigureButtonBindings();

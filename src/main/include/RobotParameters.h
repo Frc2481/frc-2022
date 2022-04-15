@@ -25,7 +25,7 @@ namespace PDPChannels{
 }
 
 namespace TalonIDs{
-    static constexpr int kIntakeRollerMotorID = 9; //intake roller motor is a talon SRX
+    
 }
 
 namespace VictorIDs{
@@ -51,6 +51,7 @@ namespace FalconIDs{
     static constexpr int kturretMotorID = 6; 
     static constexpr int kFloorClimberMotorID = 7; //TODO figure out
     static constexpr int kTrussClimberMotorID = 8; //TODO figure out
+    static constexpr int kIntakeRollerMotorID = 9; //intake roller motor is a talon SRX
     
 } 
 
@@ -270,18 +271,18 @@ namespace RobotParameters {
     // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     // static constexpr double k_turretF = .0775;
     static constexpr double k_turretP = .1; //.2
-    static constexpr double k_turretI = 0.0005; //.01
-    static constexpr double k_turretD = 0.0;
+    static constexpr double k_turretI = 0; //.01
+    static constexpr double k_turretD = 0;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
-    static constexpr double k_turretF = .02; //0.75
+    static constexpr double k_turretF = .0422; //0.75
 
-    static constexpr double k_turretAcceleration = 80000;
-    static constexpr double k_maxTurretSpeed = 2400;
+    static constexpr double k_turretAcceleration = 36000;
+    static constexpr double k_maxTurretSpeed = 24000;
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 
     static constexpr double k_turretTeeth = 152; // 152.0;  This isn't right, but othere things are wrong so this makes it better.
-    static constexpr double k_turretDriveTeeth = 10.0;
+    static constexpr double k_turretDriveTeeth = 1.6;
     static constexpr double k_turretGearRatio = k_turretTeeth/k_turretDriveTeeth;
     static constexpr double k_turretABSMaxRotations = k_turretGearRatio*2;
     static constexpr double k_turretADCPerRotation = 4096/k_turretABSMaxRotations;
