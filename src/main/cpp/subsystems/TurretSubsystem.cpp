@@ -24,7 +24,7 @@ TurretSubsystem::TurretSubsystem() :
         // m_turretMotor->SetCon
         m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed);  //Degrees per second
         m_pTurretMotor->ConfigMotionAcceleration(RobotParameters::k_turretAcceleration);
-        m_pTurretMotor->ConfigMotionSCurveStrength(3);
+        m_pTurretMotor->ConfigMotionSCurveStrength(6);
         m_pTurretMotor->Config_kP(0, RobotParameters::k_turretP, 10); //do we need PIDF for turret motor?
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
@@ -131,8 +131,8 @@ TurretSubsystem::TurretSubsystem() :
         // 225 deg
         // 135 deg
 
-        double maxTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_maxTurretDegrees);
-        double minTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_minTurretDegrees);
+        double maxTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_maxTurretDegrees -5);
+        double minTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_minTurretDegrees +5);
 
         m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + maxTicks, m_angle_ticks + minTicks); 
 
@@ -146,6 +146,7 @@ TurretSubsystem::TurretSubsystem() :
 void TurretSubsystem::Periodic() {
     m_angle_ticks = m_pTurretMotor->GetSelectedSensorPosition(0);
     m_vert_angle_to_target = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("ty",0.0);
+    // m_target_visible = (bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0);
     if((bool)nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tv",0.0)){
         m_target_visible = 50;
         m_angle_to_target = nt::NetworkTableInstance::GetDefault().GetTable("limelight")->GetNumber("tx",0.0);
