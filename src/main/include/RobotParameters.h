@@ -170,7 +170,7 @@ namespace IntakeConstants{
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
-    static constexpr double kShootingSpeed = .47;
+    static constexpr double kShootingSpeed = .48;
     static constexpr double kIndexerSpeed = 1.0;
     static constexpr double kShootingIndexerSpeed = .5;
 }
@@ -277,7 +277,7 @@ namespace RobotParameters {
     static constexpr double k_turretF = .0422; //0.75
 
     static constexpr double k_turretAcceleration = 100000; //36000
-    static constexpr double k_maxTurretSpeed = 4000; //24000
+    static constexpr double k_maxTurretSpeed = 12000; //24000
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 
@@ -291,8 +291,8 @@ namespace RobotParameters {
     static constexpr double k_turretTicksPerNinetyDegrees = k_turretTicksPerRotation/4;
     static constexpr double k_turretTicksPerDegree = k_turretTicksPerRotation / 360;
 
-    static constexpr double k_minTurretDegrees = -100; // -125
-    static constexpr double k_maxTurretDegrees = 100; // 225
+    static constexpr double k_minTurretDegrees = -125;
+    static constexpr double k_maxTurretDegrees = 225;
 
     static constexpr double k_minTurretSearchDegrees = -75; //-125
     static constexpr double k_maxTurretSearchDegrees = 75; //225

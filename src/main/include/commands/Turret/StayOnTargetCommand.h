@@ -59,7 +59,7 @@ class StayOnTargetCommand
     }
     m_prevVisible = visible;
 
-    frc::SmartDashboard::PutNumber("Turret Setpoint", angle);
+    frc::SmartDashboard::PutNumber("Turret Setpoint 2", angle);
   }
 
   void End(bool interrupted) override
@@ -70,5 +70,9 @@ class StayOnTargetCommand
   bool IsFinished() override
   {
     return false;
+  }
+
+  virtual bool RunsWhenDisabled() const override {
+    return true;
   }
 };

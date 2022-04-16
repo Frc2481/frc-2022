@@ -24,7 +24,7 @@ TurretSubsystem::TurretSubsystem() :
         // m_turretMotor->SetCon
         m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed);  //Degrees per second
         m_pTurretMotor->ConfigMotionAcceleration(RobotParameters::k_turretAcceleration);
-        m_pTurretMotor->ConfigMotionSCurveStrength(6);
+        m_pTurretMotor->ConfigMotionSCurveStrength(4);
         m_pTurretMotor->Config_kP(0, RobotParameters::k_turretP, 10); //do we need PIDF for turret motor?
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
@@ -40,6 +40,8 @@ TurretSubsystem::TurretSubsystem() :
        m_pTurretMotor->ConfigNominalOutputReverse(0, 10);
         zeroTurret();
     //    m_turretMotor->getSensorCollection.setIntegratedSensorPosition(0, 25); //TODO find
+
+        frc::SmartDashboard::PutNumber("Angle to Target Gain", 0.65);
     }
 
     bool TurretSubsystem::isTurretRunning(){
@@ -62,10 +64,10 @@ TurretSubsystem::TurretSubsystem() :
     }
 
     double TurretSubsystem::getAngleToTarget(){
-        if (abs(m_angle_to_target) < 0.25) {
-            return 0;
-        }
-        return m_angle_to_target;
+        // if (abs(m_angle_to_target) < 0.25) {
+        //     return 0;
+        // }
+        return m_angle_to_target *  frc::SmartDashboard::GetNumber("Angle to Target Gain", 0.65);
     }
     double TurretSubsystem::getTurretAngleTicks(){
 
@@ -73,11 +75,11 @@ TurretSubsystem::TurretSubsystem() :
     }
     void TurretSubsystem::rotateTurret(double angle){
 
-        if(angle > RobotParameters::k_maxTurretDegrees){
-            angle -= 360;
-        }else if(angle < RobotParameters::k_minTurretDegrees){
-            angle += 360;
-        }
+        // if(angle > RobotParameters::k_maxTurretDegrees){
+        //     angle -= 360;
+        // }else if(angle < RobotParameters::k_minTurretDegrees){
+        //     angle += 360;
+        // }
 
         // double targetTicks = (angle / 360) * RobotParameters::k_turretTicksPerRotation;
         double targetTicks = (angle * RobotParameters::k_turretTicksPerDegree) + m_angleOffsetTicks;
@@ -98,6 +100,7 @@ TurretSubsystem::TurretSubsystem() :
         //}
         
         m_pTurretMotor->Set(CommonModes::MotionMagic, targetTicks);
+        // m_pTurretMotor->Set(CommonModes::Position, targetTicks);
     }
     double TurretSubsystem::getError(){
        return (m_setpointTicks - m_angle_ticks)/RobotParameters::k_turretTicksPerDegree;
@@ -131,13 +134,13 @@ TurretSubsystem::TurretSubsystem() :
         // 225 deg
         // 135 deg
 
-        double maxTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_maxTurretDegrees -5);
-        double minTicks = (RobotParameters::k_turretTicksPerDegree * RobotParameters::k_minTurretDegrees +5);
+        double maxTicks = RobotParameters::k_turretTicksPerDegree * RobotParameters::k_maxTurretDegrees;
+        double minTicks = RobotParameters::k_turretTicksPerDegree * RobotParameters::k_minTurretDegrees;
 
         m_pTurretMotor->ConfigSoftLimits(m_angle_ticks + maxTicks, m_angle_ticks + minTicks); 
 
-        m_rangeMaxTicks = m_angle_ticks + (maxTicks - 100);
-        m_rangeMinTicks = m_angle_ticks + (minTicks + 100);
+        m_rangeMaxTicks = m_angle_ticks + (maxTicks - 10000);
+        m_rangeMinTicks = m_angle_ticks + (minTicks + 10000);
     }
     
 
@@ -159,6 +162,7 @@ void TurretSubsystem::Periodic() {
             m_angle_to_target = 0;
         }
     }
+    
     
     static int counter = 0;
     counter++;

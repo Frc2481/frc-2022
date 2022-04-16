@@ -14,9 +14,9 @@ ShooterSubsystem::ShooterSubsystem() :
    m_autoSpeed(true),
    m_isInManual(false),
    m_distanceToTarget(0.0), 
-   m_topShooterSpeedsVect   { 3100, 3100, 3300, 3800 }, // { 2900, 3360, 3500, 3650 }
-   m_bottomShooterSpeedsVect{ 1000, 2000, 2350, 2800  }, // { 1100, 1900, 2500, 2350  }
-   m_distancesToTarget      { 66, 120, 160, 200  } // { 64, 128, 157, 184  }
+   m_topShooterSpeedsVect   { 3100, 3200, 3400, 3800  }, //2900, 2400, 3500, 3650
+   m_bottomShooterSpeedsVect{ 1000, 1900, 2300, 2800  }, // 1100, 2600, 2500, 2350
+   m_distancesToTarget      { 66, 120, 160, 200  } //64, 119, 157, 184
    {
        m_pTopShooterMotor = new TalonFXMotorController(FalconIDs::kTopShooterMotorID, "topShooterMotor");
        m_pTopShooterMotor->ConfigFactoryDefault();

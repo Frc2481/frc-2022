@@ -197,8 +197,8 @@ void RobotContainer::ConfigureButtonBindings() {
     //  m_lTriggerAux.WhileHeld(AutoAdjustShooterSpeedCommand(&m_shooterSubsystem, &m_turretSubsystem));
 
     // Operator Turret Subsystem
-    m_tDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, -90));
-    m_rDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, 0));
+    m_rDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, -90));
+    m_tDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, 0));
     m_lDpadAux.WhenPressed(new GoToAngleCommand(&m_turretSubsystem, 90));
     m_bDpadAux.WhenPressed(new StayOnTargetCommand(&m_turretSubsystem));
 
