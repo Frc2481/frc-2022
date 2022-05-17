@@ -34,7 +34,7 @@ class StayOnTargetCommand
 
   void Initialize() override
   {
-
+    // m_prevVisible = true;
   }
 
   void Execute() override

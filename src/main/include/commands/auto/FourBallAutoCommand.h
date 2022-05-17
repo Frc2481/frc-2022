@@ -106,7 +106,8 @@ class FourBallAutoCommand
 
             RetractIntakeCommand(m_pIntake),
 
-            //shoot balls 3 and 4
+            //shoot balls 3 and 44
+            frc2::WaitCommand(0.5_s),
             ShootCommand(m_pFeeder, m_pShooter).WithTimeout(1.5_s), 
              
           }

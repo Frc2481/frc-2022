@@ -14,29 +14,31 @@ ShooterSubsystem::ShooterSubsystem() :
    m_autoSpeed(true),
    m_isInManual(false),
    m_distanceToTarget(0.0), 
-   m_topShooterSpeedsVect   { 3100, 3200, 3400, 3800  }, //2900, 2400, 3500, 3650
-   m_bottomShooterSpeedsVect{ 1000, 1900, 2300, 2800  }, // 1100, 2600, 2500, 2350
-   m_distancesToTarget      { 66, 120, 160, 200  } //64, 119, 157, 184
+   m_topShooterSpeedsVect   { 3100, 3180, 3200, 3250, 3300, 3350, 3450, 3550, 3800}, //  3100, 3200, 3400, 3800 / 3100, 2400, 2400 / 2100, 2100, 2100, 2100, 2100, 2100, 2100, 2100, 2700
+   m_bottomShooterSpeedsVect{ 1000, 1750, 1900, 1950, 2075, 2175, 2200, 2300, 2800}, // 1000, 1900, 2200, 2800 / 1000, 3000, 3750 / 1950, 2200, 2450, 2700, 2900, 3300, 3650, 4000, 4000 
+   m_distancesToTarget      { 66, 107, 120, 130, 140, 150, 160, 170, 200} // 66, 120, 160, 200 / 66, 144, 180 / 66, 80, 100, 120, 140, 160, 180, 200, 220 
    {
        m_pTopShooterMotor = new TalonFXMotorController(FalconIDs::kTopShooterMotorID, "topShooterMotor");
        m_pTopShooterMotor->ConfigFactoryDefault();
-       m_pTopShooterMotor->Config_kP(0, RobotParameters::k_shooterP);
-       m_pTopShooterMotor->Config_kI(0,RobotParameters::k_shooterI);
-       m_pTopShooterMotor->Config_kD(0,RobotParameters::k_shooterD);
-       m_pTopShooterMotor->Config_kF(0,RobotParameters::k_shooterF);
+       m_pTopShooterMotor->Config_kP(0, RobotParameters::k_shooterTopP);
+       m_pTopShooterMotor->Config_kI(0,RobotParameters::k_shooterTopI);
+       m_pTopShooterMotor->Config_kD(0,RobotParameters::k_shooterTopD);
+       m_pTopShooterMotor->Config_kF(0,RobotParameters::k_shooterTopF);
        m_pTopShooterMotor->Config_IntegralZone(0,25); //TODO correct values
        m_pTopShooterMotor->SetInverted(true);
-        
+       m_pTopShooterMotor->ConfigVoltageCompSaturation(10);
+       m_pTopShooterMotor->EnableVoltageCompensation(true);
 
        m_pBottomShooterMotor = new TalonFXMotorController(FalconIDs::kBottomShooterMotorID, "bottomShooterMotor");
        m_pBottomShooterMotor->ConfigFactoryDefault();
-       m_pBottomShooterMotor->Config_kP(0, RobotParameters::k_shooterP);
-       m_pBottomShooterMotor->Config_kI(0,RobotParameters::k_shooterI);
-       m_pBottomShooterMotor->Config_kD(0,RobotParameters::k_shooterD);
-       m_pBottomShooterMotor->Config_kF(0,RobotParameters::k_shooterF);
+       m_pBottomShooterMotor->Config_kP(0, RobotParameters::k_shooterBotP);
+       m_pBottomShooterMotor->Config_kI(0,RobotParameters::k_shooterBotI);
+       m_pBottomShooterMotor->Config_kD(0,RobotParameters::k_shooterBotD);
+       m_pBottomShooterMotor->Config_kF(0,RobotParameters::k_shooterBotF);
        m_pBottomShooterMotor->Config_IntegralZone(0,25); //TODO correct values
        m_pBottomShooterMotor->SetInverted(false);
-       
+       m_pBottomShooterMotor->ConfigVoltageCompSaturation(10);
+       m_pBottomShooterMotor->EnableVoltageCompensation(true);
 
 
        m_pBottomShooterMotor->Set(CommonModes::Velocity, frc::SmartDashboard::PutNumber("Bot Shoot Spd", 0));

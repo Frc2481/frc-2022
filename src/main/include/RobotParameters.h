@@ -170,9 +170,9 @@ namespace IntakeConstants{
 }
 namespace FeederConstants{ //TODO figure out
     static constexpr double kDefaultFeederSpeed = .7;
-    static constexpr double kShootingSpeed = .48;
+    static constexpr double kShootingSpeed = .47;
     static constexpr double kIndexerSpeed = 1.0;
-    static constexpr double kShootingIndexerSpeed = .5;
+    static constexpr double kShootingIndexerSpeed = 0.47/0.7;
 }
 
 namespace DigitalInputs{
@@ -259,25 +259,29 @@ namespace RobotParameters {
 
 
     //shooter Constants TODO set correct values
-    static constexpr double k_shooterP = 0.2;
-    static constexpr double k_shooterI = 0.0;
-    static constexpr double k_shooterD = 0.0;
-    static constexpr double k_shooterF = 0.0489;
+    static constexpr double k_shooterBotP = 0.02;
+    static constexpr double k_shooterBotI = 0.0;
+    static constexpr double k_shooterBotD = 0.0;
+    static constexpr double k_shooterBotF = 0.0542;
 
+    static constexpr double k_shooterTopP = 0.1;
+    static constexpr double k_shooterTopI = 0.0;
+    static constexpr double k_shooterTopD = 0.0;
+    static constexpr double k_shooterTopF = 0.0552;
     //turret Constants TODO set correct values
     // static constexpr double k_turretP = 1;
     // static constexpr double k_turretI = 0.0;
     // static constexpr double k_turretD = 0.0;
     // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     // static constexpr double k_turretF = .0775;
-    static constexpr double k_turretP = .15; //.2
+    static constexpr double k_turretP = .16; //.2
     static constexpr double k_turretI = 0; //.01
     static constexpr double k_turretD = 0;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     static constexpr double k_turretF = .0422; //0.75
 
     static constexpr double k_turretAcceleration = 100000; //36000
-    static constexpr double k_maxTurretSpeed = 12000; //24000
+    static constexpr double k_maxTurretSpeed = 16000; //24000
     static constexpr double k_turretEncoderTicksToDegrees = 360.0/2048.0; //Figure out Gear ratio
     static constexpr double k_turretEncoderTicksToDPS = 12.0*(360.0/2048.0);
     static constexpr double k_turretRadius = 6; 

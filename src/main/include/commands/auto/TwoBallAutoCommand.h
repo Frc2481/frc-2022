@@ -77,6 +77,7 @@ class TwoBallAutoCommand
                                                                 frc::Rotation2d(units::degree_t(0))));
                               },{}),
             ExtendIntakeCommand(m_pIntake),
+            frc2::WaitCommand(6.5_s),
             DriveOpenLoopCommand(m_pDrive, 0_mps, DriveConstants::kAutoDriveSpeed, 0_rad_per_s, false),
             frc2::WaitCommand(1_s), //give intake roller time to start before checking for ball
             WaitForBallAtIntakeRollerCommand(m_pIntake).WithTimeout(1_s),

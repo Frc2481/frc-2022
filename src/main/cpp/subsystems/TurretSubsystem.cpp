@@ -24,12 +24,12 @@ TurretSubsystem::TurretSubsystem() :
         // m_turretMotor->SetCon
         m_pTurretMotor->ConfigMotionCruiseVelocity(RobotParameters::k_maxTurretSpeed);  //Degrees per second
         m_pTurretMotor->ConfigMotionAcceleration(RobotParameters::k_turretAcceleration);
-        m_pTurretMotor->ConfigMotionSCurveStrength(4);
+        m_pTurretMotor->ConfigMotionSCurveStrength(6);
         m_pTurretMotor->Config_kP(0, RobotParameters::k_turretP, 10); //do we need PIDF for turret motor?
        m_pTurretMotor->Config_kI(0,RobotParameters::k_turretI, 10);
        m_pTurretMotor->Config_kD(0,RobotParameters::k_turretD, 10);
        m_pTurretMotor->Config_kF(0,RobotParameters::k_turretF, 10);
-       m_pTurretMotor->GetBase()->ConfigAllowableClosedloopError(0, 135);
+       m_pTurretMotor->GetBase()->ConfigAllowableClosedloopError(0, 25); //135
        m_pTurretMotor->GetBase()->SetNeutralMode(Coast);
        m_pTurretMotor->Config_IntegralZone(0, 400, 10); //TODO correct values
        m_pTurretMotor->SetSensorPhase(true);
@@ -99,7 +99,7 @@ TurretSubsystem::TurretSubsystem() :
         //    m_limitAccel = false;
         //}
         
-        m_pTurretMotor->Set(CommonModes::MotionMagic, targetTicks);
+        m_pTurretMotor->Set(CommonModes::Position, targetTicks);
         // m_pTurretMotor->Set(CommonModes::Position, targetTicks);
     }
     double TurretSubsystem::getError(){
@@ -173,7 +173,7 @@ void TurretSubsystem::Periodic() {
     } else if (counter == 4) {
         frc::SmartDashboard::PutNumber("Turret Absolute Angle",getTurretAbsoluteAngle());
         frc::SmartDashboard::PutNumber("Turret Relative Angle",getTurretRelativeAngle());
-        frc::SmartDashboard::PutNumber("Turret Setpoint", m_setpointTicks / RobotParameters::k_turretTicksPerDegree);
+        frc::SmartDashboard::PutNumber("Turret Setpoint", (m_setpointTicks - m_angleOffsetTicks) / RobotParameters::k_turretTicksPerDegree);
     } else if (counter == 6) {
         frc::SmartDashboard::PutNumber("Turret Calibrated Angle",getTurretCalibratedAngle());
         frc::SmartDashboard::PutNumber("Distance to Target", getDistance());
