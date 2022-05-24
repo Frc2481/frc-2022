@@ -274,11 +274,11 @@ namespace RobotParameters {
     // static constexpr double k_turretD = 0.0;
     // // static constexpr double k_turretF = (0.15 * 1023) / 1500;
     // static constexpr double k_turretF = .0775;
-    static constexpr double k_turretP = .16; //.2
+    static constexpr double k_turretP = .2; //.2
     static constexpr double k_turretI = 0; //.01
-    static constexpr double k_turretD = 0;
+    static constexpr double k_turretD = 10;
     // static constexpr double k_turretF = (0.15 * 1023) / 1500;
-    static constexpr double k_turretF = .0422; //0.75
+    static constexpr double k_turretF = 0.0; //0.75
 
     static constexpr double k_turretAcceleration = 100000; //36000
     static constexpr double k_maxTurretSpeed = 16000; //24000

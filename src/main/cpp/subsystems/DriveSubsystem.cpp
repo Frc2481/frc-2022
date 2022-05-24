@@ -98,6 +98,8 @@ void DriveSubsystem::Periodic() {
     Drive(m_xSpeed, m_ySpeed,units::radians_per_second_t(0), false);
   }
 
+  frc::SmartDashboard::PutNumber("YAW RATE", m_pChassisIMU.GetRate());
+
   frc::SmartDashboard::PutNumber("fr state angle", m_frontRight.GetState().angle.Degrees().to<double>());
 frc::SmartDashboard::PutNumber("fr state speed", m_frontRight.GetState().speed.to<double>());
 frc::SmartDashboard::PutNumber("fl state angle", m_frontLeft.GetState().angle.Degrees().to<double>());
